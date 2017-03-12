@@ -14,6 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        /*
+         * It resolves some insufficient index key length in MariaDB < 10.2 and MySQL < 5.7.7
+         */
         Schema::defaultStringLength(191);
     }
 

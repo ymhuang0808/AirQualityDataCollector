@@ -16,14 +16,14 @@ class CreateSitesTable extends Migration
         Schema::create('sites', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('eng_name');
-            $table->string('address');
-            $table->string('type');
-            $table->string('area_name');
+            $table->string('eng_name')->nullable();
+            $table->string('address')->nullable();
+            $table->string('type')->nullable();
+            $table->string('area_name')->nullable();
             $table->unsignedInteger('county_id');
             $table->unsignedInteger('township_id');
             $table->binary('coordinates');
-            $table->smallInteger('source_type');
+            $table->string('source_type');
             $table->dateTimeTz('updated_at');
             $table->dateTimeTz('created_at');
 

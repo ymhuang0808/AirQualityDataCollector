@@ -15,17 +15,20 @@ class CreateEpaDatasetsTable extends Migration
     {
         Schema::create('epa_datasets', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->double('so2', 4, 1);
-            $table->double('co', 5, 2);
-            $table->integer('o3');
-            $table->integer('pm10');
-            $table->integer('pm25');
-            $table->integer('no2');
-            $table->double('wind_speed', 5, 1);
-            $table->integer('wind_direction');
-            $table->integer('fpmi');
-            $table->double('nox', 5, 1);
-            $table->double('no', 5, 1);
+            $table->integer('psi')->nullable();
+            $table->double('so2', 4, 1)->nullable();
+            $table->double('co', 5, 2)->nullable();
+            $table->integer('o3')->nullable();
+            $table->integer('pm10')->nullable();
+            $table->integer('pm25')->nullable();
+            $table->integer('no2')->nullable();
+            $table->double('wind_speed', 5, 1)->nullable();
+            $table->integer('wind_direction')->nullable();
+            $table->integer('fpmi')->nullable();
+            $table->double('nox', 5, 1)->nullable();
+            $table->double('no', 5, 1)->nullable();
+            $table->string('major_pollutant')->nullable();
+            $table->string('status')->nullable();
             $table->unsignedInteger('site_id');
             $table->dateTimeTz('published_datetime');
             $table->dateTimeTz('updated_at');

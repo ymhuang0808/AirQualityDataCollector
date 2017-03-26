@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: aming
  * Date: 2017/3/12
- * Time: 下午2:51
+ * Time: 下午5:11
  */
 
 namespace App\Repository;
@@ -12,19 +12,10 @@ namespace App\Repository;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 
-class RemoteEpaAirQualityRepository implements AirQualityRepositoryContract
+class RemoteEpaSitesRepository implements SitesRepositoryContract
 {
-
-    /**
-     * The data source base url
-     * @var
-     */
     protected $baseUrl;
 
-    /**
-     * Guzzle HTTP client
-     * @var ClientInterface
-     */
     protected $client;
 
     protected $uri;
@@ -36,7 +27,7 @@ class RemoteEpaAirQualityRepository implements AirQualityRepositoryContract
     }
 
     /**
-     * Get all air quality dataset from EPA server
+     * Get all sites
      * @return mixed
      * @throws \Exception
      */
@@ -60,10 +51,6 @@ class RemoteEpaAirQualityRepository implements AirQualityRepositoryContract
         $this->uri = $uri;
     }
 
-    /**
-     * Make a HTTP request for Guzzle HTTP client
-     * @return Request
-     */
     protected function makeRequest(): Request
     {
         $method = 'GET';

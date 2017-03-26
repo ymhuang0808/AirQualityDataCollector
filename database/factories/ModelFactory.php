@@ -22,3 +22,49 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\County::class, function (Faker\Generator $faker) {
+    $faker = Faker\Factory::create('zh_TW');
+
+    return [
+        'name' => $faker->city,
+    ];
+});
+
+$factory->define(App\Township::class, function (Faker\Generator $faker) {
+    $faker = Faker\Factory::create('zh_TW');
+
+    return [
+        'name' => $faker->city,
+    ];
+});
+
+$factory->define(App\Site::class, function (Faker\Generator $faker) {
+    $faker = Faker\Factory::create('zh_TW');
+    $enFaker = Faker\Factory::create('en_US');
+
+    return [
+        'name' => $faker->word,
+        'eng_name' => $enFaker->word,
+        'area_name' => $faker->city,
+        'coordinates' => [
+            'latitude' => $faker->latitude,
+            'longitude' => $faker->longitude,
+        ],
+        'type' => $faker->word,
+        'source_type' => 'epa',
+        'county_id' => function () {
+            return factory(App\County::class)->create()->id;
+        },
+        'township_id' => function () {
+            return factory(App\Township::class)->create()->id;
+        },
+    ];
+});
+
+$factory->state(App\Site::class, 'epa', function (Faker\Generator $faker) {
+    return [
+        'source_type' => 'epa',
+
+    ];
+});

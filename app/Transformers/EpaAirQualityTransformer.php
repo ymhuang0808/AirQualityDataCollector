@@ -10,13 +10,9 @@ namespace App\Transformers;
 
 
 use App\Site;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use League\Fractal\TransformerAbstract;
 
-class EpaAirQualityTransformer extends TransformerAbstract
+class EpaAirQualityTransformer extends AbstractAqdcTransformer
 {
-    use DatabaseMigrations;
-
     public function transform(\stdClass $airQuality): RemoteModel
     {
         $fields = [

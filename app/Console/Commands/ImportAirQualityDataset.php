@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Repository\RemoteEpaAirQualityRepository;
+use App\Repository\RemoteEpaSitesRepository;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
@@ -46,13 +47,22 @@ class ImportAirQualityDataset extends Command
                 // Get EAP data source configurations
                 $epaBaseUrl = config('aqdc.remote_source.epa.base_url');
                 $epaAirQualityUri = config('aqdc.remote_source.epa.air_quality_uri');
+                $epaSitesUri = config('aqdc.remote_source.epa.site_uri');
 
                 $client = new Client();
 
                 $airQualityRepository = new RemoteEpaAirQualityRepository($epaBaseUrl, $client);
                 $airQualityRepository->setUri($epaAirQualityUri);
 
-                var_dump($airQualityRepository->getAll());
+                $siteRepository = new RemoteEpaSitesRepository($epaBaseUrl, $client);
+                $siteRepository->setUri($epaSitesUri);
+
+                break;
         }
+
+
+
+        var_dump($siteRepository->getAll());
+        var_dump($airQualityRepository->getAll());
     }
 }

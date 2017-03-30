@@ -1,0 +1,83 @@
+{
+  "result" : {
+    "records": [
+      {
+        "SiteName": "臺東",
+        "SiteEngName": "Taitung",
+        "AreaName": "花東空品區",
+        "County": "臺東縣",
+        "Township": "臺東市",
+        "SiteAddress": "臺東縣臺東市中山路276號",
+        "TWD97Lon": "121.1504500000",
+        "TWD97Lat": "22.7553580000",
+        "SiteType": "一般測站"
+      },
+      {
+        "SiteName": "臺南",
+        "SiteEngName": "Tainan",
+        "AreaName": "雲嘉南空品區",
+        "County": "臺南市",
+        "Township": "中西區",
+        "SiteAddress": "臺南市中西區南寧街45號",
+        "TWD97Lon": "120.2026170000",
+        "TWD97Lat": "22.9845810000",
+        "SiteType": "一般測站"
+      },
+      {
+        "SiteName": "臺西",
+        "SiteEngName": "Taixi",
+        "AreaName": "雲嘉南空品區",
+        "County": "雲林縣",
+        "Township": "臺西鄉",
+        "SiteAddress": "雲林縣臺西鄉五港路505號",
+        "TWD97Lon": "120.2028420000",
+        "TWD97Lat": "23.7175330000",
+        "SiteType": "工業測站"
+      },
+      {
+        "SiteName": "觀音",
+        "SiteEngName": "Guanyin",
+        "AreaName": "北部空品區",
+        "County": "桃園市",
+        "Township": "觀音區",
+        "SiteAddress": "桃園市觀音區文化路2號",
+        "TWD97Lon": "121.0827610000",
+        "TWD97Lat": "25.0355030000",
+        "SiteType": "背景測站"
+      },
+      {
+        "SiteName": "關山",
+        "SiteEngName": "Guanshan",
+        "AreaName": "花東空品區",
+        "County": "臺東縣",
+        "Township": "關山鎮",
+        "SiteAddress": "臺東縣關山鎮自強路66號",
+        "TWD97Lon": "121.1619330000",
+        "TWD97Lat": "23.0450830000",
+        "SiteType": "其他測站"
+      },
+      {
+        "SiteName": "豐原",
+        "SiteEngName": "Fengyuan",
+        "AreaName": "中部空品區",
+        "County": "臺中市",
+        "Township": "豐原區",
+        "SiteAddress": "臺中市豐原區水源路150號",
+        "TWD97Lon": "120.7417110000",
+        "TWD97Lat": "24.2565860000",
+        "SiteType": "一般測站"
+      },
+      {
+        "SiteName": "龍潭",
+        "SiteEngName": "Longtan",
+        "AreaName": "北部空品區",
+        "County": "桃園市",
+        "Township": "龍潭區",
+        "SiteAddress": "桃園市龍潭區中正路210號",
+        "TWD97Lon": "121.2163500000",
+        "TWD97Lat": "24.8638690000",
+        "SiteType": "一般測站"
+      }
+    ]
+  }
+}

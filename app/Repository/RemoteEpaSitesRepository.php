@@ -31,7 +31,7 @@ class RemoteEpaSitesRepository implements SitesRepositoryContract
      * @return mixed
      * @throws \Exception
      */
-    public function getAll(): array
+    public function getAll(): \stdClass
     {
         $request = $this->makeRequest();
         $response = $this->client->send($request, ['timeout' => 10]);
@@ -46,7 +46,10 @@ class RemoteEpaSitesRepository implements SitesRepositoryContract
         throw new \Exception();
     }
 
-    public function setUri($uri): void
+    /**
+     * @param string $uri
+     */
+    public function setUri(string $uri)
     {
         $this->uri = $uri;
     }

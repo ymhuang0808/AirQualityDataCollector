@@ -8,5 +8,5 @@ interface AirQualityRepositoryContract {
    * Get all remote
    * @return mixed
    */
-  public function getAll(): array ;
+  public function getAll(): \stdClass ;
 }

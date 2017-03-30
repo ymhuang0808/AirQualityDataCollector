@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Site extends Model
 {
+    protected $fillable = [
+        'name',
+        'eng_name',
+        'address',
+        'type',
+        'area_name',
+        'coordinates',
+        'source_type',
+    ];
+
     public function county()
     {
         return $this->belongsTo('App\County');

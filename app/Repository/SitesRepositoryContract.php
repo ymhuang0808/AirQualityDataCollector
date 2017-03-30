@@ -15,5 +15,5 @@ interface SitesRepositoryContract
      * Get all sites
      * @return mixed
      */
-    public function getAll(): array;
+    public function getAll(): \stdClass;
 }

@@ -27,6 +27,8 @@ class CreateSitesTable extends Migration
             $table->dateTimeTz('updated_at');
             $table->dateTimeTz('created_at');
 
+            $table->unique(['name', 'source_type']);
+
             $table->foreign('county_id')->references('id')->on('counties')
               ->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('township_id')->references('id')->on('townships')

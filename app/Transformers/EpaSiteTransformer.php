@@ -5,9 +5,8 @@ namespace App\Transformers;
 
 use App\County;
 use App\Township;
-use League\Fractal\TransformerAbstract;
 
-class EpaSiteTransformer extends TransformerAbstract
+class EpaSiteTransformer extends AbstractAqdcTransformer
 {
     /**
      * @param \stdClass $site

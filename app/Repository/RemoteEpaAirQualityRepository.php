@@ -29,7 +29,12 @@ class RemoteEpaAirQualityRepository implements AirQualityRepositoryContract
 
     protected $uri;
 
-    public function __construct($baseUrl, ClientInterface $client)
+    /**
+     * RemoteEpaAirQualityRepository constructor.
+     * @param string $baseUrl
+     * @param ClientInterface $client
+     */
+    public function __construct(string $baseUrl, ClientInterface $client)
     {
         $this->baseUrl = $baseUrl;
         $this->client = $client;
@@ -37,10 +42,10 @@ class RemoteEpaAirQualityRepository implements AirQualityRepositoryContract
 
     /**
      * Get all air quality dataset from EPA server
-     * @return mixed
+     * @return mixed|\stdClass
      * @throws \Exception
      */
-    public function getAll(): array
+    public function getAll(): \stdClass
     {
         $request = $this->makeRequest();
         $response = $this->client->send($request, ['timeout' => 10]);
@@ -55,7 +60,10 @@ class RemoteEpaAirQualityRepository implements AirQualityRepositoryContract
         throw new \Exception();
     }
 
-    public function setUri($uri): void
+    /**
+     * @param string $uri
+     */
+    public function setUri(string $uri)
     {
         $this->uri = $uri;
     }

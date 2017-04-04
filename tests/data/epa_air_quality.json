@@ -1,0 +1,63 @@
+{
+  "result": {
+    "records": [
+      {
+        "SiteName": "竹山",
+        "County": "南投縣",
+        "PSI": "58",
+        "MajorPollutant": "懸浮微粒",
+        "Status": "普通",
+        "SO2": "2.8",
+        "CO": "0.54",
+        "O3": "53",
+        "PM10": "73",
+        "PM2.5": "50",
+        "NO2": "13",
+        "WindSpeed": "1.3",
+        "WindDirec": "105",
+        "FPMI": "5",
+        "NOx": "13.63",
+        "NO": "1.09",
+        "PublishTime": "2017-04-04 09:00"
+      },
+      {
+        "SiteName": "中壢",
+        "County": "桃園市",
+        "PSI": "47",
+        "MajorPollutant": "",
+        "Status": "良好",
+        "SO2": "3.5",
+        "CO": "1.24",
+        "O3": "25",
+        "PM10": "52",
+        "PM2.5": "25",
+        "NO2": "40",
+        "WindSpeed": "0.9",
+        "WindDirec": "3.9",
+        "FPMI": "2",
+        "NOx": "62.73",
+        "NO": "22.77",
+        "PublishTime": "2017-04-04 09:00"
+      },
+      {
+        "SiteName": "三重",
+        "County": "新北市",
+        "PSI": "46",
+        "MajorPollutant": "",
+        "Status": "良好",
+        "SO2": "2.5",
+        "CO": "1.13",
+        "O3": "",
+        "PM10": "57",
+        "PM2.5": "18",
+        "NO2": "39",
+        "WindSpeed": "",
+        "WindDirec": "",
+        "FPMI": "2",
+        "NOx": "73.45",
+        "NO": "34.93",
+        "PublishTime": "2017-04-04 09:00"
+      }
+    ]
+  }
+}

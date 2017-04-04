@@ -34,6 +34,8 @@ class CreateEpaDatasetsTable extends Migration
             $table->dateTimeTz('updated_at');
             $table->dateTimeTz('created_at');
 
+            $table->unique(['site_id', 'published_datetime']);
+
             $table->foreign('site_id')->references('id')->on('sites')
               ->onDelete('cascade')->onUpdate('cascade');
         });

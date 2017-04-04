@@ -65,6 +65,5 @@ $factory->define(App\Site::class, function (Faker\Generator $faker) {
 $factory->state(App\Site::class, 'epa', function (Faker\Generator $faker) {
     return [
         'source_type' => 'epa',
-
     ];
 });

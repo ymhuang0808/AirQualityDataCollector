@@ -10,8 +10,6 @@ use App\Transformers\RemoteModel;
 
 class ImportEpaSitesCommand extends AbstractImportSitesCommand
 {
-    protected $uniqueKeys = ['name', 'source_type'];
-
     public function execute()
     {
         $result = $this->sitesRepository->getAll();
@@ -24,10 +22,10 @@ class ImportEpaSitesCommand extends AbstractImportSitesCommand
             $site = Site::firstOrNew($uniqueKeyValues);
             $site->fill($this->getFieldsExceptUniqueKeyValues($remoteModel));
 
-            /* @var County */
+            /* @var County $county */
             $county = $remoteModel->relationships['county'];
 
-            /* @var Township */
+            /* @var Township $township */
             $township = $remoteModel->relationships['township'];
 
             $site->county()->associate($county);
@@ -42,7 +40,7 @@ class ImportEpaSitesCommand extends AbstractImportSitesCommand
      */
     protected function getUniqueKeyValues(RemoteModel $remoteModel): array
     {
-        return array_only($remoteModel->fields, $this->uniqueKeys);
+        return array_only($remoteModel->fields, Site::UNIQUE_KEYS);
     }
 
     /**
@@ -51,6 +49,6 @@ class ImportEpaSitesCommand extends AbstractImportSitesCommand
      */
     protected function getFieldsExceptUniqueKeyValues(RemoteModel $remoteModel): array
     {
-        return array_except($remoteModel->fields, $this->uniqueKeys);
+        return array_except($remoteModel->fields, Site::UNIQUE_KEYS);
     }
 }

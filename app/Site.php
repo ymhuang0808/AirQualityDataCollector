@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Site extends Model
 {
+    const UNIQUE_KEYS = [
+        'name',
+        'source_type'
+    ];
+
+    protected $table = 'sites';
+
     protected $fillable = [
         'name',
         'eng_name',
@@ -15,6 +22,11 @@ class Site extends Model
         'coordinates',
         'source_type',
     ];
+
+    public function epaDatasets()
+    {
+        return $this->hasMany('App\EpaDataset');
+    }
 
     public function county()
     {

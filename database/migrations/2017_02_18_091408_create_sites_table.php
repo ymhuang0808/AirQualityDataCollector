@@ -20,8 +20,8 @@ class CreateSitesTable extends Migration
             $table->string('address')->nullable();
             $table->string('type')->nullable();
             $table->string('area_name')->nullable();
-            $table->unsignedInteger('county_id');
-            $table->unsignedInteger('township_id');
+            $table->unsignedInteger('county_id')->nullable();
+            $table->unsignedInteger('township_id')->nullable();
             $table->binary('coordinates');
             $table->string('source_type');
             $table->dateTimeTz('updated_at');

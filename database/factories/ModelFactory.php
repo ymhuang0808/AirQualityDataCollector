@@ -67,3 +67,9 @@ $factory->state(App\Site::class, 'epa', function (Faker\Generator $faker) {
         'source_type' => 'epa',
     ];
 });
+
+$factory->state(App\Site::class, 'lass', function (Faker\Generator $faker) {
+    return [
+        'source_type' => 'lass',
+    ];
+});

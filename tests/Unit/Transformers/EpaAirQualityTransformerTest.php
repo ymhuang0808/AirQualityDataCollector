@@ -66,4 +66,11 @@ class EpaAirQualityTransformerTest extends TestCase
         $this->assertEquals(1.44, $actualRemoteModel->fields['no']);
         $this->assertEquals('2017-03-26 14:00:00', $actualRemoteModel->fields['published_datetime']);
     }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        \Mockery::close();
+    }
 }

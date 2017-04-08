@@ -15,7 +15,7 @@ class ImportEpaSitesCommandTest extends TestCase
     protected $stubSitesRepository;
     protected $transformer;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -42,7 +42,7 @@ class ImportEpaSitesCommandTest extends TestCase
         $this->assertEquals(7, Township::all()->count());
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         parent::tearDown();
         Mockery::close();

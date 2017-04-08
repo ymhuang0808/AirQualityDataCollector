@@ -14,7 +14,7 @@ class ImportEpaAirQualityCommandTest extends TestCase
 
     protected $transformer;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 

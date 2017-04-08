@@ -13,7 +13,7 @@ class EpaSiteTransformerTest extends TestCase
 
     protected $fakeSite;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->fakeSite = Mockery::mock('stdClass');

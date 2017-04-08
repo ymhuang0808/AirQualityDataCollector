@@ -14,7 +14,7 @@ class EpaAirQualityTransformerTest extends TestCase
 
     protected $fakeAirQuality;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -67,7 +67,7 @@ class EpaAirQualityTransformerTest extends TestCase
         $this->assertEquals('2017-03-26 14:00:00', $actualRemoteModel->fields['published_datetime']);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         parent::tearDown();
 

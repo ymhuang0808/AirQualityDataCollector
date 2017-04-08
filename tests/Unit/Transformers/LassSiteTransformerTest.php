@@ -8,7 +8,7 @@ class LassSiteTransformerTest extends TestCase
 {
     protected $fakeSite;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -56,7 +56,7 @@ class LassSiteTransformerTest extends TestCase
         $this->assertNull($actualRemoteModel->relationships);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         parent::tearDown();
 

@@ -12,7 +12,7 @@ class LassAirQualityTransformerTest extends TestCase
 
     protected $fakeAirQuality;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -68,7 +68,7 @@ class LassAirQualityTransformerTest extends TestCase
         $this->assertEquals('FT1_928', $actualRelatedSite->name);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         parent::tearDown();
 

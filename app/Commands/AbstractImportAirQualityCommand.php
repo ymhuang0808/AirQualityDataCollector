@@ -3,17 +3,17 @@
 namespace App\Commands;
 
 
-use App\Repository\AirQualityRepositoryContract;
+use App\Repository\Contracts\DatasetRepositoryContract;
 use App\Transformers\AbstractAqdcTransformer;
 
 abstract class AbstractImportAirQualityCommand implements CommandContract
 {
-    protected $airQualityRepository;
+    protected $datasetRepository;
     protected $transformer;
 
-    public function __construct(AirQualityRepositoryContract $airQualityRepository, AbstractAqdcTransformer $transformer)
+    public function __construct(DatasetRepositoryContract $datasetRepository, AbstractAqdcTransformer $transformer)
     {
-        $this->airQualityRepository = $airQualityRepository;
+        $this->datasetRepository = $datasetRepository;
         $this->transformer = $transformer;
     }
 }

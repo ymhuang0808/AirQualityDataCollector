@@ -11,7 +11,7 @@ class ImportEpaAirQualityCommand extends AbstractImportAirQualityCommand
 {
     public function execute()
     {
-        $result = $this->airQualityRepository->getAll();
+        $result = $this->datasetRepository->getAll();
         $airQualityObjArray = $result->result->records;
 
         foreach ($airQualityObjArray as $airQualityObj) {

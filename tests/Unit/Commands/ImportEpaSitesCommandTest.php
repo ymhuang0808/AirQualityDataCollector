@@ -23,7 +23,7 @@ class ImportEpaSitesCommandTest extends TestCase
         $jsonString = file_get_contents($jsonFilePath);
         $fakeResponse = json_decode($jsonString);
 
-        $this->stubSitesRepository = Mockery::mock(\App\Repository\SitesRepositoryContract::class, [
+        $this->stubSitesRepository = Mockery::mock(\App\Repository\Contracts\DatasetRepositoryContract::class, [
             'getAll' => $fakeResponse,
         ]);
         $this->transformer = new EpaSiteTransformer();

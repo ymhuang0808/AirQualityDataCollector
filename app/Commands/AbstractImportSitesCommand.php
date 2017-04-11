@@ -3,21 +3,21 @@
 namespace App\Commands;
 
 
-use App\Repository\SitesRepositoryContract;
+use App\Repository\Contracts\DatasetRepositoryContract;
 use App\Transformers\AbstractAqdcTransformer;
 
 abstract class AbstractImportSitesCommand implements CommandContract
 {
     protected $sourceType;
 
-    protected $sitesRepository;
+    protected $datasetRepository;
 
     protected $transformer;
 
 
-    public function __construct(SitesRepositoryContract $sitesRepository, AbstractAqdcTransformer $transformer)
+    public function __construct(DatasetRepositoryContract $datasetRepository, AbstractAqdcTransformer $transformer)
     {
-        $this->sitesRepository = $sitesRepository;
+        $this->datasetRepository = $datasetRepository;
         $this->transformer = $transformer;
     }
 

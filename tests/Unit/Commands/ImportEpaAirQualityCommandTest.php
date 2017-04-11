@@ -10,7 +10,7 @@ class ImportEpaAirQualityCommandTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected $stubAirQualityRepository;
+    protected $stubDatasetRepository;
 
     protected $transformer;
 
@@ -22,7 +22,7 @@ class ImportEpaAirQualityCommandTest extends TestCase
         $jsonString = file_get_contents($jsonFilePath);
         $fakeResponse = json_decode($jsonString);
 
-        $this->stubAirQualityRepository = Mockery::mock(\App\Repository\AirQualityRepositoryContract::class, [
+        $this->stubDatasetRepository = Mockery::mock(\App\Repository\Contracts\DatasetRepositoryContract::class, [
             'getAll' => $fakeResponse,
         ]);
         $this->transformer = new EpaAirQualityTransformer();
@@ -32,7 +32,7 @@ class ImportEpaAirQualityCommandTest extends TestCase
 
     public function testExecute()
     {
-        $command = new ImportEpaAirQualityCommand($this->stubAirQualityRepository, $this->transformer);
+        $command = new ImportEpaAirQualityCommand($this->stubDatasetRepository, $this->transformer);
         $command->execute();
 
         $this->assertDatabaseAirQuality('竹山', 58, 73, 50, '2017-04-04 09:00:00');

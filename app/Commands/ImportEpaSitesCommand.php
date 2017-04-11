@@ -12,7 +12,7 @@ class ImportEpaSitesCommand extends AbstractImportSitesCommand
 {
     public function execute()
     {
-        $result = $this->sitesRepository->getAll();
+        $result = $this->datasetRepository->getAll();
         $siteObjArray = $result->result->records;
 
         foreach ($siteObjArray as $siteObj) {

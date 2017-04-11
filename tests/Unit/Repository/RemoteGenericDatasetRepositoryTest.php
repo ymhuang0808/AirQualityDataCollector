@@ -1,6 +1,6 @@
 <?php
 
-use App\Repository\RemoteEpaSitesRepository;
+use App\Repository\RemoteGenericDatasetRepository;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -8,7 +8,7 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use Tests\TestCase;
 
-class RemoteEpaSitesRepositoryTest extends TestCase
+class RemoteGenericDatasetRepositoryTest extends TestCase
 {
     protected $fakeBaseUrl;
 
@@ -43,8 +43,8 @@ class RemoteEpaSitesRepositoryTest extends TestCase
 
         $client = new Client(['handler' => $stack]);
 
-        $repository = new RemoteEpaSitesRepository($this->fakeBaseUrl, $client);
-        $repository->setUri('/my-happy-endpoint');
+        $repository = new RemoteGenericDatasetRepository($this->fakeBaseUrl, $client);
+        $repository->setPath('/my-happy-endpoint');
         $jsonData = $repository->getAll();
 
         // Because $client may send multiple requests, it should check the count of $container
@@ -68,12 +68,5 @@ class RemoteEpaSitesRepositoryTest extends TestCase
     public function testGetAllWithException()
     {
         // TODO: Need to test when the HTTP status code is not 200
-    }
-
-    protected function tearDown()
-    {
-        parent::tearDown();
-
-        Mockery::close();
     }
 }

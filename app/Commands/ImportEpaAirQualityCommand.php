@@ -42,10 +42,4 @@ class ImportEpaAirQualityCommand extends AbstractImportAirQualityCommand
     {
         return array_except($remoteModel->fields, EpaDataset::UNIQUE_KEYS);
     }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-        Mockery::close();
-    }
 }

@@ -6,7 +6,7 @@ namespace App\Commands;
 use App\EpaDataset;
 use App\Transformers\RemoteModel;
 
-class ImportEpaAirQualityCommand extends AbstractImportAirQualityCommand
+class CollectEpaAirQualityCommand extends AbstractCollectAirQualityCommand
 {
     public function execute()
     {

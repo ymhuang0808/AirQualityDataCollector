@@ -1,13 +1,13 @@
 <?php
 
-use App\Commands\ImportLassAirQualityCommand;
+use App\Commands\CollectLassAirQualityCommand;
 use App\Repository\SimpleArrayCacheRepository;
 use App\Site;
 use App\Transformers\LassAirQualityTransformer;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ImportLassAirQualityCommandTest extends TestCase
+class CollectLassAirQualityCommandTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -50,7 +50,7 @@ class ImportLassAirQualityCommandTest extends TestCase
 
         $simpleArrayCacheRepository = new SimpleArrayCacheRepository();
 
-        $command = new ImportLassAirQualityCommand(
+        $command = new CollectLassAirQualityCommand(
             $this->mockDatasetRepository,
             $simpleArrayCacheRepository,
             $this->transformer
@@ -81,7 +81,7 @@ class ImportLassAirQualityCommandTest extends TestCase
             ->with('lass-dataset-url:https://fake.lass.dataset/all-endpoint')
             ->andReturn($fakeCachedData);
 
-        $command = new ImportLassAirQualityCommand(
+        $command = new CollectLassAirQualityCommand(
             $this->mockDatasetRepository,
             $mockCacheRepository,
             $this->transformer

@@ -9,7 +9,7 @@ use App\Site;
 use App\Transformers\AbstractAqdcTransformer;
 use App\Transformers\RemoteModel;
 
-class ImportLassSitesCommand extends AbstractImportSitesCommand
+class CollectLassSitesCommand extends AbstractCollectSitesCommand
 {
     protected $cacheRepository;
 

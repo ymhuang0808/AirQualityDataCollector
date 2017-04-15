@@ -1,13 +1,13 @@
 <?php
 
-use App\Commands\ImportLassSitesCommand;
+use App\Commands\CollectLassSitesCommand;
 use App\Repository\SimpleArrayCacheRepository;
 use App\Site;
 use App\Transformers\LassSiteTransformer;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ImportLassSitesCommandTest extends TestCase
+class CollectLassSitesCommandTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -48,7 +48,7 @@ class ImportLassSitesCommandTest extends TestCase
 
         $simpleArrayCacheRepository = new SimpleArrayCacheRepository();
 
-        $command = new ImportLassSitesCommand(
+        $command = new CollectLassSitesCommand(
                 $this->mockDatasetRepository,
                 $simpleArrayCacheRepository,
                 $this->transformer);
@@ -78,7 +78,7 @@ class ImportLassSitesCommandTest extends TestCase
             ->with('lass-dataset-url:https://fake.lass.dataset/all-endpoint')
             ->andReturn($fakeCachedData);
 
-        $command = new ImportLassSitesCommand($this->mockDatasetRepository, $mockCacheRepository, $this->transformer);
+        $command = new CollectLassSitesCommand($this->mockDatasetRepository, $mockCacheRepository, $this->transformer);
         $command->execute();
 
         $this->assertDatabaseHasSites('WF_1182189', 120.6632, 24.146976);

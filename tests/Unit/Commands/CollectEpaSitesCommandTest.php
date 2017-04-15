@@ -1,6 +1,6 @@
 <?php
 
-use App\Commands\ImportEpaSitesCommand;
+use App\Commands\CollectEpaSitesCommand;
 use App\County;
 use App\Site;
 use App\Township;
@@ -8,7 +8,7 @@ use App\Transformers\EpaSiteTransformer;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ImportEpaSitesCommandTest extends TestCase
+class CollectEpaSitesCommandTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -31,7 +31,7 @@ class ImportEpaSitesCommandTest extends TestCase
 
     public function testExecute()
     {
-        $command = new ImportEpaSitesCommand($this->stubSitesRepository, $this->transformer);
+        $command = new CollectEpaSitesCommand($this->stubSitesRepository, $this->transformer);
         $command->execute();
 
         $this->assertDatabaseHasSites('臺東縣', '臺東市', '臺東', 'Taitung', '花東空品區', '一般測站', 121.1504500000, 22.7553580000);

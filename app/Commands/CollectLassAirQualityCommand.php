@@ -10,7 +10,7 @@ use App\Site;
 use App\Transformers\AbstractAqdcTransformer;
 use App\Transformers\RemoteModel;
 
-class ImportLassAirQualityCommand extends AbstractImportAirQualityCommand
+class CollectLassAirQualityCommand extends AbstractCollectAirQualityCommand
 {
     protected $cacheRepository;
 

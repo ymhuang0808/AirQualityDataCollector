@@ -1,12 +1,12 @@
 <?php
 
-use App\Commands\ImportEpaAirQualityCommand;
+use App\Commands\CollectEpaAirQualityCommand;
 use App\Site;
 use App\Transformers\EpaAirQualityTransformer;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ImportEpaAirQualityCommandTest extends TestCase
+class CollectEpaAirQualityCommandTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -32,7 +32,7 @@ class ImportEpaAirQualityCommandTest extends TestCase
 
     public function testExecute()
     {
-        $command = new ImportEpaAirQualityCommand($this->stubDatasetRepository, $this->transformer);
+        $command = new CollectEpaAirQualityCommand($this->stubDatasetRepository, $this->transformer);
         $command->execute();
 
         $this->assertDatabaseAirQuality('竹山', 58, 73, 50, '2017-04-04 09:00:00');

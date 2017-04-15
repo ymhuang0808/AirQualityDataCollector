@@ -8,7 +8,7 @@ use App\Site;
 use App\Township;
 use App\Transformers\RemoteModel;
 
-class ImportEpaSitesCommand extends AbstractImportSitesCommand
+class CollectEpaSitesCommand extends AbstractCollectSitesCommand
 {
     public function execute()
     {

@@ -6,7 +6,7 @@ namespace App\Commands;
 use App\Repository\Contracts\DatasetRepositoryContract;
 use App\Transformers\AbstractAqdcTransformer;
 
-abstract class AbstractImportSitesCommand implements CommandContract
+abstract class AbstractCollectSitesCommand implements CommandContract
 {
     protected $sourceType;
 

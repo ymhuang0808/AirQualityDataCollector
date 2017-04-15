@@ -6,7 +6,7 @@ namespace App\Commands;
 use App\Repository\Contracts\DatasetRepositoryContract;
 use App\Transformers\AbstractAqdcTransformer;
 
-abstract class AbstractImportAirQualityCommand implements CommandContract
+abstract class AbstractCollectAirQualityCommand implements CommandContract
 {
     protected $datasetRepository;
     protected $transformer;

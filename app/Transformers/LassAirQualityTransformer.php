@@ -20,6 +20,7 @@ class LassAirQualityTransformer extends AbstractAqdcTransformer
             'pm25' => $data->s_d0,
             'pm10' => $data->s_d1,
             'temperature' => $data->s_t0,
+            'humidity' => $data->s_h0,
             'published_datetime' => $this->timestampToDateTime($data->timestamp),
         ];
         $relationships = [

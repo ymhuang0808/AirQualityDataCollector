@@ -5,7 +5,6 @@ namespace App\Commands;
 
 use App\EpaDataset;
 use App\Transformers\RemoteModel;
-use Mockery;
 
 class ImportEpaAirQualityCommand extends AbstractImportAirQualityCommand
 {
@@ -29,7 +28,7 @@ class ImportEpaAirQualityCommand extends AbstractImportAirQualityCommand
         }
     }
 
-    protected function getUniqueKeyValues(RemoteModel $remoteModel)
+    protected function getUniqueKeyValues(RemoteModel $remoteModel): array
     {
         $keyValues = $remoteModel->fields;
         $site = $remoteModel->relationships['site'];
@@ -38,7 +37,7 @@ class ImportEpaAirQualityCommand extends AbstractImportAirQualityCommand
         return array_only($keyValues, EpaDataset::UNIQUE_KEYS);
     }
 
-    protected function getFieldsExceptUniqueKeyValues(RemoteModel $remoteModel)
+    protected function getFieldsExceptUniqueKeyValues(RemoteModel $remoteModel): array
     {
         return array_except($remoteModel->fields, EpaDataset::UNIQUE_KEYS);
     }

@@ -32,7 +32,7 @@ class EpaDataset extends Model
         'no',
         'major_pollutant',
         'status',
-        'published_datetime'
+        'published_datetime',
     ];
 
     public function site()

@@ -15,10 +15,10 @@ class CreateLassDatasetsTable extends Migration
     {
         Schema::create('lass_datasets', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->double('pm25', 5, 1);
-            $table->double('pm10', 5, 1);
-            $table->double('temperature', 4, 1);
-            $table->double('humidity', 5, 2);
+            $table->double('pm25', 5, 1)->nullable();
+            $table->double('pm10', 5, 1)->nullable();
+            $table->double('temperature', 5, 2)->nullable();
+            $table->double('humidity', 5, 2)->nullable();
             $table->unsignedInteger('site_id');
             $table->dateTimeTz('published_datetime');
             $table->dateTimeTz('updated_at');

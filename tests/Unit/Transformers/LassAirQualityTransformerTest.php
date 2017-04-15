@@ -60,8 +60,9 @@ class LassAirQualityTransformerTest extends TestCase
         $this->assertEquals(23, $actualRemoteModel->fields['pm25']);
         $this->assertEquals(24, $actualRemoteModel->fields['pm10']);
         $this->assertEquals(28.6, $actualRemoteModel->fields['temperature']);
+        $this->assertEquals(78.5, $actualRemoteModel->fields['humidity']);
         $this->assertEquals('2017-04-08 07:33:44', $actualRemoteModel->fields['published_datetime']);
-        $this->assertCount(4, $actualRemoteModel->fields);
+        $this->assertCount(5, $actualRemoteModel->fields);
 
         $actualRelatedSite = $actualRemoteModel->relationships['site'];
 

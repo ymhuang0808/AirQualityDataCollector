@@ -1,9 +1,11 @@
 <?php
 
 use App\Commands\CollectEpaAirQualityCommand;
+use App\Events\CollectAirQualityCompletedEvent;
 use App\Site;
 use App\Transformers\EpaAirQualityTransformer;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class CollectEpaAirQualityCommandTest extends TestCase
@@ -22,9 +24,9 @@ class CollectEpaAirQualityCommandTest extends TestCase
         $jsonString = file_get_contents($jsonFilePath);
         $fakeResponse = json_decode($jsonString);
 
-        $this->stubDatasetRepository = Mockery::mock(\App\Repository\Contracts\DatasetRepositoryContract::class, [
-            'getAll' => $fakeResponse,
-        ]);
+        $this->stubDatasetRepository = Mockery::mock(\App\Repository\Contracts\DatasetRepositoryContract::class);
+        $this->stubDatasetRepository->shouldReceive('getAll')->andReturn($fakeResponse);
+
         $this->transformer = new EpaAirQualityTransformer();
 
         $this->createSites();
@@ -32,12 +34,18 @@ class CollectEpaAirQualityCommandTest extends TestCase
 
     public function testExecute()
     {
+        Event::fake();
+
         $command = new CollectEpaAirQualityCommand($this->stubDatasetRepository, $this->transformer);
         $command->execute();
 
         $this->assertDatabaseAirQuality('竹山', 58, 73, 50, '2017-04-04 09:00:00');
         $this->assertDatabaseAirQuality('中壢', 47, 52, 25, '2017-04-04 09:00:00');
         $this->assertDatabaseAirQuality('三重', 46, 57, 18, '2017-04-04 09:00:00');
+
+        Event::assertDispatched(CollectAirQualityCompletedEvent::class, function (CollectAirQualityCompletedEvent $event) {
+           return $event->dataset->count() === 3;
+        });
     }
 
     protected function createSites()

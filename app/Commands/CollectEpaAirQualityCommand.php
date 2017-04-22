@@ -4,8 +4,15 @@ namespace App\Commands;
 
 
 use App\EpaDataset;
+use App\Events\CollectAirQualityCompletedEvent;
 use App\Transformers\RemoteModel;
 
+/**
+ * Collect EAP Air quality dataset from repository. And the transformer transforms the raw data into `RemoteModel`.
+ * `RemoteModel` helps save the data into Laravel Model easily.
+ *
+ * @package App\Commands
+ */
 class CollectEpaAirQualityCommand extends AbstractCollectAirQualityCommand
 {
     public function execute()
@@ -13,21 +20,37 @@ class CollectEpaAirQualityCommand extends AbstractCollectAirQualityCommand
         $result = $this->datasetRepository->getAll();
         $airQualityObjArray = $result->result->records;
 
+        $epaDatasetItems = [];
+
         foreach ($airQualityObjArray as $airQualityObj) {
+            /** @var RemoteModel $remoteModel */
             $remoteModel = $this->transformer->transform($airQualityObj);
             $uniqueKeyValues = $this->getUniqueKeyValues($remoteModel);
 
             $epaDataset = EpaDataset::firstOrNew($uniqueKeyValues);
             $epaDataset->fill($this->getFieldsExceptUniqueKeyValues($remoteModel));
 
-            /* @var Site $site */
+            /** @var Site $site */
             $site = $remoteModel->relationships['site'];
 
             $epaDataset->site()->associate($site);
             $epaDataset->save();
+
+            $epaDatasetItems[] = $epaDataset;
         }
+
+        $epDatasetCollection = collect($epaDatasetItems);
+
+        // Raise an event
+        event(new CollectAirQualityCompletedEvent($epDatasetCollection, 'epa'));
     }
 
+    /**
+     * It helps get the unique fields from `RemoteModel` to create a unique `EpaDataset` model.
+     *
+     * @param RemoteModel $remoteModel
+     * @return array
+     */
     protected function getUniqueKeyValues(RemoteModel $remoteModel): array
     {
         $keyValues = $remoteModel->fields;
@@ -37,6 +60,12 @@ class CollectEpaAirQualityCommand extends AbstractCollectAirQualityCommand
         return array_only($keyValues, EpaDataset::UNIQUE_KEYS);
     }
 
+    /**
+     * In `RemoteModel`, except the unique fields, other fields are filled into model.
+     *
+     * @param RemoteModel $remoteModel
+     * @return array
+     */
     protected function getFieldsExceptUniqueKeyValues(RemoteModel $remoteModel): array
     {
         return array_except($remoteModel->fields, EpaDataset::UNIQUE_KEYS);

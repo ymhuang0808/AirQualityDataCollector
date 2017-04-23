@@ -37,7 +37,7 @@ class Site extends Model
 
     public function epaDatasets()
     {
-        return $this->hasMany('App\EpaDataset');
+        return $this->hasOne('App\EpaDataset');
     }
 
     public function county()

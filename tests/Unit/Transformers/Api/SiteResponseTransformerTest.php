@@ -73,6 +73,25 @@ class SiteResponseTransformerTest extends TestCase
         $this->assertEquals('竹山鎮', $actual['township']['name']);
     }
 
+    public function testTransformWithEpaSiteAndIncludeAirQuality()
+    {
+        $site = $this->createEpaTestData();
+
+        $manager = new Manager();
+        $manager->setSerializer(new ArraySerializer());
+
+        $resource = new Item($site, $this->transformer);
+
+        $actual = $manager->parseIncludes(['airQuality'])
+            ->createData($resource)
+            ->toArray();
+
+        $this->assertArrayHasKey('airQuality', $actual);
+        $this->assertEquals(30, $actual['airQuality']['pm10']);
+        $this->assertEquals(78, $actual['airQuality']['pm25']);
+        $this->assertEquals('oZqoooQQQ', $actual['airQuality']['major_pollutant']);
+    }
+
     protected function createEpaTestData()
     {
         $county = factory(\App\County::class)->create([
@@ -99,6 +118,9 @@ class SiteResponseTransformerTest extends TestCase
 
         factory(\App\EpaDataset::class)->create([
             'site_id' => $site->id,
+            'pm10' => 30,
+            'pm25' => 78,
+            'major_pollutant' => 'oZqoooQQQ',
         ]);
 
         return $site;

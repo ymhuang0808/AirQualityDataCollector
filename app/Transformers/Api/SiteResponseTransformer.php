@@ -13,6 +13,7 @@ class SiteResponseTransformer extends TransformerAbstract
     protected $availableIncludes = [
         'county',
         'township',
+        'airQuality'
     ];
 
     public function transform(Site $site)
@@ -45,5 +46,22 @@ class SiteResponseTransformer extends TransformerAbstract
                 'updated_at',
             ])->toArray();
         });
+    }
+
+    public function includeAirQuality(Site $site)
+    {
+        $sourceType = $site->source_type;
+
+        // TODO: Handle the empty dataset
+
+        switch ($sourceType) {
+            case Site::EPA_SOURCE_TYPE:
+                $transformer = new EpaAirQualityResponseTransformer();
+                $airQuality = $site->epaDatasets;
+
+                break;
+        }
+
+        return $this->item($airQuality, $transformer, 'air_quality');
     }
 }

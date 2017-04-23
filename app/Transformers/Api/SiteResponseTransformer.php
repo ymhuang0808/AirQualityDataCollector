@@ -13,7 +13,7 @@ class SiteResponseTransformer extends TransformerAbstract
     protected $availableIncludes = [
         'county',
         'township',
-        'airQuality'
+        'air_quality'
     ];
 
     public function transform(Site $site)

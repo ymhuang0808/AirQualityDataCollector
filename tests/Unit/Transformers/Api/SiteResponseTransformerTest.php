@@ -82,14 +82,14 @@ class SiteResponseTransformerTest extends TestCase
 
         $resource = new Item($site, $this->transformer);
 
-        $actual = $manager->parseIncludes(['airQuality'])
+        $actual = $manager->parseIncludes(['air_quality'])
             ->createData($resource)
             ->toArray();
 
-        $this->assertArrayHasKey('airQuality', $actual);
-        $this->assertEquals(30, $actual['airQuality']['pm10']);
-        $this->assertEquals(78, $actual['airQuality']['pm25']);
-        $this->assertEquals('oZqoooQQQ', $actual['airQuality']['major_pollutant']);
+        $this->assertArrayHasKey('air_quality', $actual);
+        $this->assertEquals(30, $actual['air_quality']['pm10']);
+        $this->assertEquals(78, $actual['air_quality']['pm25']);
+        $this->assertEquals('oZqoooQQQ', $actual['air_quality']['major_pollutant']);
     }
 
     protected function createEpaTestData()

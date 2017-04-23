@@ -74,27 +74,42 @@ $factory->state(App\Site::class, 'lass', function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\EpaDataset::class, function(Faker\Generator $faker) {
+$factory->define(App\EpaDataset::class, function (Faker\Generator $faker) {
     $fakedPublishedDatetime = $faker->dateTime();
 
-   return [
-       'psi' => $faker->numberBetween(1, 20),
-       'so2' => $faker->randomFloat(1, 0, 999),
-       'co' => $faker->randomDigit(2),
-       'o3' => $faker->randomDigit,
-       'pm10' => $faker->numberBetween(1, 120),
-       'pm25' => $faker->numberBetween(1, 300),
-       'no2' => $faker->numberBetween(1, 60),
-       'wind_speed' => $faker->randomFloat(1, 0, 9999),
-       'wind_direction' => $faker->randomDigit,
-       'fpmi' => $faker->numberBetween(1, 50),
-       'nox' => $faker->randomFloat(1, 0, 9999),
-       'no' => $faker->randomFloat(1, 0, 9999),
-       'major_pollutant' => $faker->word,
-       'status' => $faker->word,
-       'site_id' => function () {
+    return [
+        'psi' => $faker->numberBetween(1, 20),
+        'so2' => $faker->randomFloat(1, 0, 999),
+        'co' => $faker->randomDigit(2),
+        'o3' => $faker->randomDigit,
+        'pm10' => $faker->numberBetween(1, 120),
+        'pm25' => $faker->numberBetween(1, 300),
+        'no2' => $faker->numberBetween(1, 60),
+        'wind_speed' => $faker->randomFloat(1, 0, 9999),
+        'wind_direction' => $faker->randomDigit,
+        'fpmi' => $faker->numberBetween(1, 50),
+        'nox' => $faker->randomFloat(1, 0, 9999),
+        'no' => $faker->randomFloat(1, 0, 9999),
+        'major_pollutant' => $faker->word,
+        'status' => $faker->word,
+        'site_id' => function () {
             return factory(App\Site::class)->create()->id;
-       },
-       'published_datetime' => $fakedPublishedDatetime->format('Y-m-d H:i:s'),
-   ];
+        },
+        'published_datetime' => $fakedPublishedDatetime->format('Y-m-d H:i:s'),
+    ];
+});
+
+$factory->define(App\LassDataset::class, function (Faker\Generator $faker) {
+    $fakedPublishedDatetime = $faker->dateTime();
+
+    return [
+        'pm25' => $faker->randomFloat(1, 0, 9999),
+        'pm10' => $faker->randomFloat(1, 0, 9999),
+        'temperature' => $faker->randomFloat(2, 0, 999),
+        'humidity' => $faker->randomFloat(2, 0, 999),
+        'site_id' => function () {
+            return factory(App\Site::class)->create()->id;
+        },
+        'published_datetime' => $fakedPublishedDatetime->format('Y-m-d H:i:s'),
+    ];
 });

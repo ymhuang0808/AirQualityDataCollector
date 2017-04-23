@@ -92,6 +92,43 @@ class SiteResponseTransformerTest extends TestCase
         $this->assertEquals('oZqoooQQQ', $actual['air_quality']['major_pollutant']);
     }
 
+    public function testTransformWithOnlyLassSite()
+    {
+        $site = $this->createLassTestData();
+        $actual = $this->transformer->transform($site);
+
+        $this->assertEquals('FT1_392', $actual['name']);
+        $this->assertNull($actual['eng_name']);
+        $this->assertEquals([
+            'latitude' => 24.22674,
+            'longitude' => 120.642577,
+        ], $actual['coordinates']);
+        $this->assertNull($actual['type']);
+        $this->assertEquals('lass', $actual['source_type']);
+        $this->assertArrayNotHasKey('county_id', $actual);
+        $this->assertArrayNotHasKey('township', $actual);
+        $this->assertArrayNotHasKey('created_at', $actual);
+        $this->assertArrayNotHasKey('updated_at', $actual);
+    }
+
+    public function testTransformWithLassSiteAndIncludeAirQuality()
+    {
+        $site = $this->createLassTestData();
+
+        $manager = new Manager();
+        $manager->setSerializer(new ArraySerializer());
+
+        $resource = new Item($site, $this->transformer);
+
+        $actual = $manager->parseIncludes(['air_quality'])
+            ->createData($resource)
+            ->toArray();
+
+        $this->assertArrayHasKey('air_quality', $actual);
+        $this->assertEquals(128, $actual['air_quality']['pm10']);
+        $this->assertEquals(117, $actual['air_quality']['pm25']);
+    }
+
     protected function createEpaTestData()
     {
         $county = factory(\App\County::class)->create([
@@ -121,6 +158,31 @@ class SiteResponseTransformerTest extends TestCase
             'pm10' => 30,
             'pm25' => 78,
             'major_pollutant' => 'oZqoooQQQ',
+        ]);
+
+        return $site;
+    }
+
+    protected function createLassTestData()
+    {
+        $site = factory(\App\Site::class)->create([
+            'name' => 'FT1_392',
+            'eng_name' => null,
+            'area_name' => null,
+            'coordinates' => [
+                'latitude' => 24.22674,
+                'longitude' => 120.642577,
+            ],
+            'type' => null,
+            'source_type' => 'lass',
+            'county_id' => null,
+            'township_id' => null,
+        ]);
+
+        factory(\App\LassDataset::class)->create([
+            'site_id' => $site->id,
+            'pm10' => 128,
+            'pm25' => 117,
         ]);
 
         return $site;

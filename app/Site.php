@@ -35,9 +35,14 @@ class Site extends Model
         'township_id',
     ];
 
-    public function epaDatasets()
+    public function epaDataset()
     {
         return $this->hasOne('App\EpaDataset');
+    }
+
+    public function lassDataset()
+    {
+        return $this->hasOne('App\LassDataset');
     }
 
     public function county()

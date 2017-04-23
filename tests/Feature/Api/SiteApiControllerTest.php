@@ -3,7 +3,10 @@
 namespace Tests\Feature\Api;
 
 
+use App\EpaDataset;
+use App\Site;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
 class SiteApiControllerTest extends TestCase
@@ -145,6 +148,27 @@ class SiteApiControllerTest extends TestCase
         ]);
     }
 
+    public function testGetAllWithCacheability()
+    {
+        $epaDataset = factory(EpaDataset::class, 4)->create();
+        $fakeSites = $this->getSitesByEpaDatasets($epaDataset);
+
+        Cache::shouldReceive('remember')
+            ->once()
+            ->with('model-site:all', 5, \Mockery::type('Callable'))
+            ->andReturn($fakeSites);
+
+        $response =  $this->json('GET', '/api/site/all');
+
+        $response->assertStatus(200);
+
+        $fakeSites->each(function ($site) use ($response) {
+           $response->assertJsonFragment([
+              'name' => $site->name,
+           ]);
+        });
+    }
+
     public function testGetAllWithNotInIncludeValue()
     {
         $this->createEpaTestData();
@@ -156,8 +180,15 @@ class SiteApiControllerTest extends TestCase
 
     protected function createEpaTestData()
     {
-        $epaDataset = factory(\App\EpaDataset::class)->create();
+        $epaDataset = factory(EpaDataset::class)->create();
 
         return $epaDataset;
+    }
+
+    protected function getSitesByEpaDatasets($epaDataset)
+    {
+        return $epaDataset->map(function ($item) {
+            return $item->site;
+        });
     }
 }

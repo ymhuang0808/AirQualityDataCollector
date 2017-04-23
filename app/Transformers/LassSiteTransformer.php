@@ -3,6 +3,8 @@
 namespace App\Transformers;
 
 
+use App\Site;
+
 class LassSiteTransformer extends AbstractAqdcTransformer
 {
 
@@ -14,7 +16,7 @@ class LassSiteTransformer extends AbstractAqdcTransformer
                 'latitude' => $data->gps_lat,
                 'longitude' => $data->gps_lon,
             ],
-            'source_type' => 'lass'
+            'source_type' => Site::LASS_SOURCE_TYPE
         ];
 
         $remoteModel = new RemoteModel($fields);

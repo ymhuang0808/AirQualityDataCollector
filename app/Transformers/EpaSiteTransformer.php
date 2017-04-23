@@ -4,6 +4,7 @@ namespace App\Transformers;
 
 
 use App\County;
+use App\Site;
 use App\Township;
 
 class EpaSiteTransformer extends AbstractAqdcTransformer
@@ -24,7 +25,7 @@ class EpaSiteTransformer extends AbstractAqdcTransformer
                 'longitude' => $site->TWD97Lon,
             ],
             'type' => $site->SiteType,
-            'source_type' => 'epa',
+            'source_type' => Site::EPA_SOURCE_TYPE,
         ];
         $relationships = [
         'county' => $this->getCountyByName($site->County),

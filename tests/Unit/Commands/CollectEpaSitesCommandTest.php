@@ -2,11 +2,14 @@
 
 use App\Commands\CollectEpaSitesCommand;
 use App\County;
+use App\Events\CollectSiteCompletedEvent;
 use App\Site;
 use App\Township;
 use App\Transformers\EpaSiteTransformer;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
+
 
 class CollectEpaSitesCommandTest extends TestCase
 {
@@ -31,6 +34,8 @@ class CollectEpaSitesCommandTest extends TestCase
 
     public function testExecute()
     {
+        Event::fake();
+
         $command = new CollectEpaSitesCommand($this->stubSitesRepository, $this->transformer);
         $command->execute();
 
@@ -40,6 +45,10 @@ class CollectEpaSitesCommandTest extends TestCase
         $this->assertEquals(7, Site::all()->count());
         $this->assertEquals(5, County::all()->count());
         $this->assertEquals(7, Township::all()->count());
+
+        Event::assertDispatched(CollectSiteCompletedEvent::class, function (CollectSiteCompletedEvent $event) {
+            return $event->sites->count() === 7 && $event->type === 'epa';
+        });
     }
 
     protected function tearDown()

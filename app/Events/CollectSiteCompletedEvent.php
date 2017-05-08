@@ -1,35 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: aming
- * Date: 2017/4/15
- * Time: 下午9:22
- */
 
 namespace App\Events;
 
+
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
 class CollectSiteCompletedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $sites;
+
+    public $type;
+
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Collection $sites
+     * @param string $type
      */
-    public function __construct($sourceType)
+    public function __construct(Collection $sites, string $type)
     {
-        //
-    }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
+        $this->sites = $sites;
+        $this->type = $type;
     }
 }

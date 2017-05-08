@@ -4,6 +4,7 @@ namespace App\Commands;
 
 
 use App\County;
+use App\Events\CollectSiteCompletedEvent;
 use App\Site;
 use App\Township;
 use App\Transformers\RemoteModel;
@@ -14,6 +15,8 @@ class CollectEpaSitesCommand extends AbstractCollectSitesCommand
     {
         $result = $this->datasetRepository->getAll();
         $siteObjArray = $result->result->records;
+
+        $sites = [];
 
         foreach ($siteObjArray as $siteObj) {
             $remoteModel = $this->transformer->transform($siteObj);
@@ -31,7 +34,13 @@ class CollectEpaSitesCommand extends AbstractCollectSitesCommand
             $site->county()->associate($county);
             $site->township()->associate($township);
             $site->save();
+
+            $sites[] = $site;
         }
+
+        $siteCollection = collect($sites);
+
+        event(new CollectSiteCompletedEvent($siteCollection, 'epa'));
     }
 
     /**

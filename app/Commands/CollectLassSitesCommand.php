@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 
+use App\Events\CollectSiteCompletedEvent;
 use App\Repository\Contracts\CacheableContact;
 use App\Repository\Contracts\DatasetRepositoryContract;
 use App\Site;
@@ -32,6 +33,7 @@ class CollectLassSitesCommand extends AbstractCollectSitesCommand
         }
 
         $siteObjArray = $result->feeds;
+        $siteCollection = collect();
 
         foreach ($siteObjArray as $siteObj) {
             $remoteModel = $this->transformer->transform($siteObj);
@@ -41,7 +43,11 @@ class CollectLassSitesCommand extends AbstractCollectSitesCommand
             $site->fill($this->getFieldsExceptUniqueKeyValues($remoteModel));
 
             $site->save();
+
+            $siteCollection->push($site);
         }
+
+        event(new CollectSiteCompletedEvent($siteCollection, 'lass'));
     }
 
     protected function generateCacheKey(): string

@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 
+use App\Events\CollectAirQualityCompletedEvent;
 use App\LassDataset;
 use App\Repository\Contracts\CacheableContact;
 use App\Repository\Contracts\DatasetRepositoryContract;
@@ -34,6 +35,8 @@ class CollectLassAirQualityCommand extends AbstractCollectAirQualityCommand
 
         $airQualityObjArray = $result->feeds;
 
+        $lassDatasetCollection = collect();
+
         foreach ($airQualityObjArray as $airQualityObj) {
             /** @var RemoteModel $remoteModel */
             $remoteModel = $this->transformer->transform($airQualityObj);
@@ -47,7 +50,11 @@ class CollectLassAirQualityCommand extends AbstractCollectAirQualityCommand
 
             $lassDataset->site()->associate($site);
             $lassDataset->save();
+
+            $lassDatasetCollection->push($lassDataset);
         }
+
+        event(new CollectAirQualityCompletedEvent($lassDatasetCollection, 'lass'));
     }
 
     protected function generateCacheKey(): string

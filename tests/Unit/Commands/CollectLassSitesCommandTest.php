@@ -1,10 +1,12 @@
 <?php
 
 use App\Commands\CollectLassSitesCommand;
+use App\Events\CollectSiteCompletedEvent;
 use App\Repository\SimpleArrayCacheRepository;
 use App\Site;
 use App\Transformers\LassSiteTransformer;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class CollectLassSitesCommandTest extends TestCase
@@ -38,6 +40,8 @@ class CollectLassSitesCommandTest extends TestCase
 
     public function testExecuteWithSimpleArrayCacheRepository()
     {
+        Event::fake();
+
         $fakeResponse = $this->getFakeJsonStrByFileName('lass_sites_air_quality.json');
 
         $this->mockDatasetRepository
@@ -59,6 +63,10 @@ class CollectLassSitesCommandTest extends TestCase
         $this->assertDatabaseHasSites('FT1_censer', 120.544097, 24.089958);
 
         $this->assertEquals(3, Site::all()->count());
+
+        Event::assertDispatched(CollectSiteCompletedEvent::class, function (CollectSiteCompletedEvent $event) {
+            return $event->sites->count() === 3 && $event->type === 'lass';
+        });
     }
 
     public function testExecuteCacheablility()

@@ -1,10 +1,12 @@
 <?php
 
 use App\Commands\CollectLassAirQualityCommand;
+use App\Events\CollectAirQualityCompletedEvent;
 use App\Repository\SimpleArrayCacheRepository;
 use App\Site;
 use App\Transformers\LassAirQualityTransformer;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class CollectLassAirQualityCommandTest extends TestCase
@@ -38,6 +40,8 @@ class CollectLassAirQualityCommandTest extends TestCase
 
     public function testExecute()
     {
+        Event::fake();
+
         $this->createSitesWithLassAirQuality();
 
         $fakeResponse = $this->getFakeJsonStrByFileName('lass_sites_air_quality.json');
@@ -60,6 +64,10 @@ class CollectLassAirQualityCommandTest extends TestCase
         $this->assertDatabaseHasAirQuality('FT1_392', 38, 35, 25.7, 99.9, '2017-04-08 07:32:56');
         $this->assertDatabaseHasAirQuality('FT1_0447A', 39, 33, 27.0, 72.0, '2017-04-08 07:33:34');
         $this->assertDatabaseHasAirQuality('FT1_censer', 33, 30, 32.8, 54.7, '2017-04-08 07:28:05');
+
+        Event::assertDispatched(CollectAirQualityCompletedEvent::class, function (CollectAirQualityCompletedEvent $event) {
+           return $event->dataset->count() === 3 && $event->type === 'lass';
+        });
     }
 
     public function testExecuteWithCacheablility()

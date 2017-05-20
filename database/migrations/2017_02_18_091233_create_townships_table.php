@@ -18,6 +18,8 @@ class CreateTownshipsTable extends Migration
             $table->string('name');
             $table->dateTimeTz('updated_at');
             $table->dateTimeTz('created_at');
+
+            $table->unique(['name']);
         });
     }
 

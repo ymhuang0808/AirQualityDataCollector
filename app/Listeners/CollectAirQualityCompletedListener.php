@@ -10,8 +10,6 @@ class CollectAirQualityCompletedListener
 {
     /**
      * Create the event listener.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -26,6 +24,8 @@ class CollectAirQualityCompletedListener
      */
     public function handle(CollectAirQualityCompletedEvent $event)
     {
-        //
+        // Insert a new record in Log model with time and the amount of air quality items
+        $format = 'Collected %d air quality dataset items';
+        $message = sprintf($format, $event->dataset->count(), $event->type);
     }
 }

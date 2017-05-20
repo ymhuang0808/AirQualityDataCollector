@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\CollectionLog;
 use App\Listeners\CollectAirQualityCompletedListener;
+use App\Listeners\LoggingCollectSiteCompletedListener;
 use App\Log\CollectionLogHandler;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Handler\AbstractProcessingHandler;
@@ -36,6 +37,14 @@ class AirQualityEventListenerServiceProvider extends ServiceProvider
         // Binding an instance in CollectAirQualityCompletedListener class
         $this->app
             ->when(CollectAirQualityCompletedListener::class)
+            ->needs(AbstractProcessingHandler::class)
+            ->give(function () {
+                return resolve(CollectionLogHandler::class);
+            });
+
+        // Binding an instance in LoggingCollectSiteCompletedListener class
+        $this->app
+            ->when(LoggingCollectSiteCompletedListener::class)
             ->needs(AbstractProcessingHandler::class)
             ->give(function () {
                 return resolve(CollectionLogHandler::class);

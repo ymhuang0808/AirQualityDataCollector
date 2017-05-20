@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CollectAirQualityCompletedEvent' => [
             'App\Listeners\CollectAirQualityCompletedListener',
         ],
+        'App\Events\CollectSiteCompletedEvent' => [
+            'App\Listeners\LoggingCollectSiteCompletedListener',
+        ],
     ];
 
     /**

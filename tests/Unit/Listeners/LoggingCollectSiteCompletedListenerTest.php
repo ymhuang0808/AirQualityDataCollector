@@ -1,14 +1,13 @@
 <?php
 
-use App\Events\CollectAirQualityCompletedEvent;
-use App\Listeners\CollectAirQualityCompletedListener;
+use App\Listeners\LoggingCollectSiteCompletedListener;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Monolog\Logger;
 use Tests\TestCase;
 
-class CollectAirQualityCompletedListenerTest extends TestCase
+class LoggingCollectSiteCompletedListenerTest extends TestCase
 {
     use DatabaseMigrations;
     use DatabaseTransactions;
@@ -21,7 +20,7 @@ class CollectAirQualityCompletedListenerTest extends TestCase
     {
         parent::setUp();
 
-        $this->listener = resolve(CollectAirQualityCompletedListener::class);
+        $this->listener = resolve(LoggingCollectSiteCompletedListener::class);
 
         $this->makeMock();
     }
@@ -32,10 +31,10 @@ class CollectAirQualityCompletedListenerTest extends TestCase
 
         $this->assertDatabaseHas('collection_logs', [
             'level' => Logger::INFO,
-            'channel' => 'collect-air-quality',
-            'count' => 128,
-            'message' => 'Collected 128 air quality dataset items from oaoa',
-            'source_type' => 'oaoa',
+            'channel' => 'collect-site',
+            'count' => 78,
+            'message' => 'Collected 78 sites from yooo',
+            'source_type' => 'yooo',
         ]);
     }
 
@@ -44,15 +43,8 @@ class CollectAirQualityCompletedListenerTest extends TestCase
         $mockCollection = Mockery::mock(Collection::class);
         $mockCollection->shouldReceive('count')
             ->withNoArgs()
-            ->andReturn(128);
+            ->andReturn(78);
 
-        $this->mockEvent = new CollectAirQualityCompletedEvent($mockCollection, 'oaoa');
-    }
-
-    protected function tearDown()
-    {
-        parent::tearDown();
-
-        Mockery::close();
+        $this->mockEvent = new \App\Events\CollectSiteCompletedEvent($mockCollection, 'yooo');
     }
 }

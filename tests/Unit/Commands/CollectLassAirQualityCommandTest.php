@@ -6,12 +6,14 @@ use App\Repository\SimpleArrayCacheRepository;
 use App\Site;
 use App\Transformers\LassAirQualityTransformer;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class CollectLassAirQualityCommandTest extends TestCase
 {
     use DatabaseMigrations;
+    use DatabaseTransactions;
 
     protected $mockDatasetRepository;
 
@@ -72,6 +74,8 @@ class CollectLassAirQualityCommandTest extends TestCase
 
     public function testExecuteWithCacheablility()
     {
+        Event::fake();
+
         $this->createSitesWithLassAirQuality2();
 
         $this->mockDatasetRepository
@@ -100,6 +104,8 @@ class CollectLassAirQualityCommandTest extends TestCase
         $this->assertDatabaseHasAirQuality('NUK_RD5F_inside', 11, 10, 29.5, 57.3, '2017-04-08 07:03:29');
         $this->assertDatabaseHasAirQuality('Quchi', 62, 48, 29.9, 82.1, '2017-04-08 07:03:38');
         $this->assertDatabaseHasAirQuality('FT1_399', 22, 19, 27.98, 69.53, '2017-04-08 07:03:32');
+
+        // TODO: Testing for the event dispatching
     }
 
     protected function tearDown()

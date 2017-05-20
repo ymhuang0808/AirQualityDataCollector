@@ -66,7 +66,7 @@ return [
             'sslmode' => 'prefer',
         ],
 
-
+        // For testing purpose
         'sqlite_testing' => [
             'driver'   => 'sqlite',
             'database' => ':memory:',

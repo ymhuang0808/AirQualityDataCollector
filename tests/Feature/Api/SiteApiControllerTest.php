@@ -6,12 +6,14 @@ namespace Tests\Feature\Api;
 use App\EpaDataset;
 use App\Site;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
 class SiteApiControllerTest extends TestCase
 {
     use DatabaseMigrations;
+    use DatabaseTransactions;
 
     protected function setUp()
     {

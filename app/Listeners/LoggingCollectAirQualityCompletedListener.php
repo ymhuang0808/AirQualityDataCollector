@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 
-class CollectAirQualityCompletedListener
+class LoggingCollectAirQualityCompletedListener
 {
     protected $log;
 

@@ -14,7 +14,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\CollectAirQualityCompletedEvent' => [
-            'App\Listeners\CollectAirQualityCompletedListener',
+            'App\Listeners\LoggingCollectAirQualityCompletedListener',
         ],
         'App\Events\CollectSiteCompletedEvent' => [
             'App\Listeners\LoggingCollectSiteCompletedListener',

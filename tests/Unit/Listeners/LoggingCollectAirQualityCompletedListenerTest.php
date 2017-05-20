@@ -1,14 +1,14 @@
 <?php
 
 use App\Events\CollectAirQualityCompletedEvent;
-use App\Listeners\CollectAirQualityCompletedListener;
+use App\Listeners\LoggingCollectAirQualityCompletedListener;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Monolog\Logger;
 use Tests\TestCase;
 
-class CollectAirQualityCompletedListenerTest extends TestCase
+class LoggingCollectAirQualityCompletedListenerTest extends TestCase
 {
     use DatabaseMigrations;
     use DatabaseTransactions;
@@ -21,7 +21,7 @@ class CollectAirQualityCompletedListenerTest extends TestCase
     {
         parent::setUp();
 
-        $this->listener = resolve(CollectAirQualityCompletedListener::class);
+        $this->listener = resolve(LoggingCollectAirQualityCompletedListener::class);
 
         $this->makeMock();
     }

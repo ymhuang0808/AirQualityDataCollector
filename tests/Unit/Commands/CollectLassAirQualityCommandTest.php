@@ -105,7 +105,9 @@ class CollectLassAirQualityCommandTest extends TestCase
         $this->assertDatabaseHasAirQuality('Quchi', 62, 48, 29.9, 82.1, '2017-04-08 07:03:38');
         $this->assertDatabaseHasAirQuality('FT1_399', 22, 19, 27.98, 69.53, '2017-04-08 07:03:32');
 
-        // TODO: Testing for the event dispatching
+        Event::assertDispatched(CollectAirQualityCompletedEvent::class, function (CollectAirQualityCompletedEvent $event) {
+            return $event->dataset->count() === 4 && $event->type === 'lass';
+        });
     }
 
     protected function tearDown()

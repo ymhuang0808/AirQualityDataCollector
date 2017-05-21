@@ -31,14 +31,9 @@ class RemoteGenericDatasetRepository implements DatasetRepositoryContract
         $request = $this->makeRequest();
         $response = $this->client->send($request, ['timeout' => 10]);
 
-        if ($response->getStatusCode() === 200) {
-            $body = $response->getBody();
+        $body = $response->getBody();
 
-            return json_decode($body);
-        }
-
-        // @TODO: Define an Exception
-        throw new \Exception();
+        return json_decode($body);
     }
 
     public function getBasedUrl(): string

@@ -2,7 +2,13 @@
 
 namespace App\Exceptions;
 
+use App\Events\CollectExceptionEvent;
 use Exception;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ServerException;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -27,19 +33,38 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
      */
     public function report(Exception $exception)
     {
+        if ($exception instanceof RequestException ||
+            $exception instanceof ClientException ||
+            $exception instanceof ServerException
+            ) {
+            $context = [
+                'request' => str($exception->getRequest()),
+            ];
+
+            if ($exception->hasResponse()) {
+                $context['response'] = str($exception->getResponse());
+            }
+
+            $message = $exception->getMessage();
+            $happeningOn = $exception->getTraceAsString();
+            $event = new CollectExceptionEvent($message, $happeningOn, $context);
+
+            event($event);
+        }
+
         parent::report($exception);
     }
 
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
@@ -50,8 +75,8 @@ class Handler extends ExceptionHandler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Auth\AuthenticationException $exception
      * @return \Illuminate\Http\Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)

@@ -16,15 +16,22 @@ class CollectExceptionNotification extends Notification implements ShouldQueue
     protected $happeningOn;
 
     /**
+     * @var
+     */
+    protected $context;
+
+    /**
      * Create a new notification instance.
      *
      * @param string $message
-     * @param $happeningOn
+     * @param string|array $happeningOn
+     * @param array $context
      */
-    public function __construct(string $message, $happeningOn = '')
+    public function __construct(string $message, $happeningOn = '', array $context = [])
     {
         $this->message = $message;
         $this->happeningOn = $happeningOn;
+        $this->context = $context;
     }
 
     /**

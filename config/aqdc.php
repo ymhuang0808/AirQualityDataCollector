@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'site_admin_email' => env('SITE_ADMIN_EMAIL', null),
+
     'remote_source' => [
         'epa' => [
             'base_url' => 'http://opendata.epa.gov.tw',

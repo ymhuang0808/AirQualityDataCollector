@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\CollectionLog;
 use App\Events\CollectSiteCompletedEvent;
+use App\Listeners\CollectExceptionNotificationListener;
 use App\Listeners\LoggingCollectAirQualityCompletedListener;
 use App\Listeners\LoggingCollectSiteCompletedListener;
 use App\Log\CollectionLogHandler;
@@ -54,7 +55,7 @@ class AirQualityEventListenerServiceProvider extends ServiceProvider
             });
 
         $this->app
-            ->when(CollectSiteCompletedEvent::class)
+            ->when(CollectExceptionNotificationListener::class)
             ->needs(AbstractRecipient::class)
             ->give(function () {
                 return new SiteAdminRecipient;

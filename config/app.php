@@ -180,6 +180,9 @@ return [
         // For register container
         App\Providers\AirQualityEventListenerServiceProvider::class,
 
+        // Laravel Settings
+        anlutro\LaravelSettings\ServiceProvider::class,
+
     ],
 
     /*
@@ -229,6 +232,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        // Laravel Settings
+        'Setting' => 'anlutro\LaravelSettings\Facade',
     ],
 
 ];

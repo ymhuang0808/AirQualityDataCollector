@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CollectSiteCompletedEvent' => [
             'App\Listeners\LoggingCollectSiteCompletedListener',
         ],
+        'App\Events\CollectExceptionEvent' => [
+            'App\Listeners\CollectExceptionNotificationListener',
+        ],
     ];
 
     /**

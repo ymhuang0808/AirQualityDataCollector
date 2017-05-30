@@ -30,4 +30,19 @@ class CollectExceptionEvent extends Event
         $this->happeningOn = $happeningOn;
         $this->context = $context;
     }
+
+    public function __toString()
+    {
+        $string = $this->message;
+
+        if (is_array($this->happeningOn)) {
+            $string .= ' ' . implode(' ', $this->happeningOn);
+        } else {
+            $string .= $this->happeningOn;
+        }
+
+        $string .= ' ' . implode(' ', $this->context);
+
+        return $string;
+    }
 }

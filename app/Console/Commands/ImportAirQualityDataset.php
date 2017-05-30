@@ -59,10 +59,5 @@ class ImportAirQualityDataset extends Command
 
                 break;
         }
-
-
-
-        var_dump($siteRepository->getAll());
-        var_dump($airQualityRepository->getAll());
     }
 }

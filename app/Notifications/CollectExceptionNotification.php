@@ -11,14 +11,14 @@ class CollectExceptionNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $message;
+    public $message;
 
-    protected $happeningOn;
+    public $happeningOn;
 
     /**
      * @var
      */
-    protected $context;
+    public $context;
 
     /**
      * Create a new notification instance.

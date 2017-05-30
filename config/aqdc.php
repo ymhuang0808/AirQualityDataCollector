@@ -3,6 +3,10 @@
 return [
     'site_admin_email' => env('SITE_ADMIN_EMAIL', null),
 
+    'notification' => [
+        'exception_frequency' => env('NOTIFICATION_EXCEPTION_FREQUENCY', 1800),
+    ],
+
     'remote_source' => [
         'epa' => [
             'base_url' => 'http://opendata.epa.gov.tw',

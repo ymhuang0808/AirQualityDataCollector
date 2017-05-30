@@ -3,9 +3,12 @@
 namespace App\Providers;
 
 use App\CollectionLog;
+use App\Events\CollectSiteCompletedEvent;
 use App\Listeners\LoggingCollectAirQualityCompletedListener;
 use App\Listeners\LoggingCollectSiteCompletedListener;
 use App\Log\CollectionLogHandler;
+use App\Recipients\AbstractRecipient;
+use App\Recipients\SiteAdminRecipient;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Handler\AbstractProcessingHandler;
 
@@ -48,6 +51,13 @@ class AirQualityEventListenerServiceProvider extends ServiceProvider
             ->needs(AbstractProcessingHandler::class)
             ->give(function () {
                 return resolve(CollectionLogHandler::class);
+            });
+
+        $this->app
+            ->when(CollectSiteCompletedEvent::class)
+            ->needs(AbstractRecipient::class)
+            ->give(function () {
+                return new SiteAdminRecipient;
             });
     }
 }

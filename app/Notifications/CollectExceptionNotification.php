@@ -6,10 +6,14 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use NotificationChannels\Pushbullet\PushbulletChannel;
+use NotificationChannels\Pushbullet\PushbulletMessage;
 
 class CollectExceptionNotification extends Notification implements ShouldQueue
 {
     use Queueable;
+
+    use PushbulletTrait;
 
     public $message;
 
@@ -42,7 +46,13 @@ class CollectExceptionNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        $result = ['mail'];
+
+        if ($this->isPushbulletAvailable()) {
+            $result[] = PushbulletChannel::class;
+        }
+
+        return $result;
     }
 
     /**
@@ -72,6 +82,19 @@ class CollectExceptionNotification extends Notification implements ShouldQueue
         }
 
         return $mailMessage;
+    }
+
+    public function toPushbullet($notifiable)
+    {
+        $message = 'Air quality data collector encounters an exception, please see the following information:' . PHP_EOL .
+            $this->message . PHP_EOL .
+            'Happening on:' . PHP_EOL .
+            $this->happeningOn;
+
+        return PushbulletMessage::create()
+            ->note()
+            ->title('Collect exception occurs')
+            ->message($message);
     }
 
     /**

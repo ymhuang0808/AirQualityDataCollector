@@ -11,6 +11,8 @@ abstract class AbstractRecipient
 
     protected $email;
 
+    protected $pushbulletEmail;
+
     public function getKey()
     {
         return 'email';

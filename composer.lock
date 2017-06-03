@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b41890d1786956c850cf6930b40746f2",
+    "content-hash": "c4ca12a96e49be08e816b7ff880b60df",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -458,6 +458,52 @@
                 }
             ],
             "time": "2015-04-20T18:58:01+00:00"
+        },
+        {
+            "name": "laravel-notification-channels/pushbullet",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-notification-channels/pushbullet.git",
+                "reference": "617833cbfd576066a753e05ee38c5f56577fd2fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-notification-channels/pushbullet/zipball/617833cbfd576066a753e05ee38c5f56577fd2fa",
+                "reference": "617833cbfd576066a753e05ee38c5f56577fd2fa",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2",
+                "illuminate/notifications": "5.3.*|5.4.*",
+                "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*",
+                "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.5",
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NotificationChannels\\Pushbullet\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Plekhanov",
+                    "email": "alex@plekhanov.us",
+                    "homepage": "https://alex.plekhanov.us",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel 5.3+ Notifications Pushbullet Driver",
+            "homepage": "https://github.com/laravel-notification-channels/pushbullet",
+            "time": "2017-03-06T23:13:30+00:00"
         },
         {
             "name": "laravel/framework",

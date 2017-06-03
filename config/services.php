@@ -35,4 +35,8 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'pushbullet' => [
+        'access_token' => env('PUSHBULLET_ACCESS_TOKEN', null),
+    ],
+
 ];

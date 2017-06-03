@@ -183,6 +183,9 @@ return [
         // Laravel Settings
         anlutro\LaravelSettings\ServiceProvider::class,
 
+        // Laravel Notification for Pushbullet
+        NotificationChannels\Pushbullet\PushbulletServiceProvider::class,
+
     ],
 
     /*

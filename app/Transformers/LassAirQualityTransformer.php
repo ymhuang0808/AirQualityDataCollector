@@ -17,10 +17,10 @@ class LassAirQualityTransformer extends AbstractAqdcTransformer
     public function transform(\stdClass $data): RemoteModel
     {
         $fields = [
-            'pm25' => $data->s_d0,
-            'pm10' => $data->s_d1,
-            'temperature' => $data->s_t0,
-            'humidity' => $data->s_h0,
+            'pm25' => property_exists($data, 's_d0') ? $data->s_d0 : null,
+            'pm10' => property_exists($data, 's_d1') ? $data->s_d1 : null,
+            'temperature' => property_exists($data, 's_t0') ? $data->s_t0 : null,
+            'humidity' => property_exists($data, 's_h0') ? $data->s_h0 : null,
             'published_datetime' => $this->timestampToDateTime($data->timestamp),
         ];
         $relationships = [

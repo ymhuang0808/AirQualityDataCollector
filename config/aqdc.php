@@ -19,6 +19,7 @@ return [
         'lass' => [
             'base_url' => 'https://pm25.lass-net.org',
             'air_quality_uri' => '/data/last-all-lass.json',
+            'site_uri' => '/data/last-all-lass.json',
         ],
     ],
 ];

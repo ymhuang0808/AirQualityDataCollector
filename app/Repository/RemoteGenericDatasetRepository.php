@@ -38,7 +38,7 @@ class RemoteGenericDatasetRepository implements DatasetRepositoryContract
 
     public function getBasedUrl(): string
     {
-        return $this->getBasedUrl();
+        return $this->baseUrl;
     }
 
     public function setPath(string $path)

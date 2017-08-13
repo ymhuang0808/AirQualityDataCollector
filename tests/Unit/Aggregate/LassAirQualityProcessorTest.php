@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\Unit\Aggregate;
+namespace tests\Unit\Repository;
 
 
 use App\Aggregate\LassAirQualityProcessor;

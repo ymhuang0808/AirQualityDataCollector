@@ -14,7 +14,7 @@ class AddIndexToEpaDatasetsTable extends Migration
     public function up()
     {
         Schema::table('epa_datasets', function (Blueprint $table) {
-           $table->index('published_datetime');
+           $table->index(['published_datetime']);
         });
     }
 
@@ -26,7 +26,7 @@ class AddIndexToEpaDatasetsTable extends Migration
     public function down()
     {
         Schema::table('epa_datasets', function (Blueprint $table) {
-            $table->dropIndex('published_datetime');
+            $table->dropIndex(['published_datetime']);
         });
     }
 }

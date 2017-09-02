@@ -11,7 +11,7 @@ trait HasAirQualityAggregatorSettings
 
     private function getHourlyLastTimeBySource(string $source)
     {
-        return Setting::get('aggregate.' . $source . '.hourly.air_quality', Carbon::now());
+        return Setting::get('aggregate.' . $source . '.hourly.air_quality', $this->getCurrentDateString());
     }
 
     private function getDailyLastTimeBySource(string $source)
@@ -29,32 +29,36 @@ trait HasAirQualityAggregatorSettings
         return Setting::get('aggregate.' . $source . '.monthly.air_quality', $this->getCurrentDateString());
     }
 
-    private function setHourlyLastTimeBySource(string $source)
+    private function setHourlyLastTimeBySource(string $source, string $datetime)
     {
-        Setting::set('aggregate.' . $source . '.hourly.air_quality', Carbon::now());
+        Setting::set('aggregate.' . $source . '.hourly.air_quality', $datetime);
+        Setting::save();
     }
 
-    private function setDailyLastTimeBySource(string $source)
+    private function setDailyLastTimeBySource(string $source, string $datetime)
     {
-        Setting::set('aggregate.' . $source . '.monthly.air_quality', $this->getCurrentDateString());
+        Setting::set('aggregate.' . $source . '.monthly.air_quality', $datetime);
+        Setting::save();
     }
 
-    private function setWeeklyLastTimeBySource(string $source)
+    private function setWeeklyLastTimeBySource(string $source, string $datetime)
     {
-        Setting::set('aggregate.' . $source . '.monthly.air_quality', $this->getCurrentDateString());
+        Setting::set('aggregate.' . $source . '.monthly.air_quality', $datetime);
+        Setting::save();
     }
 
-    private function setMonthlyLastTimeBySource(string $source)
+    private function setMonthlyLastTimeBySource(string $source, string $datetime)
     {
-        Setting::set('aggregate.' . $source . '.monthly.air_quality', $this->getCurrentDateString());
+        Setting::set('aggregate.' . $source . '.monthly.air_quality', $datetime);
+        Setting::save();
     }
 
     private function getCurrentDateString(): string
     {
         if (!isset($this->datetime)) {
-            $this->datetime = Carbon::create();
+            $this->datetime = Carbon::create()->startOfDay();
         }
 
-        return $this->datetime->getCurrentDateString();
+        return $this->datetime->toDateString();
     }
 }

@@ -4,52 +4,12 @@ namespace App\Aggregate;
 
 
 use App\AggregationMetric;
-use App\Repository\Contracts\AggregatableDatasetRepositoryContract;
 use Carbon\Carbon;
 
-class LassAirQualityProcessor implements AggregateProcessorContract
+trait AggregateProcessHelpers
 {
     /** @var  \App\Repository\Contracts\AggregatableDatasetRepositoryContract $aggregatableRespository  */
     protected $aggregatableRespository;
-
-    public function __construct(AggregatableDatasetRepositoryContract $aggregatableRepository)
-    {
-        $this->aggregatableRespository = $aggregatableRepository;
-    }
-
-    /**
-     * Aggregated fields in dataset
-     *
-     * @var array
-     */
-    protected $fields = [
-        'pm25',
-        'pm10',
-    ];
-
-    /**
-     * Aggregate the dataset hourly
-     *
-     * @param $lastTime
-     */
-    public function aggregateHourly($lastTime)
-    {
-        $now = Carbon::now();
-
-        $startDateTime = Carbon::parse($lastTime);
-        // TODO: refactor it in to a class or procedure
-        // Process each time period
-        do {
-            // Slide the hourly period to fetch data
-            $nextDatetime = $startDateTime->copy()->addHour();
-
-            // Get aggregated result
-            $result = $this->processAggregatedFields($startDateTime, $nextDatetime);
-            $this->createAggregationMetric($result, AggregationMetric::PERIOD_TYPE_HOURLY);
-
-            $startDateTime = $nextDatetime;
-        } while ($nextDatetime < $now);
-    }
 
     /**
      * Generates aggregated data

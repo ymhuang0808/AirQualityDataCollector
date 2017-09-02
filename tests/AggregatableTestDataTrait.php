@@ -13,6 +13,15 @@ Trait AggregatableTestDataTrait
         $fakeSite2 = factory(\App\Site::class)->create();
 
         $fakeDataset = [
+            // Site 1
+            [
+                'pm25' => 10.1,
+                'pm10' => 9.3,
+                'temperature' => 23.5,
+                'humidity' => 89.1,
+                'site_id' => $fakeSite1->getKey(),
+                'published_datetime' => '2017-07-22 23:59:59',
+            ],
             [
                 'pm25' => 8.3,
                 'pm10' => 5.1,
@@ -62,6 +71,39 @@ Trait AggregatableTestDataTrait
                 'published_datetime' => '2017-07-23 12:13:07',
             ],
             [
+                'pm25' => 45.9,
+                'pm10' => 38.9,
+                'temperature' => 25.3,
+                'humidity' => 87.8,
+                'site_id' => $fakeSite1->getKey(),
+                'published_datetime' => '2017-07-23 20:31:33',
+            ],
+            [
+                'pm25' => 34.5,
+                'pm10' => 22.8,
+                'temperature' => 24.1,
+                'humidity' => 88.7,
+                'site_id' => $fakeSite1->getKey(),
+                'published_datetime' => '2017-07-24 00:00:01',
+            ],
+            [
+                'pm25' => 35.2,
+                'pm10' => 21.6,
+                'temperature' => 23.0,
+                'humidity' => 89.9,
+                'site_id' => $fakeSite1->getKey(),
+                'published_datetime' => '2017-07-24 00:05:12',
+            ],
+            // Site 2
+            [
+                'pm25' => 32.81,
+                'pm10' => 23.19,
+                'temperature' => 23.1,
+                'humidity' => 76.66,
+                'site_id' => $fakeSite2->getKey(),
+                'published_datetime' => '2017-07-22 22:47:31',
+            ],
+            [
                 'pm25' => 33.41,
                 'pm10' => 24.89,
                 'temperature' => 27.8,
@@ -100,6 +142,30 @@ Trait AggregatableTestDataTrait
                 'humidity' => 34.2,
                 'site_id' => $fakeSite2->getKey(),
                 'published_datetime' => '2017-07-23 11:49:58',
+            ],
+            [
+                'pm25' => 43.22,
+                'pm10' => 38.71,
+                'temperature' => 29.09,
+                'humidity' => 48.11,
+                'site_id' => $fakeSite2->getKey(),
+                'published_datetime' => '2017-07-23 17:21:31',
+            ],
+            [
+                'pm25' => 49.27,
+                'pm10' => 29.17,
+                'temperature' => 22.53,
+                'humidity' => 59.34,
+                'site_id' => $fakeSite2->getKey(),
+                'published_datetime' => '2017-07-23 23:59:59',
+            ],
+            [
+                'pm25' => 44.1,
+                'pm10' => 28.78,
+                'temperature' => 20.37,
+                'humidity' => 60.41,
+                'site_id' => $fakeSite2->getKey(),
+                'published_datetime' => '2017-07-24 00:19:18',
             ],
         ];
 

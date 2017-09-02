@@ -16,7 +16,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
-        'name' => $faker->name,
+        'name' => $faker->unique()->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
@@ -27,7 +27,7 @@ $factory->define(App\County::class, function (Faker\Generator $faker) {
     $faker = Faker\Factory::create('zh_TW');
 
     return [
-        'name' => $faker->city,
+        'name' => $faker->unique()->city,
     ];
 });
 
@@ -35,7 +35,7 @@ $factory->define(App\Township::class, function (Faker\Generator $faker) {
     $faker = Faker\Factory::create('zh_TW');
 
     return [
-        'name' => $faker->city,
+        'name' => $faker->unique()->city,
     ];
 });
 
@@ -44,8 +44,8 @@ $factory->define(App\Site::class, function (Faker\Generator $faker) {
     $enFaker = Faker\Factory::create('en_US');
 
     return [
-        'name' => $faker->word,
-        'eng_name' => $enFaker->word,
+        'name' => $faker->unique()->word,
+        'eng_name' => $enFaker->unique()->word,
         'area_name' => $faker->city,
         'coordinates' => [
             'latitude' => $faker->latitude,

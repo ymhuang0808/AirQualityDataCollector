@@ -3,15 +3,11 @@
 namespace App\Repository;
 
 
-use App\Repository\Contracts\AggregatableDatasetRepositoryContract;
+use Illuminate\Support\Facades\DB;
 
-class EpaAggregatableDatasetRepository implements AggregatableDatasetRepositoryContract
+class EpaAggregatableDatasetRepository extends AbstractAggretableDatasetRepository
 {
-
-    public function getSiteIdAndMinDatetimeSincePublishedDatetime($datetime)
-    {
-        // TODO: Implement getByPublishedDatetime() method.
-    }
+    protected $table = 'epa_datasets';
 
     /**
      * Get average field between published datetime
@@ -24,6 +20,14 @@ class EpaAggregatableDatasetRepository implements AggregatableDatasetRepositoryC
      */
     public function getAvgFieldBetweenPublishedDatetime(array $fieldNames, $start, $end)
     {
-        // TODO: Implement getAvgFieldBetweenPublishedDatetime() method.
+        // Query the dataset by site_id and period with AVG()
+        $rawString = $this->buildRawString($fieldNames);
+        $value = DB::table($this->table)
+            ->select('site_id', DB::raw($rawString))
+            ->groupBy('site_id')
+            ->whereBetween('published_datetime', [$start, $end])
+            ->get();
+
+        return $value;
     }
 }

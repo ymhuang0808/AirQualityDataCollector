@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Aggregate;
+namespace App\Aggregate\Contracts;
 
 
 use Carbon\Carbon;

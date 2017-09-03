@@ -3,6 +3,7 @@
 namespace App\Aggregate;
 
 
+use App\Aggregate\Contracts\AggregateProcessorContract;
 use App\Repository\Contracts\AggregatableDatasetRepositoryContract;
 
 abstract class AbstractAggregateProcessor implements AggregateProcessorContract

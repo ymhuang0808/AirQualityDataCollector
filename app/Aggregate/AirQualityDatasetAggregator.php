@@ -7,6 +7,11 @@ use Carbon\Carbon;
 
 class AirQualityDatasetAggregator extends AbstractAirQualityDatasetAggregator
 {
+    protected $availableSource = [
+        'epa',
+        'lass',
+    ];
+
     public function process()
     {
         $this->processHourly();

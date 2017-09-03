@@ -3,9 +3,14 @@
 namespace App\Aggregate;
 
 
+use App\Aggregate\Contracts\AggregateProcessorContract;
+use App\Aggregate\Contracts\AggregatorContract;
+
 abstract class AbstractAirQualityDatasetAggregator implements AggregatorContract
 {
     use HasAirQualityAggregatorSettings;
+
+    protected $availableSource = [];
 
     /**
      * The source of dataset
@@ -19,22 +24,31 @@ abstract class AbstractAirQualityDatasetAggregator implements AggregatorContract
      */
     protected $processor;
 
-    public function __construct(AggregateProcessorContract $processor)
+    /**
+     * AbstractAirQualityDatasetAggregator constructor.
+     * @param AggregateProcessorContract|null $processor
+     */
+    public function __construct(AggregateProcessorContract $processor = null)
     {
-        $this->processor = $processor;
+        if (!is_null($processor))
+        {
+            $this->processor = $processor;
+        }
     }
 
     /**
      * @param AggregateProcessorContract $processor
+     * @return AbstractAirQualityDatasetAggregator
      */
     public function setProcessor(AggregateProcessorContract $processor)
     {
         $this->processor = $processor;
+        return $this;
     }
 
     /**
      * @param string $source
-     * @return $this
+     * @return AbstractAirQualityDatasetAggregator
      */
     public function setSource(string $source)
     {
@@ -124,5 +138,10 @@ abstract class AbstractAirQualityDatasetAggregator implements AggregatorContract
         $this->setMonthlyLastTimeBySource($this->source, $datetime);
 
         return $this;
+    }
+
+    public function getAvailableSource(): array
+    {
+        return $this->availableSource;
     }
 }

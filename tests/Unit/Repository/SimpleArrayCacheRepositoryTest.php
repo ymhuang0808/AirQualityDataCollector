@@ -1,10 +1,15 @@
 <?php
 
 use App\Repository\SimpleArrayCacheRepository;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class SimpleArrayCacheRepositoryTest extends TestCase
 {
+    use DatabaseTransactions;
+    use DatabaseMigrations;
+
     protected $simpleArrayCacheRepository;
 
     protected function setUp()

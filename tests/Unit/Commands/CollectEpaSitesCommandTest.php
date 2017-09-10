@@ -7,12 +7,14 @@ use App\Site;
 use App\Township;
 use App\Transformers\EpaSiteTransformer;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 
 class CollectEpaSitesCommandTest extends TestCase
 {
+    use DatabaseTransactions;
     use DatabaseMigrations;
 
     protected $stubSitesRepository;

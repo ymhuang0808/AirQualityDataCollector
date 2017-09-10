@@ -6,10 +6,15 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class RemoteGenericDatasetRepositoryTest extends TestCase
 {
+    use DatabaseMigrations;
+    use DatabaseTransactions;
+    
     protected $fakeBaseUrl;
 
     protected $fakeBody;
@@ -65,8 +70,8 @@ class RemoteGenericDatasetRepositoryTest extends TestCase
         $this->assertCount(7, $jsonData->result->records);
     }
 
-    public function testGetAllWithException()
-    {
-        // TODO: Need to test when the HTTP status code is not 200
-    }
+//    public function testGetAllWithException()
+//    {
+//        // TODO: Need to test when the HTTP status code is not 200
+//    }
 }

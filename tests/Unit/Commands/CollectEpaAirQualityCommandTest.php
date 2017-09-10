@@ -5,11 +5,13 @@ use App\Events\CollectAirQualityCompletedEvent;
 use App\Site;
 use App\Transformers\EpaAirQualityTransformer;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class CollectEpaAirQualityCommandTest extends TestCase
 {
+    use DatabaseTransactions;
     use DatabaseMigrations;
 
     protected $stubDatasetRepository;

@@ -5,11 +5,13 @@ namespace Tests\Unit;
 use App\Site;
 use App\Transformers\EpaAirQualityTransformer;
 use App\Transformers\RemoteModel;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class EpaAirQualityTransformerTest extends TestCase
 {
+    use DatabaseTransactions;
     use DatabaseMigrations;
 
     protected $fakeAirQuality;

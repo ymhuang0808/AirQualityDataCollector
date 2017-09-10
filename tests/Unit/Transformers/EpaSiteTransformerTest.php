@@ -5,10 +5,12 @@ use App\Township;
 use App\Transformers\EpaSiteTransformer;
 use App\Transformers\RemoteModel;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class EpaSiteTransformerTest extends TestCase
 {
+    use DatabaseTransactions;
     use DatabaseMigrations;
 
     protected $fakeSite;

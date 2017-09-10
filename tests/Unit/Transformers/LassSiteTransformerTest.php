@@ -2,10 +2,15 @@
 
 use App\Transformers\LassSiteTransformer;
 use App\Transformers\RemoteModel;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class LassSiteTransformerTest extends TestCase
 {
+    use DatabaseTransactions;
+    use DatabaseMigrations;
+
     protected $fakeSite;
 
     protected function setUp()

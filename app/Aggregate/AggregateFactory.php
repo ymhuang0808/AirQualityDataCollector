@@ -21,18 +21,21 @@ class AggregateFactory implements AggregateFactoryContract
         switch ($source) {
             case 'lass':
                 $repository = new LassAggregatableDatasetRepository();
+                $fields = ['pm25', 'pm10'];
                 break;
 
             case 'epa':
                 $repository = new EpaAggregatableDatasetRepository();
+                $fields = ['pm25', 'pm10'];
                 break;
 
             default:
-                // TODO: A more readable exception
-                throw new \Exception("Could not find processor");
-                break;
+                return;
         }
 
-        return new AirQualityAggregateProcessor($repository);
+        $processor = new AirQualityAggregateProcessor($repository);
+        $processor->setFields($fields);
+
+        return $processor;
     }
 }

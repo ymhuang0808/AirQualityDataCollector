@@ -47,7 +47,7 @@ class AirQualityDatasetAggregatorTest extends TestCase
         $this->assertDatabaseHas('aggregation_metrics', [
             'site_id' => 1,
             'start_datetime' => '2017-07-23 10:00:00',
-            'end_datetime' => '2017-07-23 11:00:00',
+            'end_datetime' => '2017-07-23 10:59:59',
             'period_type' => AggregationMetric::PERIOD_TYPE_HOURLY,
             'values' => serialize([
                 'pm25' => '16.0',
@@ -57,7 +57,7 @@ class AirQualityDatasetAggregatorTest extends TestCase
         $this->assertDatabaseHas('aggregation_metrics', [
             'site_id' => 1,
             'start_datetime' => '2017-07-23 12:00:00',
-            'end_datetime' => '2017-07-23 13:00:00',
+            'end_datetime' => '2017-07-23 12:59:59',
             'period_type' => AggregationMetric::PERIOD_TYPE_HOURLY,
             'values' => serialize([
                 'pm25' => '33.2',
@@ -67,7 +67,7 @@ class AirQualityDatasetAggregatorTest extends TestCase
         $this->assertDatabaseHas('aggregation_metrics', [
             'site_id' => 2,
             'start_datetime' => '2017-07-23 10:00:00',
-            'end_datetime' => '2017-07-23 11:00:00',
+            'end_datetime' => '2017-07-23 10:59:59',
             'period_type' => AggregationMetric::PERIOD_TYPE_HOURLY,
             'values' => serialize([
                 'pm25' => '41.03',
@@ -77,7 +77,7 @@ class AirQualityDatasetAggregatorTest extends TestCase
         $this->assertDatabaseHas('aggregation_metrics', [
             'site_id' => 2,
             'start_datetime' => '2017-07-23 11:00:00',
-            'end_datetime' => '2017-07-23 12:00:00',
+            'end_datetime' => '2017-07-23 11:59:59',
             'period_type' => AggregationMetric::PERIOD_TYPE_HOURLY,
             'values' => serialize([
                 'pm25' => '49.74',
@@ -98,7 +98,7 @@ class AirQualityDatasetAggregatorTest extends TestCase
         $this->assertDatabaseHas('aggregation_metrics', [
             'site_id' => 1,
             'start_datetime' => '2017-07-23 10:00:00',
-            'end_datetime' => '2017-07-23 11:00:00',
+            'end_datetime' => '2017-07-23 10:59:59',
             'period_type' => AggregationMetric::PERIOD_TYPE_HOURLY,
             'values' => serialize([
                 'pm25' => '16.0',
@@ -108,7 +108,7 @@ class AirQualityDatasetAggregatorTest extends TestCase
         $this->assertDatabaseHas('aggregation_metrics', [
             'site_id' => 1,
             'start_datetime' => '2017-07-23 12:00:00',
-            'end_datetime' => '2017-07-23 13:00:00',
+            'end_datetime' => '2017-07-23 12:59:59',
             'period_type' => AggregationMetric::PERIOD_TYPE_HOURLY,
             'values' => serialize([
                 'pm25' => '33.2',
@@ -118,7 +118,7 @@ class AirQualityDatasetAggregatorTest extends TestCase
         $this->assertDatabaseHas('aggregation_metrics', [
             'site_id' => 2,
             'start_datetime' => '2017-07-23 10:00:00',
-            'end_datetime' => '2017-07-23 11:00:00',
+            'end_datetime' => '2017-07-23 10:59:59',
             'period_type' => AggregationMetric::PERIOD_TYPE_HOURLY,
             'values' => serialize([
                 'pm25' => '41.03',
@@ -128,7 +128,7 @@ class AirQualityDatasetAggregatorTest extends TestCase
         $this->assertDatabaseHas('aggregation_metrics', [
             'site_id' => 2,
             'start_datetime' => '2017-07-23 11:00:00',
-            'end_datetime' => '2017-07-23 12:00:00',
+            'end_datetime' => '2017-07-23 11:59:59',
             'period_type' => AggregationMetric::PERIOD_TYPE_HOURLY,
             'values' => serialize([
                 'pm25' => '49.74',
@@ -150,7 +150,7 @@ class AirQualityDatasetAggregatorTest extends TestCase
         $this->assertDatabaseHas('aggregation_metrics', [
             'site_id' => 1,
             'start_datetime' => '2017-07-23 00:00:00',
-            'end_datetime' => '2017-07-24 00:00:00',
+            'end_datetime' => '2017-07-23 23:59:59',
             'period_type' => AggregationMetric::PERIOD_TYPE_DAILY,
             'values' => serialize([
                 'pm25' => '20.0857142857143',
@@ -160,7 +160,7 @@ class AirQualityDatasetAggregatorTest extends TestCase
         $this->assertDatabaseHas('aggregation_metrics', [
             'site_id' => 2,
             'start_datetime' => '2017-07-23 00:00:00',
-            'end_datetime' => '2017-07-24 00:00:00',
+            'end_datetime' => '2017-07-23 23:59:59',
             'period_type' => AggregationMetric::PERIOD_TYPE_DAILY,
             'values' => serialize([
                 'pm25' => '43.92',

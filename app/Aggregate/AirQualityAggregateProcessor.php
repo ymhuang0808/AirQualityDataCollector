@@ -18,7 +18,7 @@ class AirQualityAggregateProcessor extends AbstractAggregateProcessor
     {
         $now = Carbon::now();
         $startDateTime = Carbon::parse($lastTime);
-        $nextDatetime = $startDateTime->copy()->addHour();
+        $nextDatetime = $startDateTime->copy()->addHour()->subSecond();
 
         // TODO: refactor it in to a class or procedure
         // Process each time period
@@ -27,9 +27,9 @@ class AirQualityAggregateProcessor extends AbstractAggregateProcessor
             $result = $this->processAggregatedFields($startDateTime, $nextDatetime);
             $this->createAggregationMetric($result, AggregationMetric::PERIOD_TYPE_HOURLY);
 
-            $startDateTime = $nextDatetime;
+            $startDateTime = $nextDatetime->addSecond();
             // Slide the hourly period to fetch data
-            $nextDatetime = $startDateTime->copy()->addHour();
+            $nextDatetime = $startDateTime->copy()->addHour()->subSecond();
         }
 
         $endDateTime = $startDateTime;
@@ -49,19 +49,18 @@ class AirQualityAggregateProcessor extends AbstractAggregateProcessor
     {
         $today = Carbon::now()->startOfDay();
         $startDateTime = Carbon::parse($lastTime);
-        $nextDatetime = $startDateTime->copy()->addDay();
+        $nextDatetime = $startDateTime->copy()->addDay()->subSecond();
 
         // Process each time period
         while ($startDateTime->lessThan($today) && $nextDatetime->lessThanOrEqualTo($today)) {
             // Slide the hourly period to fetch data
-            $nextDatetime = $startDateTime->copy()->addDay();
+            $nextDatetime = $startDateTime->copy()->addDay()->subSecond();
 
             // Get aggregated result
             $result = $this->processAggregatedFields($startDateTime, $nextDatetime);
-
             $this->createAggregationMetric($result, AggregationMetric::PERIOD_TYPE_DAILY);
 
-            $startDateTime = $nextDatetime;
+            $startDateTime = $nextDatetime->addSecond();
         }
 
         $endDateTime = $startDateTime;

@@ -17,7 +17,7 @@ class CreateAggregationMetricsTable extends Migration
             $table->bigIncrements('id');
             $table->dateTimeTz('start_datetime');
             $table->dateTimeTz('end_datetime');
-            $table->unsignedBigInteger('site_id');
+            $table->unsignedInteger('site_id');
             $table->binary('values');
             $table->tinyInteger('period_type');
             $table->dateTimeTz('updated_at');
@@ -26,7 +26,7 @@ class CreateAggregationMetricsTable extends Migration
             // Build an relationship with sites table by site_id
             $table->foreign('site_id')->references('id')->on('sites')
                 ->onDelete('cascade')->onUpdate('cascade');
-            $table->unique(['start_datetime', 'end_datetime', 'site_id', 'period_type']);
+            $table->unique(['start_datetime', 'end_datetime', 'site_id', 'period_type'], 'unique_aggregation_metric_item');
         });
     }
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Requests\Api\GetAllSitesApiRequest;
+use App\Http\Requests\Api\SitesApiGetAllRequest;
 use App\Site;
 use App\Transformers\Api\SiteResponseTransformer;
 use Illuminate\Support\Facades\Cache;
@@ -13,7 +13,7 @@ use League\Fractal\Serializer\ArraySerializer;
 
 class SiteApiController extends Controller
 {
-    public function getAll(GetAllSitesApiRequest $request)
+    public function getAll(SitesApiGetAllRequest $request)
     {
         $sites = Cache::remember('model-site:all', 5, function () {
             return Site::all();

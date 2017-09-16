@@ -5,7 +5,7 @@ namespace App\Http\Requests\Api;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class GetAllSitesApiRequest extends FormRequest
+class SitesApiGetAllRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

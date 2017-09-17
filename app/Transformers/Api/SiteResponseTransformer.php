@@ -57,13 +57,13 @@ class SiteResponseTransformer extends TransformerAbstract
         switch ($sourceType) {
             case Site::EPA_SOURCE_TYPE:
                 $transformer = new EpaAirQualityResponseTransformer();
-                $airQuality = $site->epaDataset;
+                $airQuality = $site->epaDataset()->latest()->first();
 
                 break;
 
             case Site::LASS_SOURCE_TYPE:
                 $transformer = new LassAirQualityResponseTransformer();
-                $airQuality = $site->lassDataset;
+                $airQuality = $site->lassDataset()->latest()->first();
         }
 
         return $this->item($airQuality, $transformer, 'air_quality');

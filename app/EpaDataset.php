@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class EpaDataset extends Model
 {
+    use LatestDatasetTrait;
+
     const UNIQUE_KEYS = [
         'site_id',
         'published_datetime',
@@ -41,8 +43,4 @@ class EpaDataset extends Model
         return $this->belongsTo('App\Site');
     }
 
-    public function scopeLatest(Builder $query)
-    {
-        return $query->where('published_datetime', $query->max('published_datetime'));
-    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\Api\SitesApiGetAllRequest;
+use App\Http\Resources\SiteResource;
 use App\Site;
 use App\Transformers\Api\SiteResponseTransformer;
 use Illuminate\Support\Facades\Cache;
@@ -32,5 +33,6 @@ class SiteApiController extends Controller
         $result = $manager->createData($resource)->toArray();
 
         return response()->json($result);
+
     }
 }

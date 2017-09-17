@@ -33,7 +33,6 @@ class SiteApiControllerTest extends TestCase
                     'id',
                     'name',
                     'eng_name',
-                    'address',
                     'type',
                     'area_name',
                     'coordinates' => [
@@ -59,7 +58,6 @@ class SiteApiControllerTest extends TestCase
                     'id',
                     'name',
                     'eng_name',
-                    'address',
                     'type',
                     'area_name',
                     'coordinates' => [
@@ -89,7 +87,6 @@ class SiteApiControllerTest extends TestCase
                     'id',
                     'name',
                     'eng_name',
-                    'address',
                     'type',
                     'area_name',
                     'coordinates' => [
@@ -97,6 +94,39 @@ class SiteApiControllerTest extends TestCase
                         'longitude',
                     ],
                     'source_type',
+                    'township' => [
+                        'id',
+                        'name',
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testGetAllIncludeCountyAndTownship()
+    {
+        $this->createEpaTestData();
+
+        $response =  $this->json('GET', '/api/site/all?include=county,township');
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'name',
+                    'eng_name',
+                    'type',
+                    'area_name',
+                    'coordinates' => [
+                        'latitude',
+                        'longitude',
+                    ],
+                    'source_type',
+                    'county' => [
+                        'id',
+                        'name',
+                    ],
                     'township' => [
                         'id',
                         'name',
@@ -177,7 +207,23 @@ class SiteApiControllerTest extends TestCase
 
         $response =  $this->json('GET', '/api/site/all?include=abc');
 
-        $response->assertStatus(422);
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'name',
+                    'eng_name',
+                    'type',
+                    'area_name',
+                    'coordinates' => [
+                        'latitude',
+                        'longitude',
+                    ],
+                    'source_type',
+                ],
+            ],
+        ]);
     }
 
     protected function createEpaTestData()

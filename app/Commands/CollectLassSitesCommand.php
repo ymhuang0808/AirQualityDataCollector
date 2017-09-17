@@ -12,6 +12,8 @@ use App\Transformers\RemoteModel;
 
 class CollectLassSitesCommand extends AbstractCollectSitesCommand
 {
+    use CollectSiteHelpers;
+
     protected $cacheRepository;
 
     public function __construct(DatasetRepositoryContract $datasetRepository, CacheableContact $cacheRepository, AbstractAqdcTransformer $transformer)
@@ -57,23 +59,5 @@ class CollectLassSitesCommand extends AbstractCollectSitesCommand
         $key = 'lass-dataset-url:' . $baseUrl . $path;
 
         return $key;
-    }
-
-    /**
-     * @param RemoteModel $remoteModel
-     * @return array
-     */
-    protected function getUniqueKeyValues(RemoteModel $remoteModel): array
-    {
-        return array_only($remoteModel->fields, Site::UNIQUE_KEYS);
-    }
-
-    /**
-     * @param RemoteModel $remoteModel
-     * @return array
-     */
-    protected function getFieldsExceptUniqueKeyValues(RemoteModel $remoteModel): array
-    {
-        return array_except($remoteModel->fields, Site::UNIQUE_KEYS);
     }
 }

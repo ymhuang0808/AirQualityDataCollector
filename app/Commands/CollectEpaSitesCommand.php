@@ -11,6 +11,8 @@ use App\Transformers\RemoteModel;
 
 class CollectEpaSitesCommand extends AbstractCollectSitesCommand
 {
+    use CollectSiteHelpers;
+
     public function execute()
     {
         $result = $this->datasetRepository->getAll();
@@ -41,23 +43,5 @@ class CollectEpaSitesCommand extends AbstractCollectSitesCommand
         $siteCollection = collect($sites);
 
         event(new CollectSiteCompletedEvent($siteCollection, 'epa'));
-    }
-
-    /**
-     * @param RemoteModel $remoteModel
-     * @return array
-     */
-    protected function getUniqueKeyValues(RemoteModel $remoteModel): array
-    {
-        return array_only($remoteModel->fields, Site::UNIQUE_KEYS);
-    }
-
-    /**
-     * @param RemoteModel $remoteModel
-     * @return array
-     */
-    protected function getFieldsExceptUniqueKeyValues(RemoteModel $remoteModel): array
-    {
-        return array_except($remoteModel->fields, Site::UNIQUE_KEYS);
     }
 }

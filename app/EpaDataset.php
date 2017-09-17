@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class EpaDataset extends Model
@@ -38,5 +39,10 @@ class EpaDataset extends Model
     public function site()
     {
         return $this->belongsTo('App\Site');
+    }
+
+    public function scopeLatest(Builder $query)
+    {
+        return $query->where('published_datetime', $query->max('published_datetime'));
     }
 }

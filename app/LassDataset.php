@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class LassDataset extends Model
@@ -24,5 +25,10 @@ class LassDataset extends Model
     public function site()
     {
         return $this->belongsTo('App\Site');
+    }
+
+    public function scopeLatest(Builder $query)
+    {
+        return $query->where('published_datetime', $query->max('published_datetime'));
     }
 }

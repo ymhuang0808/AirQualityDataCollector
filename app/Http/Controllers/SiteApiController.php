@@ -33,6 +33,5 @@ class SiteApiController extends Controller
         $result = $manager->createData($resource)->toArray();
 
         return response()->json($result);
-
     }
 }

@@ -18,6 +18,8 @@ class Site extends Model
 
     const LASS_SOURCE_TYPE = 'lass';
 
+    const AIRBOX_SOURCE_TYPE = 'airbox';
+
     protected $table = 'sites';
 
     protected $fillable = [

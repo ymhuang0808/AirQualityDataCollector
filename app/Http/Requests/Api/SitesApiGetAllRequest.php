@@ -24,8 +24,6 @@ class SitesApiGetAllRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-//            'include' => Rule::in(['county', 'township', 'air_quality']),
-        ];
+        return [];
     }
 }

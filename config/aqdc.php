@@ -21,5 +21,10 @@ return [
             'air_quality_uri' => '/data/last-all-lass.json',
             'site_uri' => '/data/last-all-lass.json',
         ],
+        'airbox' => [
+            'base_url' => 'https://pm25.lass-net.org',
+            'air_quality_uri' => '/data/last-all-airbox.json',
+            'site_uri' => '/data/last-all-airbox.json',
+        ],
     ],
 ];

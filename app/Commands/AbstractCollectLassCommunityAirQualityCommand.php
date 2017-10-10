@@ -5,7 +5,7 @@ namespace App\Commands;
 
 use App\Events\CollectAirQualityCompletedEvent;
 use App\LassDataset;
-use App\Repository\Contracts\CacheableContact;
+use App\Repository\Contracts\CacheableContract;
 use App\Repository\Contracts\DatasetRepositoryContract;
 use App\Site;
 use App\Transformers\AbstractAqdcTransformer;
@@ -17,7 +17,7 @@ abstract class AbstractCollectLassCommunityAirQualityCommand extends AbstractCol
 
     protected $cacheRepository;
 
-    public function __construct(DatasetRepositoryContract $datasetRepository, CacheableContact $cacheRepository, AbstractAqdcTransformer $transformer)
+    public function __construct(DatasetRepositoryContract $datasetRepository, CacheableContract $cacheRepository, AbstractAqdcTransformer $transformer)
     {
         parent::__construct($datasetRepository, $transformer);
 

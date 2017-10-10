@@ -3,9 +3,9 @@
 namespace App\Repository;
 
 
-use App\Repository\Contracts\CacheableContact;
+use App\Repository\Contracts\CacheableContract;
 
-class SimpleArrayCacheRepository implements CacheableContact
+class SimpleArrayCacheRepository implements CacheableContract
 {
     protected $items = [];
 

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Factories\CollectAirboxAirQualityCommandFactory;
 use App\Factories\CollectEpaAirQualityCommandFactory;
 use App\Factories\CollectLassAirQualityCommandFactory;
 use Illuminate\Console\Command;
@@ -56,6 +57,11 @@ class CollectAirQualityDatasetCommand extends Command
 
                 case 'lass':
                     $factory = new CollectLassAirQualityCommandFactory();
+
+                    break;
+
+                case 'airbox':
+                    $factory = new CollectAirboxAirQualityCommandFactory();
 
                     break;
 

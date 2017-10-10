@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Factories\CollectAirboxSitesCommandFactory;
 use App\Factories\CollectEpaSitesCommandFactory;
 use App\Factories\CollectLassSitesCommandFactory;
 use Illuminate\Console\Command;
@@ -54,6 +55,11 @@ class CollectSitesCommand extends Command
 
                 case 'lass':
                     $factory = new CollectLassSitesCommandFactory();
+
+                    break;
+
+                case 'airbox':
+                    $factory = new CollectAirboxSitesCommandFactory();
 
                     break;
 

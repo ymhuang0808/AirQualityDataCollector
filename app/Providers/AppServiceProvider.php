@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Repository\Contracts\CacheableContact;
+use App\Repository\Contracts\CacheableContract;
 use App\Repository\SimpleArrayCacheRepository;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(CacheableContact::class, SimpleArrayCacheRepository::class);
+        $this->app->bind(CacheableContract::class, SimpleArrayCacheRepository::class);
     }
 }

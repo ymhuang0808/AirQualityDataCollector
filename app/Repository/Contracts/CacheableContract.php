@@ -3,7 +3,7 @@
 namespace App\Repository\Contracts;
 
 
-interface CacheableContact
+interface CacheableContract
 {
     /**
      * Set an item into cache by key name

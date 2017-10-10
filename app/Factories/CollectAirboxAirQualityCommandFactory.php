@@ -4,19 +4,21 @@ namespace App\Factories;
 
 
 use App\Commands\AbstractCollectAirQualityCommand;
+use App\Commands\CollectAirboxAirQualityCommand;
 use App\Commands\CollectLassAirQualityCommand;
 use App\Repository\Contracts\CacheableContract;
 use App\Repository\RemoteGenericDatasetRepository;
+use App\Transformers\AirboxAirQualityTransformer;
 use App\Transformers\LassAirQualityTransformer;
 use GuzzleHttp\Client;
 
-class CollectLassAirQualityCommandFactory extends AbstractCollectAirQualityCommandFactory
+class CollectAirboxAirQualityCommandFactory extends AbstractCollectAirQualityCommandFactory
 {
 
     public function createCommand(): AbstractCollectAirQualityCommand
     {
-        $baseUrl = config('aqdc.remote_source.lass.base_url');
-        $uri = config('aqdc.remote_source.lass.air_quality_uri');
+        $baseUrl = config('aqdc.remote_source.airbox.base_url');
+        $uri = config('aqdc.remote_source.airbox.air_quality_uri');
 
         $httpClient = new Client();
 
@@ -25,8 +27,8 @@ class CollectLassAirQualityCommandFactory extends AbstractCollectAirQualityComma
 
         $cacheableRepository = resolve(CacheableContract::class);
 
-        $transformer = new LassAirQualityTransformer();
+        $transformer = new AirboxAirQualityTransformer();
 
-        return new CollectLassAirQualityCommand($repository, $cacheableRepository, $transformer);
+        return new CollectAirboxAirQualityCommand($repository, $cacheableRepository, $transformer);
     }
 }

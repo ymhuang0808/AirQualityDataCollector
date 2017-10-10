@@ -4,19 +4,19 @@ namespace App\Factories;
 
 
 use App\Commands\AbstractCollectSitesCommand;
-use App\Commands\CollectLassSitesCommand;
+use App\Commands\CollectAirboxSitesCommand;
 use App\Repository\Contracts\CacheableContract;
 use App\Repository\RemoteGenericDatasetRepository;
-use App\Transformers\LassSiteTransformer;
+use App\Transformers\AirboxSiteTransformer;
 use GuzzleHttp\Client;
 
-class CollectLassSitesCommandFactory extends AbstractCollectSitesCommandFactory
+class CollectAirboxSitesCommandFactory extends AbstractCollectSitesCommandFactory
 {
 
     public function createCommand(): AbstractCollectSitesCommand
     {
-        $baseUrl = config('aqdc.remote_source.lass.base_url');
-        $uri = config('aqdc.remote_source.lass.site_uri');
+        $baseUrl = config('aqdc.remote_source.airbox.base_url');
+        $uri = config('aqdc.remote_source.airbox.site_uri');
 
         $httpClient = new Client();
 
@@ -25,8 +25,8 @@ class CollectLassSitesCommandFactory extends AbstractCollectSitesCommandFactory
 
         $cacheableRepository = resolve(CacheableContract::class);
 
-        $transformer = new LassSiteTransformer();
+        $transformer = new AirboxSiteTransformer();
 
-        return new CollectLassSitesCommand($repository, $cacheableRepository, $transformer);
+        return new CollectAirboxSitesCommand($repository, $cacheableRepository, $transformer);
     }
 }

@@ -77,7 +77,7 @@ class CollectLassSitesCommandTest extends TestCase
             ->shouldReceive('getAll')
             ->never();
 
-        $mockCacheRepository = Mockery::mock(\App\Repository\Contracts\CacheableContact::class);
+        $mockCacheRepository = Mockery::mock(\App\Repository\Contracts\CacheableContract::class);
 
         $mockCacheRepository->shouldReceive('isHit')
             ->with('lass-dataset-url:https://fake.lass.dataset/all-endpoint')

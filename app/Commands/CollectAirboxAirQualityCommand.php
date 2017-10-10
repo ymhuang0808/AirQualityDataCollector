@@ -3,14 +3,14 @@
 namespace App\Commands;
 
 
+use App\AirboxDataset;
 use App\Events\CollectAirQualityCompletedEvent;
-use App\LassDataset;
 use App\Site;
 use App\Transformers\RemoteModel;
 
-class CollectLassAirQualityCommand extends AbstractCollectLassCommunityAirQualityCommand
+class CollectAirboxAirQualityCommand extends AbstractCollectLassCommunityAirQualityCommand
 {
-    protected $prefixCacheKey = 'lass-dataset-url';
+    protected $prefixCacheKey = 'airbox-dataset-url';
 
     public function execute()
     {
@@ -25,26 +25,26 @@ class CollectLassAirQualityCommand extends AbstractCollectLassCommunityAirQualit
 
         $airQualityObjArray = $result->feeds;
 
-        $lassDatasetCollection = collect();
+        $airboxDatasetCollection = collect();
 
         foreach ($airQualityObjArray as $airQualityObj) {
             /** @var RemoteModel $remoteModel */
             $remoteModel = $this->transformer->transform($airQualityObj);
             $uniqueKeyValues = $this->getUniqueKeyValues($remoteModel);
 
-            $lassDataset = LassDataset::firstOrNew($uniqueKeyValues);
-            $lassDataset->fill($this->getFieldsExceptUniqueKeyValues($remoteModel));
+            $airboxDataset = AirboxDataset::firstOrNew($uniqueKeyValues);
+            $airboxDataset->fill($this->getFieldsExceptUniqueKeyValues($remoteModel));
 
             /** @var Site $site */
             $site = $remoteModel->relationships['site'];
 
-            $lassDataset->site()->associate($site);
-            $lassDataset->save();
+            $airboxDataset->site()->associate($site);
+            $airboxDataset->save();
 
-            $lassDatasetCollection->push($lassDataset);
+            $airboxDatasetCollection->push($airboxDataset);
         }
 
-        event(new CollectAirQualityCompletedEvent($lassDatasetCollection, 'lass'));
+        event(new CollectAirQualityCompletedEvent($airboxDatasetCollection, 'airbox'));
     }
 
     /**
@@ -57,7 +57,7 @@ class CollectLassAirQualityCommand extends AbstractCollectLassCommunityAirQualit
         $site = $remoteModel->relationships['site'];
         $keyValues['site_id'] = $site->id;
 
-        return array_only($keyValues, LassDataset::UNIQUE_KEYS);
+        return array_only($keyValues, AirboxDataset::UNIQUE_KEYS);
     }
 
     /**
@@ -66,6 +66,6 @@ class CollectLassAirQualityCommand extends AbstractCollectLassCommunityAirQualit
      */
     protected function getFieldsExceptUniqueKeyValues(RemoteModel $remoteModel): array
     {
-        return array_except($remoteModel->fields, LassDataset::UNIQUE_KEYS);
+        return array_except($remoteModel->fields, AirboxDataset::UNIQUE_KEYS);
     }
 }

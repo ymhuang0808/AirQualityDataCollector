@@ -64,6 +64,14 @@ class SiteResponseTransformer extends TransformerAbstract
             case Site::LASS_SOURCE_TYPE:
                 $transformer = new LassAirQualityResponseTransformer();
                 $airQuality = $site->lassDataset()->latest()->first();
+
+                break;
+
+            case Site::AIRBOX_SOURCE_TYPE:
+                $transformer = new LassAirQualityResponseTransformer();
+                $airQuality = $site->lassDataset()->latest()->first();
+
+                break;
         }
 
         return $this->item($airQuality, $transformer, 'air_quality');

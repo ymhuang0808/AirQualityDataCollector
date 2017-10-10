@@ -11,16 +11,9 @@ use App\Site;
 use App\Transformers\AbstractAqdcTransformer;
 use App\Transformers\RemoteModel;
 
-class CollectLassAirQualityCommand extends AbstractCollectAirQualityCommand
+class CollectLassAirQualityCommand extends AbstractCollectLassCommunityAirQualityCommand
 {
-    protected $cacheRepository;
-
-    public function __construct(DatasetRepositoryContract $datasetRepository, CacheableContact $cacheRepository, AbstractAqdcTransformer $transformer)
-    {
-        parent::__construct($datasetRepository, $transformer);
-
-        $this->cacheRepository = $cacheRepository;
-    }
+    protected $prefixCacheKey = 'lass-dataset-url';
 
     public function execute()
     {
@@ -55,15 +48,6 @@ class CollectLassAirQualityCommand extends AbstractCollectAirQualityCommand
         }
 
         event(new CollectAirQualityCompletedEvent($lassDatasetCollection, 'lass'));
-    }
-
-    protected function generateCacheKey(): string
-    {
-        $baseUrl = $this->datasetRepository->getBasedUrl();
-        $path = $this->datasetRepository->getPath();
-        $key = 'lass-dataset-url:' . $baseUrl . $path;
-
-        return $key;
     }
 
     /**

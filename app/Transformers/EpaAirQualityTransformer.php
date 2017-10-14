@@ -26,7 +26,7 @@ class EpaAirQualityTransformer extends AbstractAqdcTransformer
             'pm10_avg' => (int) $airQuality->PM10_AVG,
             'pm25' => (int) $airQuality->{'PM2.5'},
             'pm25_avg' => (int) $airQuality->{'PM2.5_AVG'},
-            'no2' => (int) $airQuality->NO2,
+            'no2' => (double) $airQuality->NO2,
             'wind_speed' => (double) $airQuality->WindSpeed,
             'wind_direction' => (int) $airQuality->WindDirec,
             'nox' => (double) $airQuality->NOx,

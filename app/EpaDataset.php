@@ -29,7 +29,7 @@ class EpaDataset extends Model
         'pm10',
         'pm10_avg',
         'pm25',
-        'pm25_avg'.
+        'pm25_avg',
         'no2',
         'wind_speed',
         'wind_direction',

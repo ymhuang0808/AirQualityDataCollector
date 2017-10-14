@@ -7,7 +7,6 @@ use App\County;
 use App\Events\CollectSiteCompletedEvent;
 use App\Site;
 use App\Township;
-use App\Transformers\RemoteModel;
 
 class CollectEpaSitesCommand extends AbstractCollectSitesCommand
 {

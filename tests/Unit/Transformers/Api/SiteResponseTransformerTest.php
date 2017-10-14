@@ -89,7 +89,7 @@ class SiteResponseTransformerTest extends TestCase
         $this->assertArrayHasKey('air_quality', $actual);
         $this->assertEquals(30, $actual['air_quality']['pm10']);
         $this->assertEquals(78, $actual['air_quality']['pm25']);
-        $this->assertEquals('oZqoooQQQ', $actual['air_quality']['major_pollutant']);
+        $this->assertEquals('oZqoooQQQ', $actual['air_quality']['pollutant']);
     }
 
     public function testTransformWithOnlyLassSite()
@@ -157,7 +157,7 @@ class SiteResponseTransformerTest extends TestCase
             'site_id' => $site->id,
             'pm10' => 30,
             'pm25' => 78,
-            'major_pollutant' => 'oZqoooQQQ',
+            'pollutant' => 'oZqoooQQQ',
         ]);
 
         return $site;

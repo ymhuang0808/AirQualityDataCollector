@@ -71,7 +71,7 @@ class CollectEpaAirQualityCommandTest extends TestCase
 
     protected function assertDatabaseAirQuality(
         $siteName,
-        $expectedPsi,
+        $expectedAqi,
         $expectedPm10,
         $expectedPm25,
         $expectedPublishedDatetime)
@@ -79,7 +79,7 @@ class CollectEpaAirQualityCommandTest extends TestCase
         $site = Site::where('name', $siteName)->first();
 
         $this->assertDatabaseHas('epa_datasets', [
-            'psi' => $expectedPsi,
+            'aqi' => $expectedAqi,
             'site_id' => $site->id,
             'pm10' => $expectedPm10,
             'pm25' => $expectedPm25,

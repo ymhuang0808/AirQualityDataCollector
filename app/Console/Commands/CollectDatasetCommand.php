@@ -2,12 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Factories\CollectAirboxAirQualityCommandFactory;
+use App\Factories\CollectAirboxDatasetCommandFactory;
 use App\Factories\CollectEpaAirQualityCommandFactory;
-use App\Factories\CollectLassAirQualityCommandFactory;
+use App\Factories\CollectEpaDatasetCommandFactory;
+use App\Factories\CollectLassDatasetCommandFactory;
 use Illuminate\Console\Command;
 
-class CollectAirQualityDatasetCommand extends Command
+class CollectDatasetCommand extends Command
 {
     protected $httpClient;
 
@@ -16,7 +17,7 @@ class CollectAirQualityDatasetCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'aqdc:collect-air-quality {source*}';
+    protected $signature = 'aqdc:collect-dataset {source*}';
 
     /**
      * The console command description.
@@ -51,17 +52,17 @@ class CollectAirQualityDatasetCommand extends Command
 
             switch ($source) {
                 case 'epa':
-                    $factory = new CollectEpaAirQualityCommandFactory();
+                    $factory = new CollectEpaDatasetCommandFactory();
 
                     break;
 
                 case 'lass':
-                    $factory = new CollectLassAirQualityCommandFactory();
+                    $factory = new CollectLassDatasetCommandFactory();
 
                     break;
 
                 case 'airbox':
-                    $factory = new CollectAirboxAirQualityCommandFactory();
+                    $factory = new CollectAirboxDatasetCommandFactory();
 
                     break;
 
@@ -73,8 +74,10 @@ class CollectAirQualityDatasetCommand extends Command
 
             $this->line(sprintf('Initialize to collect air quality'));
 
-            $command = $factory->createCommand();
-            $command->execute();
+            $collectSitesCommand = $factory->createSitesCommand();
+            $collectAirQualityCommand = $factory->createAirQualityCommand();
+            $collectSitesCommand->execute();
+            $collectAirQualityCommand->execute();
 
             $this->line(sprintf('Completed collecting air quality from %s', $source));
         }

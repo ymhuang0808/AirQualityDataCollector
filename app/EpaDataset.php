@@ -20,19 +20,22 @@ class EpaDataset extends Model
     protected $table = 'epa_datasets';
 
     protected $fillable = [
-        'psi',
+        'aqi',
         'so2',
         'co',
+        'co_8hr',
         'o3',
+        'o3_8hr',
         'pm10',
+        'pm10_avg',
         'pm25',
+        'pm25_avg'.
         'no2',
         'wind_speed',
         'wind_direction',
-        'fpmi',
         'nox',
         'no',
-        'major_pollutant',
+        'pollutant',
         'status',
         'published_datetime',
     ];

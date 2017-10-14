@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Console\Commands\CollectAirQualityDatasetCommand;
+use App\Console\Commands\CollectDatasetCommand;
 use App\Console\Commands\CollectSitesCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         CollectSitesCommand::class,
-        CollectAirQualityDatasetCommand::class,
+        CollectDatasetCommand::class,
     ];
 
     /**

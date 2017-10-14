@@ -16,19 +16,22 @@ class EpaAirQualityTransformer extends AbstractAqdcTransformer
     public function transform(\stdClass $airQuality): RemoteModel
     {
         $fields = [
-            'psi' => (int) $airQuality->PSI,
+            'aqi' => (int) $airQuality->AQI,
             'so2' => (double) $airQuality->SO2,
             'co' => (double) $airQuality->CO,
+            'co_8hr' => (double) $airQuality->CO_8hr,
             'o3' => (int) $airQuality->O3,
+            'o3_8hr' => (int) $airQuality->O3_8hr,
             'pm10' => (int) $airQuality->PM10,
+            'pm10_avg' => (int) $airQuality->PM10_AVG,
             'pm25' => (int) $airQuality->{'PM2.5'},
+            'pm25_avg' => (int) $airQuality->{'PM2.5_AVG'},
             'no2' => (int) $airQuality->NO2,
             'wind_speed' => (double) $airQuality->WindSpeed,
             'wind_direction' => (int) $airQuality->WindDirec,
-            'fpmi' => (int) $airQuality->FPMI,
             'nox' => (double) $airQuality->NOx,
             'no' => (double) $airQuality->NO,
-            'major_pollutant' => $airQuality->MajorPollutant,
+            'pollutant' => $airQuality->Pollutant,
             'status' => $airQuality->Status,
             'published_datetime' => $this->publishTimeToDateTime($airQuality->PublishTime),
         ];

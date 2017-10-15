@@ -86,6 +86,6 @@ return [
     |
     */
 
-    'prefix' => 'aqdc',
+    'prefix' => 'aqdc_',
 
 ];

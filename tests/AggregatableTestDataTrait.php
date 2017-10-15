@@ -181,9 +181,15 @@ Trait AggregatableTestDataTrait
     protected function setUpEpaDatabase()
     {
         /** @var \App\Site $fakeSite1 */
-        $fakeSite1 = factory(\App\Site::class)->create();
+        $fakeSite1 = factory(\App\Site::class)->create([
+            'name' => 'site1',
+            'source_type' => 'epa',
+        ]);
         /** @var \App\Site $fakeSite2 */
-        $fakeSite2 = factory(\App\Site::class)->create();
+        $fakeSite2 = factory(\App\Site::class)->create([
+            'name' => 'site2',
+            'source_type' => 'epa',
+        ]);
 
         $fakeDataset = [
             // Site 1

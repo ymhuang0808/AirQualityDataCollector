@@ -3,10 +3,9 @@
 namespace App\Transformers\Api;
 
 
-use App\LassDataset;
 use League\Fractal\TransformerAbstract;
 
-class LassAirQualityResponseTransformer extends TransformerAbstract
+class AirboxAirQualityResponseTransformer extends TransformerAbstract
 {
     protected $defaultIncludes = [
         'site',

@@ -17,4 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/site/all', 'SiteApiController@getAll');
+Route::get('/sites/all', 'SiteApiController@getAll');
+Route::get('/air_quality_measurements/all', 'AirQualityMeasurementApiController@getAll');

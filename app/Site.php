@@ -33,7 +33,7 @@ class Site extends Model
     ];
 
     protected $hidden = [
-       'county_id',
+        'county_id',
         'township_id',
     ];
 

@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\Api\SitesApiGetAllRequest;
-use App\Http\Resources\SiteResource;
 use App\Site;
 use App\Transformers\Api\SiteResponseTransformer;
 use Illuminate\Support\Facades\Cache;
 use League\Fractal\Manager;
-use League\Fractal\Resource\Collection as ResouceCollection;
+use League\Fractal\Resource\Collection as ResourceCollection;
 use League\Fractal\Serializer\ArraySerializer;
 
 class SiteApiController extends Controller
@@ -23,7 +22,7 @@ class SiteApiController extends Controller
         $manager = new Manager();
         $manager->setSerializer(new ArraySerializer());
 
-        $resource = new ResouceCollection($sites, new SiteResponseTransformer);
+        $resource = new ResourceCollection($sites, new SiteResponseTransformer);
 
         if ($request->has('include')) {
             $include = $request->input('include');

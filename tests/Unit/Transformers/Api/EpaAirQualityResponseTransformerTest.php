@@ -2,6 +2,9 @@
 
 use App\Transformers\Api\EpaAirQualityResponseTransformer;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use League\Fractal\Manager;
+use League\Fractal\Resource\Item;
+use League\Fractal\Serializer\ArraySerializer;
 use Tests\TestCase;
 
 class EpaAirQualityResponseTransformerTest extends TestCase
@@ -20,11 +23,13 @@ class EpaAirQualityResponseTransformerTest extends TestCase
     public function testTransform()
     {
         $epaDataset = factory(App\EpaDataset::class)->create();
-        $actual = $this->transformer->transform($epaDataset);
+        $item = new Item($epaDataset, $this->transformer);
+        $manager = new Manager();
+        $manager->setSerializer(new ArraySerializer());
+        $actual = $manager->createData($item)->toArray();
 
         $this->assertCount(19 , $actual);
 
-        $this->assertArrayHasKey('id', $actual);
         $this->assertArrayHasKey('aqi', $actual);
         $this->assertArrayHasKey('so2', $actual);
         $this->assertArrayHasKey('co', $actual);
@@ -42,6 +47,7 @@ class EpaAirQualityResponseTransformerTest extends TestCase
         $this->assertArrayHasKey('pollutant', $actual);
         $this->assertArrayHasKey('status', $actual);
         $this->assertArrayHasKey('published_datetime', $actual);
+        $this->assertArrayHasKey('site', $actual);
 
         $this->assertArrayNotHasKey('site_id', $actual);
         $this->assertArrayNotHasKey('updated_at', $actual);

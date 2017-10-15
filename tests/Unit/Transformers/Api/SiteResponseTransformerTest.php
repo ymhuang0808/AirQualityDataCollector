@@ -73,25 +73,6 @@ class SiteResponseTransformerTest extends TestCase
         $this->assertEquals('竹山鎮', $actual['township']['name']);
     }
 
-    public function testTransformWithEpaSiteAndIncludeAirQuality()
-    {
-        $site = $this->createEpaTestData();
-
-        $manager = new Manager();
-        $manager->setSerializer(new ArraySerializer());
-
-        $resource = new Item($site, $this->transformer);
-
-        $actual = $manager->parseIncludes(['air_quality'])
-            ->createData($resource)
-            ->toArray();
-
-        $this->assertArrayHasKey('air_quality', $actual);
-        $this->assertEquals(30, $actual['air_quality']['pm10']);
-        $this->assertEquals(78, $actual['air_quality']['pm25']);
-        $this->assertEquals('oZqoooQQQ', $actual['air_quality']['pollutant']);
-    }
-
     public function testTransformWithOnlyLassSite()
     {
         $site = $this->createLassTestData();
@@ -109,24 +90,6 @@ class SiteResponseTransformerTest extends TestCase
         $this->assertArrayNotHasKey('township', $actual);
         $this->assertArrayNotHasKey('created_at', $actual);
         $this->assertArrayNotHasKey('updated_at', $actual);
-    }
-
-    public function testTransformWithLassSiteAndIncludeAirQuality()
-    {
-        $site = $this->createLassTestData();
-
-        $manager = new Manager();
-        $manager->setSerializer(new ArraySerializer());
-
-        $resource = new Item($site, $this->transformer);
-
-        $actual = $manager->parseIncludes(['air_quality'])
-            ->createData($resource)
-            ->toArray();
-
-        $this->assertArrayHasKey('air_quality', $actual);
-        $this->assertEquals(128, $actual['air_quality']['pm10']);
-        $this->assertEquals(117, $actual['air_quality']['pm25']);
     }
 
     protected function createEpaTestData()

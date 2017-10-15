@@ -24,7 +24,7 @@ class SiteApiControllerTest extends TestCase
     {
         $this->createEpaTestData();
 
-        $response = $this->json('GET', '/api/site/all');
+        $response = $this->json('GET', '/api/sites/all');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -49,7 +49,7 @@ class SiteApiControllerTest extends TestCase
     {
         $this->createEpaTestData();
 
-        $response =  $this->json('GET', '/api/site/all?include=county');
+        $response =  $this->json('GET', '/api/sites/all?include=county');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -78,7 +78,7 @@ class SiteApiControllerTest extends TestCase
     {
         $this->createEpaTestData();
 
-        $response =  $this->json('GET', '/api/site/all?include=township');
+        $response =  $this->json('GET', '/api/sites/all?include=township');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -107,7 +107,7 @@ class SiteApiControllerTest extends TestCase
     {
         $this->createEpaTestData();
 
-        $response =  $this->json('GET', '/api/site/all?include=county,township');
+        $response =  $this->json('GET', '/api/sites/all?include=county,township');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -140,7 +140,7 @@ class SiteApiControllerTest extends TestCase
     {
         $this->createEpaTestData();
 
-        $response =  $this->json('GET', '/api/site/all?include=air_quality');
+        $response =  $this->json('GET', '/api/sites/all?include=air_quality');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -157,27 +157,6 @@ class SiteApiControllerTest extends TestCase
                         'longitude',
                     ],
                     'source_type',
-                    'air_quality' => [
-                        'id',
-                        'aqi',
-                        'so2',
-                        'co',
-                        'co_8hr',
-                        'o3',
-                        'o3_8hr',
-                        'pm10',
-                        'pm10_avg',
-                        'pm25',
-                        'pm25_avg',
-                        'no2',
-                        'wind_speed',
-                        'wind_direction',
-                        'nox',
-                        'no',
-                        'pollutant',
-                        'status',
-                        'published_datetime',
-                    ],
                 ],
             ],
         ]);
@@ -193,7 +172,7 @@ class SiteApiControllerTest extends TestCase
             ->with('model-site:all', 5, \Mockery::type('Callable'))
             ->andReturn($fakeSites);
 
-        $response =  $this->json('GET', '/api/site/all');
+        $response =  $this->json('GET', '/api/sites/all');
 
         $response->assertStatus(200);
 
@@ -208,7 +187,7 @@ class SiteApiControllerTest extends TestCase
     {
         $this->createEpaTestData();
 
-        $response =  $this->json('GET', '/api/site/all?include=abc');
+        $response =  $this->json('GET', '/api/sites/all?include=abc');
 
         $response->assertStatus(200);
         $response->assertJsonStructure([

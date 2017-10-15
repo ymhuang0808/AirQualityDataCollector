@@ -46,33 +46,4 @@ class SiteResponseTransformer extends TransformerAbstract
             ])->toArray();
         });
     }
-
-//    public function includeAirQuality(Site $site)
-//    {
-//        $sourceType = $site->source_type;
-//
-//        // TODO: Handle the empty dataset
-//
-//        switch ($sourceType) {
-//            case Site::EPA_SOURCE_TYPE:
-//                $transformer = new EpaAirQualityResponseTransformer();
-//                $airQuality = $site->epaDataset()->latest()->first();
-//
-//                break;
-//
-//            case Site::LASS_SOURCE_TYPE:
-//                $transformer = new LassAirQualityResponseTransformer();
-//                $airQuality = $site->lassDataset()->latest()->first();
-//
-//                break;
-//
-//            case Site::AIRBOX_SOURCE_TYPE:
-//                $transformer = new LassAirQualityResponseTransformer();
-//                $airQuality = $site->lassDataset()->latest()->first();
-//
-//                break;
-//        }
-//
-//        return $this->item($airQuality, $transformer, 'air_quality');
-//    }
 }

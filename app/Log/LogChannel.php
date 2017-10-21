@@ -7,4 +7,5 @@ class LogChannel
 {
     const COLLECT_AIR_CHANNEL = 'collect-air-quality';
     const COLLECT_SITE_CHANNEL = 'collect-site';
+    const AGGREGATION_CHANNEL = 'aggregation';
 }

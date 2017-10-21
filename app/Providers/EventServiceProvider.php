@@ -22,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CollectExceptionEvent' => [
             'App\Listeners\CollectExceptionNotificationListener',
         ],
+        'App\Events\AirQualityMeasurementAggregationCompleted' => [
+            'App\Listeners\LoggingAirQualityAggregationCompletedListener',
+        ],
     ];
 
     /**

@@ -12,6 +12,13 @@ trait AggregateProcessHelpers
     protected $aggregatableRespository;
 
     /**
+     * Source type;
+     *
+     * @var string
+     */
+    protected $sourceType;
+
+    /**
      * Generates aggregated data
      *
      * The aggregated data structure looks like:
@@ -62,5 +69,10 @@ trait AggregateProcessHelpers
             ];
             AggregationMetric::create($aggregationItem);
         }
+    }
+
+    protected function getSourceType(): string
+    {
+        return $this->sourceType;
     }
 }

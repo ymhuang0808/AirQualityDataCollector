@@ -15,6 +15,13 @@ abstract class AbstractAggretableDatasetRepository implements AggregatableDatase
     protected $table;
 
     /**
+     * Source type
+     *
+     * @var string
+     */
+    protected $sourceType;
+
+    /**
      * @param array $fieldNames
      * @return string
      */
@@ -31,5 +38,10 @@ abstract class AbstractAggretableDatasetRepository implements AggregatableDatase
         $rawString = implode(', ', $rawStringItems);
 
         return $rawString;
+    }
+
+    public function getSourceType(): string
+    {
+        return $this->sourceType;
     }
 }

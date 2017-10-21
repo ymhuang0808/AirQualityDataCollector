@@ -9,6 +9,8 @@ class EpaAggregatableDatasetRepository extends AbstractAggretableDatasetReposito
 {
     protected $table = 'epa_datasets';
 
+    protected $sourceType = 'epa';
+
     /**
      * Get average field between published datetime
      *

@@ -5,10 +5,12 @@ namespace tests\Unit\Repository;
 
 use App\Aggregate\AirQualityAggregateProcessor;
 use App\AggregationMetric;
+use App\Events\AirQualityMeasurementAggregationCompleted;
 use App\Repository\LassAggregatableDatasetRepository;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
 use Tests\AggregatableTestDataTrait;
 use Tests\TestCase;
 
@@ -33,6 +35,8 @@ class AirQualityAggregateProcessorTest extends TestCase
 
     public function testAggregateHourlyWhenCurrentDateTimeMinuteSecondIsZero()
     {
+        Event::fake();
+
         $knownNow = Carbon::create(2017, 07, 23, 13,00, 00);
         Carbon::setTestNow($knownNow);
 
@@ -42,6 +46,14 @@ class AirQualityAggregateProcessorTest extends TestCase
                                 'pm10',
                             ])
                             ->aggregateHourly('2017-07-23 10:00:00');
+
+        Event::assertDispatched(AirQualityMeasurementAggregationCompleted::class, function (AirQualityMeasurementAggregationCompleted $e) use ($endDateTime) {
+            return $e->getAggregationType() == 'hourly' &&
+                $e->getSourceType() == 'lass' &&
+                $e->getStartDateTime()->eq(Carbon::parse('2017-07-23 10:00:00')) &&
+                $e->getEndDateTime()->eq($endDateTime);
+        });
+
         $this->assertInstanceOf(\Carbon\Carbon::class, $endDateTime);
         $this->assertEquals(2017, $endDateTime->year);
         $this->assertEquals(07, $endDateTime->month);
@@ -97,12 +109,22 @@ class AirQualityAggregateProcessorTest extends TestCase
         $knownNow = Carbon::create(2017, 07, 23, 13,10, 00);
         Carbon::setTestNow($knownNow);
 
-        $this->processor
-            ->setFields([
-                'pm25',
-                'pm10',
-            ])
-            ->aggregateHourly('2017-07-23 10:00:00');
+        Event::fake();
+
+        $endDateTime = $this->processor
+                            ->setFields([
+                                'pm25',
+                                'pm10',
+                            ])
+                            ->aggregateHourly('2017-07-23 10:00:00');
+
+        Event::assertDispatched(AirQualityMeasurementAggregationCompleted::class, function (AirQualityMeasurementAggregationCompleted $e) use ($endDateTime) {
+            return $e->getAggregationType() == 'hourly' &&
+                $e->getSourceType() == 'lass' &&
+                $e->getStartDateTime()->eq(Carbon::parse('2017-07-23 10:00:00')) &&
+                $e->getEndDateTime()->eq($endDateTime);
+        });
+
         $this->assertDatabaseHas('aggregation_metrics', [
             'site_id' => 1,
             'start_datetime' => '2017-07-23 10:00:00',
@@ -151,12 +173,22 @@ class AirQualityAggregateProcessorTest extends TestCase
         $knownNow = Carbon::create(2017, 07, 24, 00,00, 00);
         Carbon::setTestNow($knownNow);
 
-        $this->processor
-            ->setFields([
-                'pm25',
-                'pm10',
-            ])
-            ->aggregateDaily('2017-07-23 00:00:00');
+        Event::fake();
+
+        $endDateTime =$this->processor
+                            ->setFields([
+                                'pm25',
+                                'pm10',
+                            ])
+                            ->aggregateDaily('2017-07-23 00:00:00');
+
+        Event::assertDispatched(AirQualityMeasurementAggregationCompleted::class, function (AirQualityMeasurementAggregationCompleted $e) use ($endDateTime) {
+            return $e->getAggregationType() == 'daily' &&
+                $e->getSourceType() == 'lass' &&
+                $e->getStartDateTime()->eq(Carbon::parse('2017-07-23 00:00:00')) &&
+                $e->getEndDateTime()->eq($endDateTime);
+        });
+
         $this->assertDatabaseHas('aggregation_metrics', [
             'site_id' => 1,
             'start_datetime' => '2017-07-23 00:00:00',

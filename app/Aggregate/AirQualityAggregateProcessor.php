@@ -4,6 +4,7 @@ namespace App\Aggregate;
 
 
 use App\AggregationMetric;
+use App\Events\AirQualityMeasurementAggregationCompleted;
 use Carbon\Carbon;
 
 class AirQualityAggregateProcessor extends AbstractAggregateProcessor
@@ -18,23 +19,25 @@ class AirQualityAggregateProcessor extends AbstractAggregateProcessor
     {
         $now = Carbon::now();
         $startDateTime = Carbon::parse($lastTime);
-        $nextDatetime = $startDateTime->copy()->addHour()->subSecond();
+        $beginTimeWindow = $startDateTime->copy();
+        $endTimeWindow = $startDateTime->copy()->addHour()->subSecond();
 
         // TODO: refactor it in to a class or procedure
         // Process each time period
-        while ($startDateTime->lessThan($now) && $nextDatetime->lessThanOrEqualTo($now)) {
+        while ($beginTimeWindow->lessThan($now) && $endTimeWindow->lessThanOrEqualTo($now)) {
             // Get aggregated result
-            $result = $this->processAggregatedFields($startDateTime, $nextDatetime);
+            $result = $this->processAggregatedFields($beginTimeWindow, $endTimeWindow);
             $this->createAggregationMetric($result, AggregationMetric::PERIOD_TYPE_HOURLY);
 
-            $startDateTime = $nextDatetime->addSecond();
+            $beginTimeWindow = $endTimeWindow->addSecond();
             // Slide the hourly period to fetch data
-            $nextDatetime = $startDateTime->copy()->addHour()->subSecond();
+            $endTimeWindow = $beginTimeWindow->copy()->addHour()->subSecond();
         }
 
-        $endDateTime = $startDateTime;
+        $endDateTime = $beginTimeWindow;
+        $sourceType = $this->getSourceType();
 
-        // TODO: after the aggregation finished, it should dispatch an event
+        event(new AirQualityMeasurementAggregationCompleted('hourly', $sourceType, $startDateTime, $endDateTime));
 
         return $endDateTime;
     }
@@ -49,23 +52,25 @@ class AirQualityAggregateProcessor extends AbstractAggregateProcessor
     {
         $today = Carbon::now()->startOfDay();
         $startDateTime = Carbon::parse($lastTime);
+        $beginTimeWindow = $startDateTime->copy();
         $nextDatetime = $startDateTime->copy()->addDay()->subSecond();
 
         // Process each time period
-        while ($startDateTime->lessThan($today) && $nextDatetime->lessThanOrEqualTo($today)) {
+        while ($beginTimeWindow->lessThan($today) && $nextDatetime->lessThanOrEqualTo($today)) {
             // Slide the hourly period to fetch data
-            $nextDatetime = $startDateTime->copy()->addDay()->subSecond();
+            $nextDatetime = $beginTimeWindow->copy()->addDay()->subSecond();
 
             // Get aggregated result
-            $result = $this->processAggregatedFields($startDateTime, $nextDatetime);
+            $result = $this->processAggregatedFields($beginTimeWindow, $nextDatetime);
             $this->createAggregationMetric($result, AggregationMetric::PERIOD_TYPE_DAILY);
 
-            $startDateTime = $nextDatetime->addSecond();
+            $beginTimeWindow = $nextDatetime->addSecond();
         }
 
-        $endDateTime = $startDateTime;
+        $endDateTime = $beginTimeWindow;
+        $sourceType = $this->getSourceType();
 
-        // TODO: after the aggregation finished, it should dispatch an event
+        event(new AirQualityMeasurementAggregationCompleted('daily', $sourceType, $startDateTime, $endDateTime));
 
         return $endDateTime;
     }

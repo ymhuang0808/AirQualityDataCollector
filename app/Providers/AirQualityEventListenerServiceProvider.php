@@ -2,11 +2,14 @@
 
 namespace App\Providers;
 
+use App\AggregationLog;
 use App\CollectionLog;
 use App\Events\CollectSiteCompletedEvent;
 use App\Listeners\CollectExceptionNotificationListener;
+use App\Listeners\LoggingAirQualityAggregationCompletedListener;
 use App\Listeners\LoggingCollectAirQualityCompletedListener;
 use App\Listeners\LoggingCollectSiteCompletedListener;
+use App\Log\AggregationLogHandler;
 use App\Log\CollectionLogHandler;
 use App\Recipients\AbstractRecipient;
 use App\Recipients\SiteAdminRecipient;
@@ -37,6 +40,10 @@ class AirQualityEventListenerServiceProvider extends ServiceProvider
             ->singleton(CollectionLogHandler::class, function () {
                return new CollectionLogHandler(new CollectionLog);
             });
+        $this->app
+            ->singleton(AggregationLogHandler::class, function () {
+               return new AggregationLogHandler(new AggregationLog);
+            });
 
         // Binding an instance in CollectAirQualityCompletedListener class
         $this->app
@@ -44,6 +51,12 @@ class AirQualityEventListenerServiceProvider extends ServiceProvider
             ->needs(AbstractProcessingHandler::class)
             ->give(function () {
                 return resolve(CollectionLogHandler::class);
+            });
+        $this->app
+            ->when(LoggingAirQualityAggregationCompletedListener::class)
+            ->needs(AbstractProcessingHandler::class)
+            ->give(function () {
+               return resolve(AggregationLogHandler::class);
             });
 
         // Binding an instance in LoggingCollectSiteCompletedListener class

@@ -9,6 +9,8 @@ class LassAggregatableDatasetRepository extends AbstractAggretableDatasetReposit
 {
     protected $table = 'lass_datasets';
 
+    protected $sourceType = 'lass';
+
     /**
      * Get average field between published datetime
      *

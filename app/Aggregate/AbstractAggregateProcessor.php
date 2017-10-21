@@ -20,6 +20,7 @@ abstract class AbstractAggregateProcessor implements AggregateProcessorContract
     public function __construct(AggregatableDatasetRepositoryContract $aggregatableRepository)
     {
         $this->aggregatableRespository = $aggregatableRepository;
+        $this->sourceType = $aggregatableRepository->getSourceType();
     }
 
     /**

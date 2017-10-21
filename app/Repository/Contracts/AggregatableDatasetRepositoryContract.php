@@ -16,4 +16,11 @@ interface AggregatableDatasetRepositoryContract
      * @internal param int $siteId
      */
     public function getAvgFieldBetweenPublishedDatetime(array $fieldNames, $start, $end);
+
+    /**
+     * Get the source type of measurements
+     *
+     * @return string
+     */
+    public function getSourceType(): string ;
 }

@@ -24,7 +24,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\County::class, function (Faker\Generator $faker) {
-    $faker = Faker\Factory::create('zh_TW');
+    $faker->locale = 'zh_TW';
 
     return [
         'name' => $faker->unique()->city,
@@ -32,7 +32,7 @@ $factory->define(App\County::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Township::class, function (Faker\Generator $faker) {
-    $faker = Faker\Factory::create('zh_TW');
+    $faker->locale = 'zh_TW';
 
     return [
         'name' => $faker->unique()->city,

@@ -116,3 +116,36 @@ $factory->define(App\LassDataset::class, function (Faker\Generator $faker) {
         'published_datetime' => $fakedPublishedDatetime->format('Y-m-d H:i:s'),
     ];
 });
+
+$factory->define(\App\AggregationLog::class, function (Faker\Generator $faker) {
+    return [
+        'aggregation_type' => 'daily',
+        'source_type' => 'lass',
+        'start_datetime' => $faker->unique()->dateTime()->format('Y-m-d H:i:s'),
+        'end_datetime' => $faker->unique()->dateTime()->format('Y-m-d H:i:s'),
+        'message' => $faker->word,
+        'level' => \Monolog\Logger::INFO,
+    ];
+});
+
+$factory->state(\App\AggregationLog::class, 'daily', function (Faker\Generator $faker) {
+    return [
+        'aggregation_type' => 'daily',
+        'source_type' => 'lass',
+        'start_datetime' => $faker->unique()->dateTime()->format('Y-m-d H:i:s'),
+        'end_datetime' => $faker->unique()->dateTime()->format('Y-m-d H:i:s'),
+        'message' => $faker->word,
+        'level' => \Monolog\Logger::INFO,
+    ];
+});
+
+$factory->state(\App\AggregationLog::class, 'hourly', function (Faker\Generator $faker) {
+    return [
+        'aggregation_type' => 'hourly',
+        'source_type' => 'lass',
+        'start_datetime' => $faker->unique()->dateTime()->format('Y-m-d H:i:s'),
+        'end_datetime' => $faker->unique()->dateTime()->format('Y-m-d H:i:s'),
+        'message' => $faker->word,
+        'level' => \Monolog\Logger::INFO,
+    ];
+});

@@ -11,6 +11,7 @@ class ArchivedMeasurements extends Model
     protected $fillable = [
         'values',
         'published_datetime',
+        'site_id',
     ];
 
     public function site()

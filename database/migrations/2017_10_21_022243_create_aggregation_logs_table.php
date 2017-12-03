@@ -24,7 +24,7 @@ class CreateAggregationLogsTable extends Migration
             $table->dateTimeTz('updated_at');
             $table->dateTimeTz('created_at');
 
-            $table->index(['aggregation_type', 'source_type', 'start_datetime', 'end_datetime']);
+            $table->index(['aggregation_type', 'source_type', 'start_datetime', 'end_datetime'], 'aggregation_logs_index_1');
             $table->index(['level']);
         });
     }

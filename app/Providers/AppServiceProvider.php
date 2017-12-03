@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helpers\ClassMappingHelpers;
 use App\Repository\Contracts\CacheableContract;
 use App\Repository\SimpleArrayCacheRepository;
 use Illuminate\Support\Facades\Schema;
@@ -30,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(CacheableContract::class, SimpleArrayCacheRepository::class);
+        $this->app->bind('ClassMappingHelpers', ClassMappingHelpers::class);
     }
 }

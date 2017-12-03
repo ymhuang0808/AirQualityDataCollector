@@ -7,5 +7,5 @@ use Carbon\Carbon;
 
 interface AggregationLogRepositoryContract
 {
-    public function getBeginDatetime(Carbon $lastExecuteDatetime, string $sourceType): Carbon;
+    public function getEndDatetime(Carbon $lastExecuteDatetime, string $sourceType): Carbon;
 }

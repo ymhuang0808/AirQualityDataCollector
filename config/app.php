@@ -237,6 +237,9 @@ return [
 
         // Laravel Settings
         'Setting' => 'anlutro\LaravelSettings\Facade',
+
+        // AQDC class mapping helpers
+        'ClassMappingHelpers' => App\Helpers\Facades\ClassMappingHelpers::class,
     ],
 
 ];

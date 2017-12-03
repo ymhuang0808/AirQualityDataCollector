@@ -40,7 +40,7 @@ class AggregationLogRepositoryTest extends TestCase
         $lastExecuteDatetime = Carbon::createSafe(2017, 10, 23, 23, 59, 59);
         $result = $this
             ->repository
-            ->getBeginDatetime($lastExecuteDatetime, 'lass');
+            ->getEndDatetime($lastExecuteDatetime, 'lass');
 
         $expected = Carbon::create(2017, 10, 29, 23, 59, 59);
         $this->assertTrue($result->eq($expected));

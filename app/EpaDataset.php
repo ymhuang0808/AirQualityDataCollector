@@ -2,9 +2,10 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class EpaDataset extends Model
+class EpaDataset extends Model implements ModelMeasurementContract
 {
     use LatestDatasetTrait;
 
@@ -45,4 +46,23 @@ class EpaDataset extends Model
         return $this->belongsTo('App\Site');
     }
 
+    public function getMeasurementPayload(): array
+    {
+        return self::makeHidden([
+            'id',
+            'published_datetime',
+            'updated_at',
+            'created_at',
+        ])->toArray();
+    }
+
+    public function getPublishedDateTime(): Carbon
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $this->published_datetime);
+    }
+
+    public function getSite(): Site
+    {
+        return $this->site;
+    }
 }

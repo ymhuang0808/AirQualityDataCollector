@@ -179,6 +179,8 @@ return [
 
         // For register container
         App\Providers\AirQualityEventListenerServiceProvider::class,
+        App\Providers\AggregateServiceProvider::class,
+        App\Providers\ArchiveMeasurementsServiceProvider::class,
 
         // Laravel Settings
         anlutro\LaravelSettings\ServiceProvider::class,

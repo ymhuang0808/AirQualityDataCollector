@@ -6,6 +6,8 @@ use App\Aggregate\AggregateFactory;
 use App\Aggregate\AirQualityDatasetAggregator;
 use App\Aggregate\Contracts\AggregateFactoryContract;
 use App\Aggregate\Contracts\AggregatorContract;
+use App\Repository\AggregationLogRepository;
+use App\Repository\Contracts\AggregationLogRepositoryContract;
 use Illuminate\Support\ServiceProvider;
 
 class AggregateServiceProvider extends ServiceProvider
@@ -27,9 +29,10 @@ class AggregateServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // TODO: It should use service container
         $this->app->bind(AggregatorContract::class, AirQualityDatasetAggregator::class);
 
         $this->app->bind(AggregateFactoryContract::class, AggregateFactory::class);
+
+        $this->app->bind(AggregationLogRepositoryContract::class, AggregationLogRepository::class);
     }
 }

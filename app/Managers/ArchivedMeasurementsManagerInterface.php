@@ -9,7 +9,7 @@ interface ArchivedMeasurementsManagerInterface
      * Sets the the source type of archived measurements
      *
      * @param string $sourceType
-     * @return mixed
+     * @return self
      */
     public function setSourceType(string $sourceType);
 
@@ -24,7 +24,7 @@ interface ArchivedMeasurementsManagerInterface
      * Execute the archived process
      *
      * @param int $chunkCount
-     * @return mixed
+     * @return boolean
      */
-    public function process(int $chunkCount = 100);
+    public function process(int $chunkCount = 100): bool ;
 }

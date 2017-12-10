@@ -34,7 +34,7 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerInterfac
         return $this->sourceType;
     }
 
-    public function process(int $chunkCount = 100)
+    public function process(int $chunkCount = 100): bool
     {
         $settingName = 'archived_measurement.last_execute_datetime.' . $this->sourceType;
         $defaultLastExecuteTimestamp = 0;
@@ -43,6 +43,11 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerInterfac
         $endDatetime = $this
             ->aggregationLogRepository
             ->getEndDatetime($lastExecuteDateTime, $this->sourceType);
+
+        // Check if the latest aggregation time is less than last execution time
+        if (is_null($endDatetime) || $lastExecuteDateTime >= $endDatetime) {
+            return false;
+        }
 
         $resultMeasurements = collect();
 
@@ -74,5 +79,7 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerInterfac
         // Save the end time
         $timestamp = Carbon::create()->timestamp;
         Setting::set($settingName, $timestamp);
+
+        return true;
     }
 }

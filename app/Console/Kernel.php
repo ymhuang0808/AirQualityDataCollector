@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\AggregateMeasurementsCommand;
+use App\Console\Commands\ArchiveMeasurementsCommand;
 use App\Console\Commands\CollectDatasetCommand;
 use App\Console\Commands\CollectSitesCommand;
 use Illuminate\Console\Scheduling\Schedule;
@@ -17,6 +19,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         CollectSitesCommand::class,
         CollectDatasetCommand::class,
+        AggregateMeasurementsCommand::class,
+        ArchiveMeasurementsCommand::class,
     ];
 
     /**

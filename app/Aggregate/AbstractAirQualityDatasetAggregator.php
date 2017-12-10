@@ -30,13 +30,18 @@ abstract class AbstractAirQualityDatasetAggregator implements AggregatorContract
      */
     public function __construct(AggregateProcessorContract $processor = null)
     {
-        if (!is_null($processor))
-        {
+        if (!is_null($processor)) {
             $this->processor = $processor;
         }
+
+        // To get the available source, it retrieves the remote source type from config/aqdc.php
+        $remoteSource = config('aqdc.remote_source');
+        $this->availableSource = array_keys($remoteSource);
     }
 
     /**
+     * Sets an aggregate processor
+     *
      * @param AggregateProcessorContract $processor
      * @return AbstractAirQualityDatasetAggregator
      */

@@ -17,6 +17,9 @@ return [
             'site_uri' => '/webapi/api/rest/datastore/355000000I-000006?format=json',
             'model' => \App\EpaDataset::class,
             'api_transformer' => \App\Transformers\Api\EpaAirQualityResponseTransformer::class,
+            'options' => [
+                'timeout' => 120,
+            ],
         ],
         'lass' => [
             'base_url' => 'https://pm25.lass-net.org',

@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Factories\CollectAirboxSitesCommandFactory;
-use App\Factories\CollectEpaSitesCommandFactory;
-use App\Factories\CollectLassSitesCommandFactory;
+use App\Factories\CollectAirboxDatasetCommandFactory;
+use App\Factories\CollectEpaDatasetCommandFactory;
+use App\Factories\CollectLassDatasetCommandFactory;
 use Illuminate\Console\Command;
 
 class CollectSitesCommand extends Command
@@ -49,17 +49,17 @@ class CollectSitesCommand extends Command
 
             switch ($source) {
                 case 'epa':
-                    $factory = new CollectEpaSitesCommandFactory();
+                    $factory = new CollectEpaDatasetCommandFactory();
 
                     break;
 
                 case 'lass':
-                    $factory = new CollectLassSitesCommandFactory();
+                    $factory = new CollectLassDatasetCommandFactory();
 
                     break;
 
                 case 'airbox':
-                    $factory = new CollectAirboxSitesCommandFactory();
+                    $factory = new CollectAirboxDatasetCommandFactory();
 
                     break;
 
@@ -71,7 +71,7 @@ class CollectSitesCommand extends Command
 
             $this->line(sprintf('Initialize to collect air quality sites'));
 
-            $command = $factory->createCommand();
+            $command = $factory->createSitesCommand();
             $command->execute();
 
             $this->line(sprintf('Completed collecting air quality sites from %s', $source));

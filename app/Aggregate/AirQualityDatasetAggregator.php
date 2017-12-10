@@ -5,13 +5,12 @@ namespace App\Aggregate;
 
 use Carbon\Carbon;
 
+/**
+ * AirQualityDatasetAggregator controls and executes the aggregate processor.
+ * It executes hourly and daily aggregation processes and controls the processes by last execution time.
+ */
 class AirQualityDatasetAggregator extends AbstractAirQualityDatasetAggregator
 {
-    protected $availableSource = [
-        'epa',
-        'lass',
-    ];
-
     public function process()
     {
         $this->processHourly();

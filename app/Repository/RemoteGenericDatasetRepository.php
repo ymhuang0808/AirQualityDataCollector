@@ -15,6 +15,8 @@ class RemoteGenericDatasetRepository implements DatasetRepositoryContract
 
     protected $client;
 
+    protected $options;
+
     public function __construct(string $baseUrl, ClientInterface $client)
     {
         $this->baseUrl = $baseUrl;
@@ -28,8 +30,14 @@ class RemoteGenericDatasetRepository implements DatasetRepositoryContract
      */
     public function getAll(): \stdClass
     {
+        if (!isset($this->options)) {
+            $option = ['timeout' => 10];
+        } else {
+            $option = $this->options;
+        }
+
         $request = $this->makeRequest();
-        $response = $this->client->send($request, ['timeout' => 10]);
+        $response = $this->client->send($request, $option);
 
         $body = $response->getBody();
 
@@ -60,5 +68,10 @@ class RemoteGenericDatasetRepository implements DatasetRepositoryContract
         ];
 
         return new Request($method, $url, $headers);
+    }
+
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
     }
 }

@@ -16,4 +16,6 @@ interface DatasetRepositoryContract
     public function setPath(string $path);
 
     public function getPath(): string;
+
+    public function setOptions(array $options);
 }

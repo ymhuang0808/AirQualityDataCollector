@@ -9,10 +9,16 @@
 namespace App\Transformers;
 
 
+use App\Exceptions\TransformException;
 use App\Site;
 
 class EpaAirQualityTransformer extends AbstractAqdcTransformer
 {
+    /**
+     * @param \stdClass $airQuality
+     * @return RemoteModel
+     * @throws TransformException
+     */
     public function transform(\stdClass $airQuality): RemoteModel
     {
         $fields = [
@@ -62,9 +68,16 @@ class EpaAirQualityTransformer extends AbstractAqdcTransformer
      *
      * @param $name
      * @return Site
+     * @throws TransformException
      */
     protected function getSiteByName(string $name) : Site
     {
-        return Site::where('name', $name)->first();
+        $site = Site::where('name', $name)->first();
+
+        if (!isset($site)) {
+            throw new TransformException(sprintf('EPA %s site was not found in database', $name));
+        }
+
+        return $site;
     }
 }

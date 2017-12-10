@@ -20,6 +20,7 @@ class CollectEpaDatasetCommandFactory extends AbstractCollectCommandFactory
         $this->baseUrl = config('aqdc.remote_source.epa.base_url');
         $this->siteUri = config('aqdc.remote_source.epa.site_uri');
         $this->airQualityUri = config('aqdc.remote_source.epa.air_quality_uri');
+        $this->options = config('aqdc.remote_source.epa.options');
 
         $this->httpClient = new Client();
     }

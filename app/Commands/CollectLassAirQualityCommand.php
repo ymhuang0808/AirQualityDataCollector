@@ -7,6 +7,8 @@ use App\Events\CollectAirQualityCompletedEvent;
 use App\LassDataset;
 use App\Site;
 use App\Transformers\RemoteModel;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class CollectLassAirQualityCommand extends AbstractCollectLassCommunityAirQualityCommand
 {
@@ -28,18 +30,23 @@ class CollectLassAirQualityCommand extends AbstractCollectLassCommunityAirQualit
         $lassDatasetCollection = collect();
 
         foreach ($airQualityObjArray as $airQualityObj) {
-            /** @var RemoteModel $remoteModel */
-            $remoteModel = $this->transformer->transform($airQualityObj);
-            $uniqueKeyValues = $this->getUniqueKeyValues($remoteModel);
+            try {
+                /** @var RemoteModel $remoteModel */
+                $remoteModel = $this->transformer->transform($airQualityObj);
+                $uniqueKeyValues = $this->getUniqueKeyValues($remoteModel);
 
-            $lassDataset = LassDataset::firstOrNew($uniqueKeyValues);
-            $lassDataset->fill($this->getFieldsExceptUniqueKeyValues($remoteModel));
+                $lassDataset = LassDataset::firstOrNew($uniqueKeyValues);
+                $lassDataset->fill($this->getFieldsExceptUniqueKeyValues($remoteModel));
 
-            /** @var Site $site */
-            $site = $remoteModel->relationships['site'];
+                /** @var Site $site */
+                $site = $remoteModel->relationships['site'];
 
-            $lassDataset->site()->associate($site);
-            $lassDataset->save();
+                $lassDataset->site()->associate($site);
+                $lassDataset->save();
+            } catch (QueryException $exception) {
+                Log::error($exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
+                continue;
+            }
 
             $lassDatasetCollection->push($lassDataset);
         }

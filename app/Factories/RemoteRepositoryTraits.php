@@ -18,6 +18,8 @@ trait RemoteRepositoryTraits
 
     protected $remoteRepository;
 
+    protected $options;
+
     protected function getRemoteAirQualityRepository(): DatasetRepositoryContract
     {
         if ($this->siteUri == $this->airQualityUri) {
@@ -41,6 +43,11 @@ trait RemoteRepositoryTraits
         }
 
         $this->remoteRepository = new RemoteGenericDatasetRepository($this->baseUrl, $this->httpClient);
+
+        if (isset($this->options)) {
+            $this->remoteRepository->setOptions($this->options);
+        }
+
         $this->remoteRepository->setPath($this->siteUri);
 
         return $this->remoteRepository;

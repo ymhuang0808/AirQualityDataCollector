@@ -5,7 +5,9 @@ namespace App\Commands;
 
 use App\EpaDataset;
 use App\Events\CollectAirQualityCompletedEvent;
+use App\Exceptions\TransformException;
 use App\Transformers\RemoteModel;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Collect EAP Air quality dataset from repository. And the transformer transforms the raw data into `RemoteModel`.
@@ -23,8 +25,14 @@ class CollectEpaAirQualityCommand extends AbstractCollectAirQualityCommand
         $epaDatasetItems = [];
 
         foreach ($airQualityObjArray as $airQualityObj) {
-            /** @var RemoteModel $remoteModel */
-            $remoteModel = $this->transformer->transform($airQualityObj);
+            try {
+                /** @var RemoteModel $remoteModel */
+                $remoteModel = $this->transformer->transform($airQualityObj);
+            } catch (TransformException $exception) {
+                Log::error($exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
+                continue;
+            }
+
             $uniqueKeyValues = $this->getUniqueKeyValues($remoteModel);
 
             $epaDataset = EpaDataset::firstOrNew($uniqueKeyValues);

@@ -6,6 +6,7 @@ namespace App\Aggregate;
 use App\Aggregate\Contracts\AggregateProcessorContract;
 use App\Aggregate\Contracts\AggregatorContract;
 use App\Aggregate\Contracts\AggregateFactoryContract;
+use App\Repository\AirboxAggregatableDatasetRepository;
 use App\Repository\EpaAggregatableDatasetRepository;
 use App\Repository\LassAggregatableDatasetRepository;
 
@@ -26,6 +27,11 @@ class AggregateFactory implements AggregateFactoryContract
 
             case 'epa':
                 $repository = new EpaAggregatableDatasetRepository();
+                $fields = ['pm25', 'pm10'];
+                break;
+
+            case 'airbox':
+                $repository = new AirboxAggregatableDatasetRepository();
                 $fields = ['pm25', 'pm10'];
                 break;
 

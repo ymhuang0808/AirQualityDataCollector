@@ -47,7 +47,7 @@ class ArchiveMeasurementsCommand extends Command
         $sourceType = $this->argument('source');
         $result = $this->archivedMeasurementsManager
             ->setSourceType($sourceType)
-            ->process();
+            ->archiveAll();
 
         if ($result) {
             $this->info('Measurements were archived successfully.');

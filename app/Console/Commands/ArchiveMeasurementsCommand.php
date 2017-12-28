@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Managers\ArchivedMeasurementsManagerInterface;
+use App\Archive\ArchivedMeasurementsManagerContract;
 use Illuminate\Console\Command;
 
 class ArchiveMeasurementsCommand extends Command
@@ -22,15 +22,15 @@ class ArchiveMeasurementsCommand extends Command
     protected $description = 'Archives a certain source type of measurements';
 
     /**
-     * @var ArchivedMeasurementsManagerInterface
+     * @var ArchivedMeasurementsManagerContract
      */
     protected $archivedMeasurementsManager;
 
     /**
      * Create a new command instance.
-     * @param ArchivedMeasurementsManagerInterface $archivedMeasurementsManager
+     * @param ArchivedMeasurementsManagerContract $archivedMeasurementsManager
      */
-    public function __construct(ArchivedMeasurementsManagerInterface $archivedMeasurementsManager)
+    public function __construct(ArchivedMeasurementsManagerContract $archivedMeasurementsManager)
     {
         parent::__construct();
 

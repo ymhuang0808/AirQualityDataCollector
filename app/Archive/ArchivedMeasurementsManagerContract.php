@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Managers;
+namespace App\Archive;
 
 
-interface ArchivedMeasurementsManagerInterface
+interface ArchivedMeasurementsManagerContract
 {
     /**
      * Sets the the source type of archived measurements
@@ -21,10 +21,16 @@ interface ArchivedMeasurementsManagerInterface
     public function getSourceType(): string ;
 
     /**
-     * Execute the archived process
+     * Archives all processed measurements
      *
      * @param int $chunkCount
-     * @return boolean
      */
-    public function process(int $chunkCount = 100): bool ;
+    public function archiveAll(int $chunkCount = 100);
+
+    /**
+     * Dispatch jobs queue
+     *
+     * @return bool
+     */
+    public function dispatchJob(): bool;
 }

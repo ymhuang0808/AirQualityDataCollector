@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use App\Managers\ArchivedMeasurementsManager;
-use App\Managers\ArchivedMeasurementsManagerInterface;
+use App\Archive\ArchivedMeasurementsManager;
+use App\Archive\ArchivedMeasurementsManagerContract;
+use App\Archive\ArchiveMeasurementsProcessor;
+use App\Archive\ArchiveMeasurementsProcessorContract;
 use App\Repository\Contracts\AggregationLogRepositoryContract;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,8 +28,10 @@ class ArchiveMeasurementsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(ArchivedMeasurementsManagerInterface::class, function ($app) {
-            return new ArchivedMeasurementsManager($app->make(AggregationLogRepositoryContract::class));
+        $this->app->bind(ArchiveMeasurementsProcessorContract::class, ArchiveMeasurementsProcessor::class);
+
+        $this->app->bind(ArchivedMeasurementsManagerContract::class, function ($app) {
+            return new ArchivedMeasurementsManager($app->make(AggregationLogRepositoryContract::class), $app->make(ArchiveMeasurementsProcessorContract::class));
         });
     }
 }

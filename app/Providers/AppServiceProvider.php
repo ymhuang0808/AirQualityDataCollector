@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Archive\ArchiveMeasurementsProcessor;
+use App\Archive\ArchiveMeasurementsProcessorContract;
 use App\Helpers\ClassMappingHelpers;
+use App\Helpers\SourceHelpers;
 use App\Repository\Contracts\CacheableContract;
 use App\Repository\SimpleArrayCacheRepository;
 use Illuminate\Support\Facades\Schema;
@@ -32,5 +35,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(CacheableContract::class, SimpleArrayCacheRepository::class);
         $this->app->bind('ClassMappingHelpers', ClassMappingHelpers::class);
+        $this->app->bind('SourceHelpers', SourceHelpers::class);
+        $this->app->bind(ArchiveMeasurementsProcessorContract::class, ArchiveMeasurementsProcessor::class);
     }
 }

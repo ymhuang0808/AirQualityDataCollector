@@ -242,6 +242,7 @@ return [
 
         // AQDC class mapping helpers
         'ClassMappingHelpers' => App\Helpers\Facades\ClassMappingHelpers::class,
+        'SourceHelpers' => App\Helpers\Facades\SourceHelpers::class,
     ],
 
 ];

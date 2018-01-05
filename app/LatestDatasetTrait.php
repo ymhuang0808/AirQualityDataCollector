@@ -10,16 +10,21 @@ trait LatestDatasetTrait
 {
     public function scopeLatest(Builder $query, string $before = '')
     {
-        if (isset($before)) {
-            $maxQuery = $query->where('published_datetime', '>=', $before);
-        }
+        $table = $this->table;
 
-        try {
-            $max = $maxQuery->max('published_datetime');
-        } catch (ModelNotFoundException $exception) {
-            return $query;
-        }
+        $query->leftJoin("$table AS t2", function ($leftJoin) use ($table, $before) {
+            $leftJoin->on("$table.site_id", '=', 't2.site_id')
+                ->on("$table.published_datetime", '<', 't2.published_datetime');
 
-        return $query->where('published_datetime', $max);
+            if (!empty($before)) {
+                // TODO
+            }
+        });
+        $query->whereNull('t2.published_datetime');
+        $query->select("$table.*");
+
+        $sql = $query->toSql();
+
+        return $query;
     }
 }

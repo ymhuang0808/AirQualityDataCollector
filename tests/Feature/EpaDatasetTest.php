@@ -24,11 +24,22 @@ class EpaDatasetTest extends TestCase
 
     public function testScopeLatest()
     {
-        $result = EpaDataset::latest()->first();
+        $result = EpaDataset::latest()->get();
 
-        $this->assertEquals(36, $result->pm25);
-        $this->assertEquals(37, $result->pm10);
-        $this->assertEquals(2, $result->site_id);
-        $this->assertEquals('2017-09-03 19:44:33', $result->published_datetime);
+        $this->assertCount(2, $result);
+
+        $site1 = $result->get(0);
+
+        $this->assertEquals(95, $site1->pm25);
+        $this->assertEquals(88, $site1->pm10);
+        $this->assertEquals(1, $site1->site_id);
+        $this->assertEquals('2017-09-03 07:10:13', $site1->published_datetime);
+
+        $site2 = $result->get(1);
+
+        $this->assertEquals(36, $site2->pm25);
+        $this->assertEquals(37, $site2->pm10);
+        $this->assertEquals(2, $site2->site_id);
+        $this->assertEquals('2017-09-03 19:44:33', $site2->published_datetime);
     }
 }

@@ -32,7 +32,7 @@ class SiteApiControllerTest extends TestCase
                 '*' => [
                     'id',
                     'name',
-                    'eng_name',
+                    'humanized_eng_name',
                     'type',
                     'area_name',
                     'coordinates' => [
@@ -57,7 +57,7 @@ class SiteApiControllerTest extends TestCase
                 '*' => [
                     'id',
                     'name',
-                    'eng_name',
+                    'humanized_eng_name',
                     'type',
                     'area_name',
                     'coordinates' => [
@@ -86,7 +86,7 @@ class SiteApiControllerTest extends TestCase
                 '*' => [
                     'id',
                     'name',
-                    'eng_name',
+                    'humanized_eng_name',
                     'type',
                     'area_name',
                     'coordinates' => [
@@ -115,7 +115,7 @@ class SiteApiControllerTest extends TestCase
                 '*' => [
                     'id',
                     'name',
-                    'eng_name',
+                    'humanized_eng_name',
                     'type',
                     'area_name',
                     'coordinates' => [
@@ -148,7 +148,7 @@ class SiteApiControllerTest extends TestCase
                 '*' => [
                     'id',
                     'name',
-                    'eng_name',
+                    'humanized_eng_name',
                     'address',
                     'type',
                     'area_name',
@@ -195,7 +195,7 @@ class SiteApiControllerTest extends TestCase
                 '*' => [
                     'id',
                     'name',
-                    'eng_name',
+                    'humanized_eng_name',
                     'type',
                     'area_name',
                     'coordinates' => [

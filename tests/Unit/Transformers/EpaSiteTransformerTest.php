@@ -38,7 +38,7 @@ class EpaSiteTransformerTest extends TestCase
         $this->assertInstanceOf(RemoteModel::class, $actualRemoteModel);
 
         $this->assertEquals('竹山', $actualRemoteModel->fields['name']);
-        $this->assertEquals('Zhushan', $actualRemoteModel->fields['eng_name']);
+        $this->assertEquals('Zhushan', $actualRemoteModel->fields['humanized_eng_name']);
         $this->assertEquals('中部空品區', $actualRemoteModel->fields['area_name']);
         $this->assertEquals('南投縣竹山鎮大明路666號', $actualRemoteModel->fields['address']);
         $this->assertEquals('一般測站', $actualRemoteModel->fields['type']);

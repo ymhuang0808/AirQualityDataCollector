@@ -17,7 +17,8 @@ class EpaSiteTransformer extends AbstractAqdcTransformer
     {
         $fields = [
             'name' => $site->SiteName,
-            'eng_name' => $site->SiteEngName,
+            'humanized_name' => $site->SiteName,
+            'humanized_eng_name' => $site->SiteEngName,
             'area_name' => $site->AreaName,
             'address' => $site->SiteAddress,
             'coordinates' => [

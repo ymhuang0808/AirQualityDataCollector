@@ -52,11 +52,12 @@ class LassSiteTransformerTest extends TestCase
         $this->assertInstanceOf(RemoteModel::class, $actualRemoteModel);
 
         $this->assertEquals('FT1_928', $actualRemoteModel->fields['name']);
+        $this->assertEquals('FT1_928', $actualRemoteModel->fields['humanized_name']);
         $this->assertEquals(23.767234, $actualRemoteModel->fields['coordinates']['latitude']);
         $this->assertEquals(120.7062, $actualRemoteModel->fields['coordinates']['longitude']);
         $this->assertEquals('lass', $actualRemoteModel->fields['source_type']);
 
-        $this->assertCount(3, $actualRemoteModel->fields);
+        $this->assertCount(4, $actualRemoteModel->fields);
 
         $this->assertNull($actualRemoteModel->relationships);
     }

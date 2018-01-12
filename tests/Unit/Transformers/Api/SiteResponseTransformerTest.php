@@ -26,7 +26,7 @@ class SiteResponseTransformerTest extends TestCase
         $actual = $this->transformer->transform($site);
 
         $this->assertEquals('竹山', $actual['name']);
-        $this->assertEquals('Zhushan', $actual['eng_name']);
+        $this->assertEquals('Zhushan', $actual['humanized_eng_name']);
         $this->assertEquals([
             'latitude' => 23.7563890000,
             'longitude' => 120.6773060000,
@@ -79,7 +79,7 @@ class SiteResponseTransformerTest extends TestCase
         $actual = $this->transformer->transform($site);
 
         $this->assertEquals('FT1_392', $actual['name']);
-        $this->assertNull($actual['eng_name']);
+        $this->assertNull($actual['humanized_eng_name']);
         $this->assertEquals([
             'latitude' => 24.22674,
             'longitude' => 120.642577,
@@ -104,7 +104,7 @@ class SiteResponseTransformerTest extends TestCase
 
         $site = factory(\App\Site::class)->create([
             'name' => '竹山',
-            'eng_name' => 'Zhushan',
+            'humanized_eng_name' => 'Zhushan',
             'area_name' => '中部空品區',
             'coordinates' => [
                 'latitude' => 23.7563890000,
@@ -130,7 +130,7 @@ class SiteResponseTransformerTest extends TestCase
     {
         $site = factory(\App\Site::class)->create([
             'name' => 'FT1_392',
-            'eng_name' => null,
+            'humanized_eng_name' => null,
             'area_name' => null,
             'coordinates' => [
                 'latitude' => 24.22674,

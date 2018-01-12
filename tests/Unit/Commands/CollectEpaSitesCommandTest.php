@@ -93,7 +93,7 @@ class CollectEpaSitesCommandTest extends TestCase
 
         $this->assertDatabaseHas('sites', [
             'name' => $expectedSiteName,
-            'eng_name' => $expectedSiteEngName,
+            'humanized_eng_name' => $expectedSiteEngName,
             'area_name' => $expectedAreaName,
             'type' => $expectedType,
             'county_id' => $county->id,

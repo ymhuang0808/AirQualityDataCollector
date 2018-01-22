@@ -188,6 +188,9 @@ return [
         // Laravel Notification for Pushbullet
         NotificationChannels\Pushbullet\PushbulletServiceProvider::class,
 
+        // Laravel CORS
+        Barryvdh\Cors\ServiceProvider::class,
+
     ],
 
     /*

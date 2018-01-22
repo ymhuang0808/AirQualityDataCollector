@@ -45,7 +45,8 @@ $factory->define(App\Site::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $faker->unique()->word,
-        'eng_name' => $enFaker->unique()->word,
+        'humanized_name' => $faker->unique()->word,
+        'humanized_eng_name' => $enFaker->unique()->word,
         'area_name' => $faker->city,
         'coordinates' => [
             'latitude' => $faker->latitude,

@@ -33,6 +33,7 @@ class LassDataset extends Model implements ModelMeasurementContract
     {
         return self::makeHidden([
             'id',
+            'site',
             'published_datetime',
             'updated_at',
             'created_at',

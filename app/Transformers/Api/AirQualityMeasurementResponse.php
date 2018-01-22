@@ -9,7 +9,11 @@ class AirQualityMeasurementResponse extends TransformerAbstract
 {
     public function transform(MultipleAirQualityContract $collection)
     {
-        return $collection->all();
+        $result = [
+            'measurements' => $collection->all(),
+        ];
+
+        return $result;
     }
 
 }

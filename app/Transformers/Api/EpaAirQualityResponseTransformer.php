@@ -22,7 +22,7 @@ class EpaAirQualityResponseTransformer extends TransformerAbstract
             'created_at',
         ])->toArray();
 
-        return$result;
+        return $result;
     }
 
     public function includeSite(EpaDataset $epa)

@@ -53,6 +53,7 @@ class EpaDataset extends Model implements ModelMeasurementContract
             'published_datetime',
             'updated_at',
             'created_at',
+            'site',
         ])->toArray();
     }
 

@@ -17,6 +17,7 @@ return [
             'site_uri' => '/webapi/api/rest/datastore/355000000I-000006?format=json',
             'model' => \App\EpaDataset::class,
             'api_transformer' => \App\Transformers\Api\EpaAirQualityResponseTransformer::class,
+            'point_transformer' => \App\Transformers\GeoJSON\GeneralPointTransformer::class,
             'options' => [
                 'timeout' => 120,
             ],
@@ -27,6 +28,7 @@ return [
             'site_uri' => '/data/last-all-lass.json',
             'model' => \App\LassDataset::class,
             'api_transformer' => \App\Transformers\Api\LassAirQualityResponseTransformer::class,
+            'point_transformer' => \App\Transformers\GeoJSON\GeneralPointTransformer::class,
         ],
         'airbox' => [
             'base_url' => 'https://pm25.lass-net.org',
@@ -34,6 +36,7 @@ return [
             'site_uri' => '/data/last-all-airbox.json',
             'model' => \App\AirboxDataset::class,
             'api_transformer' => \App\Transformers\Api\AirboxAirQualityResponseTransformer::class,
+            'point_transformer' => \App\Transformers\GeoJSON\GeneralPointTransformer::class,
         ],
     ],
 ];

@@ -3,6 +3,7 @@
 namespace App\Transformers\Api;
 
 
+use App\AirboxDataset;
 use League\Fractal\TransformerAbstract;
 
 class AirboxAirQualityResponseTransformer extends TransformerAbstract
@@ -11,7 +12,7 @@ class AirboxAirQualityResponseTransformer extends TransformerAbstract
         'site',
     ];
 
-    public function transform(LassDataset $dataset)
+    public function transform(AirboxDataset $dataset)
     {
         return $dataset->makeHidden([
             'site_id',
@@ -20,9 +21,9 @@ class AirboxAirQualityResponseTransformer extends TransformerAbstract
         ])->toArray();
     }
 
-    public function includeSite(LassDataset $epa)
+    public function includeSite(AirboxDataset $dataset)
     {
-        $site = $epa->site()->first();
+        $site = $dataset->site()->first();
 
         return $this->item($site, new SiteResponseTransformer());
     }

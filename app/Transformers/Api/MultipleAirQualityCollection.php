@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use League\Fractal\Manager;
 use League\Fractal\Serializer\ArraySerializer;
 use League\Fractal\Resource\Collection as ResourceCollection;
+use League\Fractal\Serializer\SerializerAbstract;
 use League\Fractal\TransformerAbstract;
 use Traversable;
 
@@ -16,17 +17,22 @@ class MultipleAirQualityCollection implements MultipleAirQualityContract, \Itera
 
     protected $manager;
 
-    public function __construct()
+    public function __construct(SerializerAbstract $serializer = null)
     {
         $this->manager = new Manager();
-        $this->manager->setSerializer(new ArraySerializer());
+
+        if (is_null($serializer)) {
+            $serializer = new ArraySerializer();
+        }
+
+        $this->manager->setSerializer($serializer);
     }
 
     public function add(string $sourceType, Collection $dataCollection, TransformerAbstract $transformer)
     {
         $resource = new ResourceCollection($dataCollection, $transformer);
         $result = $this->manager->createData($resource)->toArray();
-        $this->collection[$sourceType] = $result['data'];
+        $this->collection[$sourceType] = array_key_exists('data', $result) ? $result['data'] : $result;
     }
 
     /**

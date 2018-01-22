@@ -118,6 +118,21 @@ $factory->define(App\LassDataset::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\AirboxDataset::class, function (Faker\Generator $faker) {
+    $fakedPublishedDatetime = $faker->dateTime();
+
+    return [
+        'pm25' => $faker->randomFloat(1, 0, 9999),
+        'pm10' => $faker->randomFloat(1, 0, 9999),
+        'temperature' => $faker->randomFloat(2, 0, 999),
+        'humidity' => $faker->randomFloat(2, 0, 999),
+        'site_id' => function () {
+            return factory(App\Site::class)->create()->id;
+        },
+        'published_datetime' => $fakedPublishedDatetime->format('Y-m-d H:i:s'),
+    ];
+});
+
 $factory->define(\App\AggregationLog::class, function (Faker\Generator $faker) {
     return [
         'aggregation_type' => 'daily',

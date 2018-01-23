@@ -13,7 +13,7 @@ use League\Fractal\Serializer\ArraySerializer;
 
 class SiteApiController extends Controller
 {
-    public function getAll(SitesApiGetAllRequest $request)
+    public function showAll(SitesApiGetAllRequest $request)
     {
         $sites = Cache::remember('model-site:all', 5, function () {
             return Site::all();

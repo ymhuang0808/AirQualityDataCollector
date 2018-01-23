@@ -13,7 +13,7 @@ use League\Fractal\Serializer\ArraySerializer;
 
 class AirQualityMeasurementApiController extends Controller
 {
-    public function getAll(AirQualityMeasurementApiGetAllRequest $request)
+    public function showAll(AirQualityMeasurementApiGetAllRequest $request)
     {
         $remoteSource = config('aqdc.remote_source');
         $needleSource = $this->needleSource($request);

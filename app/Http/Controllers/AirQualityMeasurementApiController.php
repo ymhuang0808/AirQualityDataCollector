@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Api\AirQualityMeasurementApiGetAllRequest;
+use App\Http\Requests\Api\AirQualityMeasurementApiShowAllRequest;
 use App\Transformers\Api\AirQualityMeasurementResponse;
 use App\Transformers\Api\MultipleAirQualityCollection;
 use App\Transformers\GeoJSON\GeoJSONSerializer;
@@ -13,7 +13,7 @@ use League\Fractal\Serializer\ArraySerializer;
 
 class AirQualityMeasurementApiController extends Controller
 {
-    public function showAll(AirQualityMeasurementApiGetAllRequest $request)
+    public function showAll(AirQualityMeasurementApiShowAllRequest $request)
     {
         $remoteSource = config('aqdc.remote_source');
         $needleSource = $this->needleSource($request);
@@ -34,7 +34,7 @@ class AirQualityMeasurementApiController extends Controller
         return response()->json($result);
     }
 
-    public function getAllGeoJson(AirQualityMeasurementApiGetAllRequest $request)
+    public function getAllGeoJson(AirQualityMeasurementApiShowAllRequest $request)
     {
         $remoteSource = config('aqdc.remote_source');
         $needleSource = $this->needleSource($request);
@@ -61,7 +61,7 @@ class AirQualityMeasurementApiController extends Controller
         return response()->json($result);
     }
 
-    protected function needleSource(AirQualityMeasurementApiGetAllRequest $request): array
+    protected function needleSource(AirQualityMeasurementApiShowAllRequest $request): array
     {
         $needleSource = [];
         $remoteSource = config('aqdc.remote_source');

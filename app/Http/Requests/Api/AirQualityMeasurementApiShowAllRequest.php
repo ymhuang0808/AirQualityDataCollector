@@ -5,7 +5,7 @@ namespace App\Http\Requests\Api;
 use App\Site;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AirQualityMeasurementApiGetAllRequest extends FormRequest
+class AirQualityMeasurementApiShowAllRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

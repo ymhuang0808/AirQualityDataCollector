@@ -6,6 +6,8 @@ use App\Console\Commands\AggregateMeasurementsCommand;
 use App\Console\Commands\ArchiveMeasurementsCommand;
 use App\Console\Commands\CollectDatasetCommand;
 use App\Console\Commands\CollectSitesCommand;
+use App\Jobs\AggregateAirQualityDataset;
+use App\Jobs\ArchiveMeasurementsJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -31,8 +33,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        // Every 30 minutes, dispatch an aggregation job
+        $schedule->job(new AggregateAirQualityDataset('all'))
+            ->everyThirtyMinutes();
     }
 
     /**

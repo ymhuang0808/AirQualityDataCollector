@@ -17,10 +17,14 @@ class SiteResponseTransformer extends TransformerAbstract
 
     public function transform(Site $site)
     {
-        return $site->makeHidden([
+        $data = $site->makeHidden([
             'created_at',
-            'updated_at'
+            'updated_at',
         ])->toArray();
+
+        unset($data['aggregation_metric']);
+
+        return $data;
     }
 
     public function includeCounty(Site $site)

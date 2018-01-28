@@ -8,6 +8,8 @@ use App\Aggregate\Contracts\AggregateFactoryContract;
 use App\Aggregate\Contracts\AggregatorContract;
 use App\Repository\AggregationLogRepository;
 use App\Repository\Contracts\AggregationLogRepositoryContract;
+use App\Repository\Contracts\AggregationMeasurementRepositoryContract;
+use App\Repository\SiteAggregationMeasurementRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AggregateServiceProvider extends ServiceProvider
@@ -34,5 +36,7 @@ class AggregateServiceProvider extends ServiceProvider
         $this->app->bind(AggregateFactoryContract::class, AggregateFactory::class);
 
         $this->app->bind(AggregationLogRepositoryContract::class, AggregationLogRepository::class);
+
+        $this->app->bind(AggregationMeasurementRepositoryContract::class, SiteAggregationMeasurementRepository::class);
     }
 }

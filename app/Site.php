@@ -40,12 +40,22 @@ class Site extends Model
 
     public function epaDataset()
     {
-        return $this->hasOne('App\EpaDataset');
+        return $this->hasMany('App\EpaDataset');
     }
 
     public function lassDataset()
     {
-        return $this->hasOne('App\LassDataset');
+        return $this->hasMany('App\LassDataset');
+    }
+
+    public function airboxDataset()
+    {
+        return $this->hasMany('App\AirboxDataset');
+    }
+
+    public function aggregationMetric()
+    {
+        return $this->hasMany('App\AggregationMetric');
     }
 
     public function county()

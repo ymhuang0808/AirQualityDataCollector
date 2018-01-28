@@ -63,7 +63,6 @@ trait AggregateProcessHelpers
     protected function createAggregationMetric(array $aggregations, int $periodType)
     {
         foreach ($aggregations as $aggregationItem) {
-            $aggregationItem['values'] = serialize($aggregationItem['values']);
             $aggregationItem += [
                 'period_type' => $periodType,
             ];

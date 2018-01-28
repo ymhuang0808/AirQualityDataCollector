@@ -8,8 +8,6 @@ class AggregationMetric extends Model
 {
     const PERIOD_TYPE_HOURLY = 0;
     const PERIOD_TYPE_DAILY = 1;
-    const PERIOD_TYPE_WEEKLY = 2;
-    const PERIOD_TYPE_MONTHLY = 3;
 
     protected $fillable = [
         'start_datetime',
@@ -18,6 +16,16 @@ class AggregationMetric extends Model
         'values',
         'period_type',
     ];
+
+    public function setValuesAttribute($value)
+    {
+        $this->attributes['values'] = serialize($value);
+    }
+
+    public function getValuesAttribute()
+    {
+        return unserialize($this->attributes['values']);
+    }
 
     public function sites()
     {

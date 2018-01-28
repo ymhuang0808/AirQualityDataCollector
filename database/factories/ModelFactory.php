@@ -165,3 +165,33 @@ $factory->state(\App\AggregationLog::class, 'hourly', function (Faker\Generator 
         'level' => \Monolog\Logger::INFO,
     ];
 });
+
+$factory->define(\App\AggregationMetric::class, function (Faker\Generator $faker) {
+    return [
+        'period_type' => 'hourly',
+        'site_id' => function () {
+            return factory(App\Site::class)->create()->id;
+        },
+        'start_datetime' => $faker->unique()->dateTime()->format('Y-m-d H:i:s'),
+        'end_datetime' => $faker->unique()->dateTime()->format('Y-m-d H:i:s'),
+        'values' => serialize([
+            'pm25' => $faker->numberBetween(1, 120),
+            'pm10' => $faker->numberBetween(1, 120),
+        ]),
+    ];
+});
+
+$factory->state(\App\AggregationMetric::class, 'hourly', function (Faker\Generator $faker) {
+    return [
+        'period_type' => 'hourly',
+        'site_id' => function () {
+            return factory(App\Site::class)->create()->id;
+        },
+        'start_datetime' => $faker->unique()->dateTime()->format('Y-m-d H:i:s'),
+        'end_datetime' => $faker->unique()->dateTime()->format('Y-m-d H:i:s'),
+        'values' => serialize([
+            'pm25' => $faker->numberBetween(1, 120),
+            'pm10' => $faker->numberBetween(1, 120),
+        ]),
+    ];
+});

@@ -7,6 +7,7 @@ use App\County;
 use App\Events\CollectSiteCompletedEvent;
 use App\Site;
 use App\Township;
+use GuzzleHttp\Exception\ConnectException;
 
 class CollectEpaSitesCommand extends AbstractCollectSitesCommand
 {
@@ -14,7 +15,12 @@ class CollectEpaSitesCommand extends AbstractCollectSitesCommand
 
     public function execute()
     {
-        $result = $this->datasetRepository->getAll();
+        try {
+            $result = $this->datasetRepository->getAll();
+        } catch (ConnectException $exception) {
+            return;
+        }
+
         $siteObjArray = $result->result->records;
 
         $sites = [];

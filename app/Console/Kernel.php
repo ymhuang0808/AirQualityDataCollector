@@ -10,6 +10,7 @@ use App\Jobs\AggregateAirQualityDataset;
 use App\Jobs\ArchiveMeasurementsJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Artisan;
 
 class Kernel extends ConsoleKernel
 {
@@ -28,11 +29,31 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
+        // Every 30 minutes, execute collecting epa command
+        $schedule->command(CollectSitesCommand::class, [
+            'source' => ['epa'],
+        ])->everyThirtyMinutes()
+            ->after(function () {
+                Artisan::call('aqdc:collect-dataset', [
+                    'source' => ['epa'],
+                ]);
+            });
+
+        // Every 5 minutes, execute collecting lass and airbox command
+        $schedule->command(CollectSitesCommand::class, [
+            'source' => ['lass', 'airbox'],
+        ])->everyFiveMinutes()
+            ->after(function () {
+                Artisan::call('aqdc:collect-dataset', [
+                    'source' => ['lass', 'airbox'],
+                ]);
+            });
+
         // Every 30 minutes, dispatch an aggregation job
         $schedule->job(new AggregateAirQualityDataset('all'))
             ->everyThirtyMinutes();

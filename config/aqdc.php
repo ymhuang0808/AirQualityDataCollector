@@ -19,7 +19,7 @@ return [
             'api_transformer' => \App\Transformers\Api\EpaAirQualityResponseTransformer::class,
             'point_transformer' => \App\Transformers\GeoJSON\GeneralPointTransformer::class,
             'options' => [
-                'timeout' => 120,
+                'timeout' => 180,
             ],
         ],
         'lass' => [

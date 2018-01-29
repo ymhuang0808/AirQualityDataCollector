@@ -50,7 +50,7 @@ class AggregateAirQualityDatasetJob implements ShouldQueue
             return;
         }
 
-        Log::debug('AggregateAirQualityDatasetJob aggregation source are ' . $aggregatedSource);
+        Log::debug('AggregateAirQualityDatasetJob aggregation source are ' . implode(', ', $aggregatedSource));
 
         foreach ($aggregatedSource as $source) {
             $processor = $factory->getAggregateProcessor($source);

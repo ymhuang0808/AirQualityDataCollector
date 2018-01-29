@@ -18,7 +18,7 @@ class AggregationLogHandlerTest extends TestCase
     {
         parent::setUp();
 
-        $this->handler = new AggregationLogHandler(new AggregationLog());
+        $this->handler = new AggregationLogHandler();
     }
 
     public function testHandle()

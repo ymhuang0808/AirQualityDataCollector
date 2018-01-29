@@ -42,7 +42,7 @@ class AirQualityEventListenerServiceProvider extends ServiceProvider
             });
         $this->app
             ->singleton(AggregationLogHandler::class, function () {
-               return new AggregationLogHandler(new AggregationLog);
+               return new AggregationLogHandler();
             });
 
         // Binding an instance in CollectAirQualityCompletedListener class

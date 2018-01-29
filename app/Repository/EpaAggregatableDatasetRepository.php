@@ -3,8 +3,6 @@
 namespace App\Repository;
 
 
-use Illuminate\Support\Facades\DB;
-
 class EpaAggregatableDatasetRepository extends AbstractAggretableDatasetRepository
 {
     use GenericAggregatableDatasetRepositoryTrait;

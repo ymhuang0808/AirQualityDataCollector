@@ -9,7 +9,7 @@ use App\Aggregate\AirQualityDatasetAggregator;
 use App\Aggregate\Contracts\AggregateFactoryContract;
 use App\Aggregate\Contracts\AggregatorContract;
 use App\AggregationMetric;
-use App\Jobs\AggregateAirQualityDataset;
+use App\Jobs\AggregateAirQualityDatasetJob;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -38,7 +38,7 @@ class AggregateAirQualityDatasetTest extends TestCase
         Setting::set('aggregate.epa.hourly.air_quality', '2017-09-02 01:00:10');
         Setting::set('aggregate.epa.daily.air_quality', '2017-09-02 03:00:03');
 
-        $job = new AggregateAirQualityDataset('all');
+        $job = new AggregateAirQualityDatasetJob('all');
         /** @var AggregatorContract $aggregator */
         $aggregator = new AirQualityDatasetAggregator();
         /** @var AggregateFactoryContract $factory */

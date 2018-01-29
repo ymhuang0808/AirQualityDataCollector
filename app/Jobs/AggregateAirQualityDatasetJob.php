@@ -9,8 +9,9 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Log;
 
-class AggregateAirQualityDataset implements ShouldQueue
+class AggregateAirQualityDatasetJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -24,6 +25,7 @@ class AggregateAirQualityDataset implements ShouldQueue
      */
     public function __construct($source = 'all')
     {
+        Log::debug('AggregateAirQualityDatasetJob was dispatched. The source is ' . $source);
         $this->source = $source;
     }
 
@@ -44,8 +46,11 @@ class AggregateAirQualityDataset implements ShouldQueue
         } elseif ($this->source == 'all') {
             $aggregatedSource = $aggregator->getAvailableSource();
         } else {
+            Log::debug('AggregateAirQualityDatasetJob didn\'t handle the aggregation');
             return;
         }
+
+        Log::debug('AggregateAirQualityDatasetJob aggregation source are ' . $aggregatedSource);
 
         foreach ($aggregatedSource as $source) {
             $processor = $factory->getAggregateProcessor($source);

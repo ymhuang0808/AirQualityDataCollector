@@ -51,7 +51,7 @@ abstract class AbstractCollectLassCommunitySitesCommand extends AbstractCollectS
             $siteCollection->push($site);
         }
 
-        event(new CollectSiteCompletedEvent($siteCollection, 'lass'));
+        event(new CollectSiteCompletedEvent($siteCollection, $this->sourceType));
     }
 
     protected function generateCacheKey(): string

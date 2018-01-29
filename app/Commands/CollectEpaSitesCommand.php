@@ -13,6 +13,8 @@ class CollectEpaSitesCommand extends AbstractCollectSitesCommand
 {
     use CollectSiteHelpers;
 
+    protected $sourceType = 'epa';
+
     public function execute()
     {
         try {
@@ -47,6 +49,6 @@ class CollectEpaSitesCommand extends AbstractCollectSitesCommand
 
         $siteCollection = collect($sites);
 
-        event(new CollectSiteCompletedEvent($siteCollection, 'epa'));
+        event(new CollectSiteCompletedEvent($siteCollection, $this->sourceType));
     }
 }

@@ -38,6 +38,7 @@ class AggregateAirQualityDatasetJob implements ShouldQueue
      */
     public function handle(AggregatorContract $aggregator, AggregateFactoryContract $factory)
     {
+        Log::debug('AggregateAirQualityDatasetJob::handle()');
         /** @var array $aggregatedSource It stores the handled source */
         $aggregatedSource = [];
 

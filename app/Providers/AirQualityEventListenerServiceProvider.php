@@ -38,7 +38,7 @@ class AirQualityEventListenerServiceProvider extends ServiceProvider
         // Make the CollectionLogHandler for storing log as a singleton
         $this->app
             ->singleton(CollectionLogHandler::class, function () {
-               return new CollectionLogHandler(new CollectionLog);
+               return new CollectionLogHandler();
             });
         $this->app
             ->singleton(AggregationLogHandler::class, function () {

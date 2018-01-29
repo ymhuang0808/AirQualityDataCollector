@@ -8,11 +8,8 @@ use Monolog\Logger;
 
 class CollectionLogHandler extends AbstractProcessingHandler
 {
-    protected $collectionLog;
-
-    public function __construct(CollectionLog $collectionLog, $level = Logger::DEBUG, $bubble = true)
+    public function __construct($level = Logger::DEBUG, $bubble = true)
     {
-        $this->collectionLog = $collectionLog;
         parent::__construct($level, $bubble);
     }
 
@@ -24,9 +21,10 @@ class CollectionLogHandler extends AbstractProcessingHandler
      */
     protected function write(array $record)
     {
-        $this->collectionLog->fill($record);
-        $this->collectionLog->count = $record['context']['count'];
-        $this->collectionLog->source_type = $record['context']['source_type'];
-        $this->collectionLog->save();
+        $collectionLog = new CollectionLog();
+        $collectionLog->fill($record);
+        $collectionLog->count = $record['context']['count'];
+        $collectionLog->source_type = $record['context']['source_type'];
+        $collectionLog->save();
     }
 }

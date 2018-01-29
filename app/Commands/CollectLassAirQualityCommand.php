@@ -4,6 +4,7 @@ namespace App\Commands;
 
 
 use App\Events\CollectAirQualityCompletedEvent;
+use App\Exceptions\TransformException;
 use App\LassDataset;
 use App\Site;
 use App\Transformers\RemoteModel;
@@ -44,6 +45,9 @@ class CollectLassAirQualityCommand extends AbstractCollectLassCommunityAirQualit
                 $lassDataset->site()->associate($site);
                 $lassDataset->save();
             } catch (QueryException $exception) {
+                Log::error($exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
+                continue;
+            } catch (TransformException $exception) {
                 Log::error($exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
                 continue;
             }

@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 
+use App\Exceptions\TransformException;
 use App\Site;
 
 class AbstractLassCommunityAirQualityTransformer extends AbstractAqdcTransformer
@@ -27,10 +28,19 @@ class AbstractLassCommunityAirQualityTransformer extends AbstractAqdcTransformer
         return $remoteModel;
     }
 
+    /**
+     * @param string $string
+     * @return string
+     * @throws TransformException
+     */
     protected function timestampToDateTime(string $string): string
     {
         $timezone = new \DateTimeZone('UTC');
         $dateTime = \DateTime::createFromFormat('Y-m-d\TH:i:sZ', $string, $timezone);
+
+        if ($dateTime === false) {
+            throw new TransformException('Incorrect DateTime format');
+        }
 
         return $dateTime->format('Y-m-d H:i:s');
     }

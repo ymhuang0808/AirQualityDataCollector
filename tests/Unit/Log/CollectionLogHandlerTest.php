@@ -18,7 +18,7 @@ class CollectionLogHandlerTest extends TestCase
     {
         parent::setUp();
 
-        $this->handler = new CollectionLogHandler(new CollectionLog);
+        $this->handler = new CollectionLogHandler();
     }
 
     public function testHandle()

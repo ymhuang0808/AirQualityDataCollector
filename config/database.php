@@ -52,7 +52,7 @@ return [
             'strict' => true,
             'engine' => null,
             'timezone' => '+00:00',
-            // Remove 'Source: https://github.com/laravel/framework/issues/14997#issuecomment-242129087
+            // Source: https://github.com/laravel/framework/issues/14997#issuecomment-242129087
             'modes' => [
                 'STRICT_TRANS_TABLES',
                 'NO_ZERO_IN_DATE',

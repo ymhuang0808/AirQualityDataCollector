@@ -4,10 +4,8 @@ namespace App;
 
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 
 trait LatestDatasetTrait
@@ -20,8 +18,7 @@ trait LatestDatasetTrait
         $selectedColumns = collect($columns)->map(function ($column) use ($table) {
             return "$table.$column";
         })->all();
-        $subQueryColumnString = collect($columns)
-            ->map(function ($column) {
+        $subQueryColumnString = collect($columns)->map(function ($column) {
             if ($column == 'published_datetime') {
                 return 'MAX(`published_datetime`) AS published_datetime';
             }

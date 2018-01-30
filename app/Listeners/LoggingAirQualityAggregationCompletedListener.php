@@ -4,11 +4,10 @@ namespace App\Listeners;
 
 use App\Events\AirQualityMeasurementAggregationCompleted;
 use App\Log\LogChannel;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 
-class LoggingAirQualityAggregationCompletedListener implements ShouldQueue
+class LoggingAirQualityAggregationCompletedListener
 {
     /** @var  \Monolog\Logger */
     protected $logger;

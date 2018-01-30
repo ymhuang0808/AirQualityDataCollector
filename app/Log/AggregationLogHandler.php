@@ -13,8 +13,6 @@ class AggregationLogHandler extends AbstractProcessingHandler
     public function __construct($level = Logger::DEBUG, $bubble = true)
     {
         parent::__construct($level, $bubble);
-
-
     }
 
     /**

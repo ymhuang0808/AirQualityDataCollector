@@ -51,7 +51,16 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
-            'timezone' => '+00:00'
+            'timezone' => '+00:00',
+            // Remove 'Source: https://github.com/laravel/framework/issues/14997#issuecomment-242129087
+            'modes' => [
+                'STRICT_TRANS_TABLES',
+                'NO_ZERO_IN_DATE',
+                'NO_ZERO_DATE',
+                'ERROR_FOR_DIVISION_BY_ZERO',
+                'NO_AUTO_CREATE_USER',
+                'NO_ENGINE_SUBSTITUTION'
+            ],
         ],
 
         'pgsql' => [

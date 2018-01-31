@@ -37,7 +37,7 @@ trait HasAirQualityAggregatorSettings
 
     private function setDailyLastTimeBySource(string $source, string $datetime)
     {
-        Setting::set('aggregate.' . $source . '.monthly.air_quality', $datetime);
+        Setting::set('aggregate.' . $source . '.daily.air_quality', $datetime);
         Setting::save();
     }
 

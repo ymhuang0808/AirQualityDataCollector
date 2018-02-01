@@ -39,10 +39,10 @@ class Kernel extends ConsoleKernel
             'source' => ['epa'],
         ])->everyThirtyMinutes();
 
-        // Every week, execute collecting epa sites command
+        // Every day at 03:40, execute collecting epa sites command
         $schedule->command(CollectSitesCommand::class, [
             'source' => ['epa'],
-        ])->weekly();
+        ])->dailyAt('03:40');
 
         // Every 5 minutes, execute collecting lass and airbox command
         $schedule->command(CollectDatasetCommand::class, [

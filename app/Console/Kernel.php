@@ -36,17 +36,17 @@ class Kernel extends ConsoleKernel
     {
         // Every 30 minutes, execute collecting epa command
         $schedule->command(CollectDatasetCommand::class, [
-            'source' => ['epa'],
+            ['epa'],
         ])->everyThirtyMinutes();
 
         // Every day at 03:40, execute collecting epa sites command
         $schedule->command(CollectSitesCommand::class, [
-            'source' => ['epa'],
+            ['epa'],
         ])->dailyAt('03:40');
 
         // Every 5 minutes, execute collecting lass and airbox command
         $schedule->command(CollectDatasetCommand::class, [
-            'source' => ['lass', 'airbox'],
+            ['lass', 'airbox'],
         ])->everyFiveMinutes();
 
         // Every 30 minutes, dispatch an aggregation job

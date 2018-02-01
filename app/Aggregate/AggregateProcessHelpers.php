@@ -5,6 +5,8 @@ namespace App\Aggregate;
 
 use App\AggregationMetric;
 use Carbon\Carbon;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 trait AggregateProcessHelpers
 {
@@ -66,7 +68,13 @@ trait AggregateProcessHelpers
             $aggregationItem += [
                 'period_type' => $periodType,
             ];
-            AggregationMetric::create($aggregationItem);
+
+            try {
+                AggregationMetric::create($aggregationItem);
+            } catch (QueryException $exception) {
+                Log::error('duplicated exception');
+                continue;
+            }
         }
     }
 

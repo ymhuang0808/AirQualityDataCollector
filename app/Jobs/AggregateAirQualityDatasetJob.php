@@ -15,6 +15,8 @@ class AggregateAirQualityDatasetJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $timeout = 300;
+
     /** @var string The aggregated source */
     protected $source;
 

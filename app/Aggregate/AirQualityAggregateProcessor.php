@@ -6,6 +6,7 @@ namespace App\Aggregate;
 use App\AggregationMetric;
 use App\Events\AirQualityMeasurementAggregationCompleted;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class AirQualityAggregateProcessor extends AbstractAggregateProcessor
 {
@@ -39,6 +40,8 @@ class AirQualityAggregateProcessor extends AbstractAggregateProcessor
 
         event(new AirQualityMeasurementAggregationCompleted('hourly', $sourceType, $startDateTime, $endDateTime));
 
+        Log::debug('aggregateHourly() completed, sourceType = ' . $this->sourceType . ', endDateTime = ' . $endDateTime);
+
         return $endDateTime;
     }
 
@@ -71,6 +74,8 @@ class AirQualityAggregateProcessor extends AbstractAggregateProcessor
         $sourceType = $this->getSourceType();
 
         event(new AirQualityMeasurementAggregationCompleted('daily', $sourceType, $startDateTime, $endDateTime));
+
+        Log::debug('aggregateDaily() completed, sourceType = ' . $this->sourceType . ', endDateTime = ' . $endDateTime);
 
         return $endDateTime;
     }

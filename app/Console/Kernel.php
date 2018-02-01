@@ -35,24 +35,19 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // Every 30 minutes, execute collecting epa command
+        $schedule->command(CollectDatasetCommand::class, [
+            'source' => ['epa'],
+        ])->everyThirtyMinutes();
+
+        // Every week, execute collecting epa sites command
         $schedule->command(CollectSitesCommand::class, [
             'source' => ['epa'],
-        ])->everyThirtyMinutes()
-            ->after(function () {
-                Artisan::call('aqdc:collect-dataset', [
-                    'source' => ['epa'],
-                ]);
-            });
+        ])->weekly();
 
         // Every 5 minutes, execute collecting lass and airbox command
-        $schedule->command(CollectSitesCommand::class, [
+        $schedule->command(CollectDatasetCommand::class, [
             'source' => ['lass', 'airbox'],
-        ])->everyFiveMinutes()
-            ->after(function () {
-                Artisan::call('aqdc:collect-dataset', [
-                    'source' => ['lass', 'airbox'],
-                ]);
-            });
+        ])->everyFiveMinutes();
 
         // Every 30 minutes, dispatch an aggregation job
         $schedule->job(new AggregateAirQualityDatasetJob('all'))

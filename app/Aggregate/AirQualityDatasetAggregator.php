@@ -4,6 +4,7 @@ namespace App\Aggregate;
 
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 /**
  * AirQualityDatasetAggregator controls and executes the aggregate processor.
@@ -19,9 +20,16 @@ class AirQualityDatasetAggregator extends AbstractAirQualityDatasetAggregator
 
     protected function processHourly()
     {
+        Log::debug('processHourly() for ' . $this->source);
+
         $now = Carbon::now();
         $lastTimeString = $this->getHourlyLastTime();
+
+        Log::debug('$lastTimeString = ' . $lastTimeString);
+
         $lastDateTime = $this->startOfHour(Carbon::parse($lastTimeString));
+
+        Log::debug('$lastDateTime = ' . $lastDateTime);
 
         if ($now->diffInHours($lastDateTime) >= 1) {
             $endDateTime = $this->processor->aggregateHourly($lastDateTime);
@@ -33,9 +41,16 @@ class AirQualityDatasetAggregator extends AbstractAirQualityDatasetAggregator
 
     protected function processDaily()
     {
+        Log::debug('processDaily() for ' . $this->source);
+
         $now = Carbon::now();
         $lastTimeString = $this->getDailyLastTime();
+
+        Log::debug('$lastTimeString = ' . $lastTimeString);
+
         $lastDateTime = Carbon::parse($lastTimeString)->startOfDay();
+
+        Log::debug('$lastDateTime = ' . $lastDateTime);
 
         if ($now->diffInDays($lastDateTime) >= 1) {
             $endDateTime = $this->processor->aggregateDaily($lastDateTime);

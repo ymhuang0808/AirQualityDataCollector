@@ -18,10 +18,16 @@ class AirQualityAggregateProcessor extends AbstractAggregateProcessor
      */
     public function aggregateHourly($lastTime): Carbon
     {
+        Log::debug('--- begin aggregateHourly() ---');
+        Log::debug('$lastTime = ' . $lastTime);
+
         $now = Carbon::now();
         $startDateTime = Carbon::parse($lastTime);
         $beginTimeWindow = $startDateTime->copy();
         $endTimeWindow = $startDateTime->copy()->addHour()->subSecond();
+
+        Log::debug('$beginTimeWindow = ' . $beginTimeWindow->toDateTimeString());
+        Log::debug('$endTimeWindow = ' . $endTimeWindow->toDateTimeString());
 
         // TODO: refactor it in to a class or procedure
         // Process each time period
@@ -41,6 +47,7 @@ class AirQualityAggregateProcessor extends AbstractAggregateProcessor
         event(new AirQualityMeasurementAggregationCompleted('hourly', $sourceType, $startDateTime, $endDateTime));
 
         Log::debug('aggregateHourly() completed, sourceType = ' . $this->sourceType . ', endDateTime = ' . $endDateTime);
+        Log::debug('--- end aggregateHourly() ---');
 
         return $endDateTime;
     }
@@ -53,10 +60,16 @@ class AirQualityAggregateProcessor extends AbstractAggregateProcessor
      */
     public function aggregateDaily($lastTime): Carbon
     {
+        Log::debug('--- begin aggregateDaily() ---');
+        Log::debug('$lastTime = ' . $lastTime);
+
         $today = Carbon::now()->startOfDay();
         $startDateTime = Carbon::parse($lastTime);
         $beginTimeWindow = $startDateTime->copy();
         $nextDatetime = $startDateTime->copy()->addDay()->subSecond();
+
+        Log::debug('$beginTimeWindow = ' . $beginTimeWindow->toDateTimeString());
+        Log::debug('$nextDatetime = ' . $nextDatetime->toDateTimeString());
 
         // Process each time period
         while ($beginTimeWindow->lessThan($today) && $nextDatetime->lessThanOrEqualTo($today)) {
@@ -76,6 +89,7 @@ class AirQualityAggregateProcessor extends AbstractAggregateProcessor
         event(new AirQualityMeasurementAggregationCompleted('daily', $sourceType, $startDateTime, $endDateTime));
 
         Log::debug('aggregateDaily() completed, sourceType = ' . $this->sourceType . ', endDateTime = ' . $endDateTime);
+        Log::debug('--- end aggregateDaily() ---');
 
         return $endDateTime;
     }

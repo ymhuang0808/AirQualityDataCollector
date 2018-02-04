@@ -181,7 +181,7 @@ class SiteApiControllerTest extends TestCase
               'name' => $site->name,
            ]);
         });
-    }
+   }
 
     public function testGetAllWithNotInIncludeValue()
     {

@@ -74,6 +74,7 @@ abstract class AbstractAirQualityDatasetAggregator implements AggregatorContract
      */
     protected function getHourlyLastTime(): string
     {
+        $this->forceReloadSettings();
         return $this->getHourlyLastTimeBySource($this->source);
     }
 
@@ -82,6 +83,7 @@ abstract class AbstractAirQualityDatasetAggregator implements AggregatorContract
      */
     protected function getDailyLastTime(): string
     {
+        $this->forceReloadSettings();
         return $this->getDailyLastTimeBySource($this->source);
     }
 
@@ -90,6 +92,7 @@ abstract class AbstractAirQualityDatasetAggregator implements AggregatorContract
      */
     protected function getWeeklyLastTime(): string
     {
+        $this->forceReloadSettings();
         return $this->getWeeklyLastTimeBySource($this->source);
     }
 
@@ -98,6 +101,7 @@ abstract class AbstractAirQualityDatasetAggregator implements AggregatorContract
      */
     protected function getMonthlyLastTime(): string
     {
+        $this->forceReloadSettings();
         return $this->getMonthlyLastTimeBySource($this->source);
     }
 

@@ -38,6 +38,8 @@ class AggregateAirQualityDatasetTest extends TestCase
         Setting::set('aggregate.epa.hourly.air_quality', '2017-09-02 01:00:10');
         Setting::set('aggregate.epa.daily.air_quality', '2017-09-02 03:00:03');
 
+        Setting::save();
+
         $job = new AggregateAirQualityDatasetJob('all');
         /** @var AggregatorContract $aggregator */
         $aggregator = new AirQualityDatasetAggregator();

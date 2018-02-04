@@ -9,6 +9,11 @@ trait HasAirQualityAggregatorSettings
 {
     private $datetime;
 
+    private function forceReloadSettings()
+    {
+        Setting::load(true);
+    }
+
     private function getHourlyLastTimeBySource(string $source)
     {
         return Setting::get('aggregate.' . $source . '.hourly.air_quality', $this->getDefaultDateString());

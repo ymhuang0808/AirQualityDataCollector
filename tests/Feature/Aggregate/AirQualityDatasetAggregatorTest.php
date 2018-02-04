@@ -41,6 +41,7 @@ class AirQualityDatasetAggregatorTest extends TestCase
         $knownNow = Carbon::create(2017, 07, 23, 13,00, 00);
         Carbon::setTestNow($knownNow);
         Setting::set('aggregate.lass.hourly.air_quality', '2017-07-23 10:00:00');
+        Setting::save();
 
         $this->aggregator->setSource('lass')->process();
 
@@ -92,6 +93,7 @@ class AirQualityDatasetAggregatorTest extends TestCase
         $knownNow = Carbon::create(2017, 07, 23, 13,01, 37);
         Carbon::setTestNow($knownNow);
         Setting::set('aggregate.lass.hourly.air_quality', '2017-07-23 10:33:21');
+        Setting::save();
 
         $this->aggregator->setSource('lass')->process();
 
@@ -144,6 +146,7 @@ class AirQualityDatasetAggregatorTest extends TestCase
         Carbon::setTestNow($knownNow);
         Setting::set('aggregate.lass.hourly.air_quality', '2017-07-24 01:00:00');
         Setting::set('aggregate.lass.daily.air_quality', '2017-07-23 23:00:00');
+        Setting::save();
 
         $this->aggregator->setSource('lass')->process();
 

@@ -42,9 +42,10 @@ $factory->define(App\Township::class, function (Faker\Generator $faker) {
 $factory->define(App\Site::class, function (Faker\Generator $faker) {
     $faker = Faker\Factory::create('zh_TW');
     $enFaker = Faker\Factory::create('en_US');
+    $name = $faker->unique()->word;
 
     return [
-        'name' => $faker->unique()->word,
+        'name' => $name,
         'humanized_name' => $faker->unique()->word,
         'humanized_eng_name' => $enFaker->unique()->word,
         'area_name' => $faker->city,

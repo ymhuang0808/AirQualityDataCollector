@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Archive\ArchivedMeasurementsManagerContract;
 use App\Console\Commands\AggregateMeasurementsCommand;
 use App\Console\Commands\ArchiveMeasurementsCommand;
 use App\Console\Commands\CollectDatasetCommand;
@@ -52,6 +53,13 @@ class Kernel extends ConsoleKernel
         // Every 30 minutes, dispatch an aggregation job
         $schedule->job(new AggregateAirQualityDatasetJob('all'))
             ->everyThirtyMinutes();
+
+        // Every day at 01:40, dispatches archive measurements
+        $schedule->call(function () {
+            /** @var ArchivedMeasurementsManagerContract $archiveMeasurementManager */
+            $archiveMeasurementManager = resolve(ArchivedMeasurementsManagerContract::class);
+            $archiveMeasurementManager->dispatchJob();
+        })->dailyAt('01:40');
     }
 
     /**

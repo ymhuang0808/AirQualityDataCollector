@@ -54,12 +54,26 @@ class Kernel extends ConsoleKernel
         $schedule->job(new AggregateAirQualityDatasetJob('all'))
             ->everyThirtyMinutes();
 
-        // Every day at 01:40, dispatches archive measurements
+        // Every day at 01:40, dispatches archive measurements job for LASS
         $schedule->call(function () {
             /** @var ArchivedMeasurementsManagerContract $archiveMeasurementManager */
             $archiveMeasurementManager = resolve(ArchivedMeasurementsManagerContract::class);
-            $archiveMeasurementManager->dispatchJob();
+            $archiveMeasurementManager->setSourceType('lass')->dispatchJob();
         })->dailyAt('01:40');
+
+        // Every day at 02:40, dispatches archive measurements job for EPA
+        $schedule->call(function () {
+            /** @var ArchivedMeasurementsManagerContract $archiveMeasurementManager */
+            $archiveMeasurementManager = resolve(ArchivedMeasurementsManagerContract::class);
+            $archiveMeasurementManager->setSourceType('epa')->dispatchJob();
+        })->dailyAt('02:40');
+
+        // Every day at 03:40, dispatches archive measurements job for Airbox
+        $schedule->call(function () {
+            /** @var ArchivedMeasurementsManagerContract $archiveMeasurementManager */
+            $archiveMeasurementManager = resolve(ArchivedMeasurementsManagerContract::class);
+            $archiveMeasurementManager->setSourceType('airbox')->dispatchJob();
+        })->dailyAt('03:40');
     }
 
     /**

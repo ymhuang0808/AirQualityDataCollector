@@ -5,6 +5,7 @@ namespace App\Archive;
 
 use App\ArchivedMeasurements;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Setting;
 
 /**
@@ -38,29 +39,35 @@ class ArchiveMeasurementsProcessor implements ArchiveMeasurementsProcessorContra
      */
     public function process(Carbon $start, Carbon $end, int $chunkCount = 100)
     {
-        $resultMeasurements = collect();
+        $measurements = $this->getArchivedMeasurementsBetween($start, $end, $chunkCount);
 
-        $this->modelClass::where('published_datetime', '>', $start->toDateTimeString())
-            ->where('published_datetime', '<=', $end->toDateTimeString())
-            ->chunk($chunkCount, function ($measurements) use ($resultMeasurements) {
-                /** @var \App\ModelMeasurementContract $measurement */
-                foreach ($measurements as $measurement) {
-                    $payload = $measurement->getMeasurementPayload();
-                    $publishedDatetime = $measurement->getPublishedDateTime();
+        while ($measurements->count() > 0) {
+            $measurements->each(function ($measurement) {
+                $payload = $measurement->getMeasurementPayload();
+                $publishedDatetime = $measurement->getPublishedDateTime();
 
-                    // Saved into the archived_measurements
-                    ArchivedMeasurements::create([
-                        'values' => $payload,
-                        'published_datetime' => $publishedDatetime,
-                        'site_id' => $measurement->getSite()->id,
-                    ]);
-
-                    $resultMeasurements->push($measurement);
-                }
+                // Saved into the archived_measurements
+                ArchivedMeasurements::create([
+                    'values' => $payload,
+                    'published_datetime' => $publishedDatetime,
+                    'site_id' => $measurement->getSite()->id,
+                ]);
+                $measurement->delete();
             });
 
-        $resultMeasurements->each(function ($item) {
-            $item->delete();
-        });
+            $measurements = $this->getArchivedMeasurementsBetween($start, $end, $chunkCount);
+        }
+
+    }
+
+    protected function getArchivedMeasurementsBetween(Carbon $start, Carbon $end, int $chunkCount = 100)
+    {
+        /** @var Collection $measurements */
+        $measurements = $this->modelClass::where('published_datetime', '>', $start->toDateTimeString())
+            ->where('published_datetime', '<=', $end->toDateTimeString())
+            ->take($chunkCount)
+            ->get();
+
+        return $measurements;
     }
 }

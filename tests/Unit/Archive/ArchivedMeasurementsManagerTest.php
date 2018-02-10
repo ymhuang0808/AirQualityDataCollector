@@ -103,6 +103,10 @@ class ArchivedMeasurementsManagerTest extends TestCase
             ->with('archived_measurements.last_execute_datetime.lass', $knownDate->toDateTimeString())
             ->andReturnUndefined();
 
+        Setting::shouldReceive('save')
+            ->once()
+            ->withNoArgs();
+
         // Archives the LassDataset measurements
         ClassMappingHelpers::shouldReceive('getModelBySourceType')
             ->once()
@@ -207,8 +211,12 @@ class ArchivedMeasurementsManagerTest extends TestCase
 
         Setting::shouldReceive('set')
             ->once()
-            ->with('archived_measurements.last_job_dispatch_datetime.lass', $knownDate->timestamp)
+            ->with('archived_measurements.last_job_dispatch_datetime.lass', $knownDate->toDateTimeString())
             ->andReturnUndefined();
+
+        Setting::shouldReceive('save')
+            ->once()
+            ->withNoArgs();
 
 
         // Fake the dispatching job

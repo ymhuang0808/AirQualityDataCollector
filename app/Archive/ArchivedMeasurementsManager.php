@@ -90,9 +90,7 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
         ArchiveMeasurementsJob::dispatch($this->sourceType, $lastExecuteDateTime->getTimestamp(), $endDatetime->getTimestamp())
             ->delay(now()->addMinutes(1));
 
-        $timestamp = Carbon::now()->getTimestamp();
-        $settingName = $this->getLastJobDispatchDateTimeSettingName();
-        Setting::set($settingName, $timestamp);
+        $this->setLastJobDispatchDateTime();
 
         return true;
     }
@@ -113,6 +111,20 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
 
         $name = $this->getLastExecuteTimestampSettingName();
         Setting::set($name, $dateTimeString);
+        Setting::save();
+    }
+
+    protected function setLastJobDispatchDateTime(Carbon $datetime = null)
+    {
+        if (is_null($datetime)) {
+            $dateTimeString = Carbon::now()->toDateTimeString();
+        } else {
+            $dateTimeString = $datetime->toDateTimeString();
+        }
+
+        $name = $this->getLastJobDispatchDateTimeSettingName();
+        Setting::set($name, $dateTimeString);
+        Setting::save();
     }
 
     protected function getLastJobDispatchDateTime(): Carbon

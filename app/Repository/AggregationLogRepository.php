@@ -12,9 +12,9 @@ class AggregationLogRepository implements AggregationLogRepositoryContract
     /**
      * @param Carbon $lastExecuteDatetime
      * @param string $sourceType
-     * @return Carbon
+     * @return Carbon | null
      */
-    public function getEndDatetime(Carbon $lastExecuteDatetime, string $sourceType): Carbon
+    public function getEndDatetime(Carbon $lastExecuteDatetime, string $sourceType)
     {
         $beginDatetime = AggregationLog::where('source_type', $sourceType)
             ->where('aggregation_type', 'daily')

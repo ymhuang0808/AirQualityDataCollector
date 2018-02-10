@@ -61,7 +61,7 @@ trait HasAirQualityAggregatorSettings
     private function getDefaultDateString(): string
     {
         if (!isset($this->datetime)) {
-            $this->datetime = Carbon::create(2018, 01, 01);
+            $this->datetime = Carbon::create(2017, 01, 01);
         }
 
         return $this->datetime->toDateString();

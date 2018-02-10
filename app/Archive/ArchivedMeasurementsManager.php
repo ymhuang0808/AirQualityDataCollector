@@ -14,9 +14,9 @@ use ClassMappingHelpers;
  */
 class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
 {
-    const LAST_EXECUTE_TIMESTAMP_SETTING_PARENT_NAME = 'archived_measurements.last_execute_timestamp.';
+    const LAST_EXECUTE_TIMESTAMP_SETTING_PARENT_NAME = 'archived_measurements.last_execute_datetime.';
 
-    const LAST_JOB_DISPATCH_DATETIME_SETTING_PARENT_NAME = 'archived_measurements.last_job_dispatch_timestamp.';
+    const LAST_JOB_DISPATCH_DATETIME_SETTING_PARENT_NAME = 'archived_measurements.last_job_dispatch_datetime.';
 
     protected $aggregationLogRepository;
 
@@ -58,9 +58,7 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
             ->setModelClass($modelClass)
             ->process($lastExecuteDateTime, $endDatetime, $chunkCount);
 
-        // Save the end time
-        $timestamp = Carbon::now()->getTimestamp();
-        Setting::set($this->getLastExecuteTimestampSettingName(), $timestamp);
+        $this->setArchivedDateTime();
 
         return true;
     }
@@ -99,20 +97,42 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
         return true;
     }
 
+    /**
+     * Set archived date time
+     *
+     * @param Carbon|null $datetime
+     * @return mixed
+     */
+    public function setArchivedDateTime(Carbon $datetime = null)
+    {
+        if (is_null($datetime)) {
+            $dateTimeString = Carbon::now()->toDateTimeString();
+        } else {
+            $dateTimeString = $datetime->toDateTimeString();
+        }
+
+        $name = $this->getLastExecuteTimestampSettingName();
+        Setting::set($name, $dateTimeString);
+    }
+
     protected function getLastJobDispatchDateTime(): Carbon
     {
-        $defaultLastJobDispatchTimestamp = 0;
-        $lastJobDispatchTimestamp = Setting::get($this->getLastJobDispatchDateTimeSettingName(), $defaultLastJobDispatchTimestamp);
-        $lastJobDispatchDateTime  = Carbon::createFromTimestamp((int) $lastJobDispatchTimestamp);
+        Setting::load(true);
+
+        $defaultLastJobDispatchTimestamp = '2017-01-01 00:00:00';
+        $lastJobDispatchDateTimeString = Setting::get($this->getLastJobDispatchDateTimeSettingName(), $defaultLastJobDispatchTimestamp);
+        $lastJobDispatchDateTime  = Carbon::createFromFormat('Y-m-d H:i:s', $lastJobDispatchDateTimeString);
 
         return $lastJobDispatchDateTime;
     }
 
     protected function getLastExecuteDateTime(): Carbon
     {
-        $defaultLastExecuteTimestamp = 0;
-        $lastExecuteTimestamp = Setting::get($this->getLastExecuteTimestampSettingName(), $defaultLastExecuteTimestamp);
-        $lastExecuteDateTime = Carbon::createFromTimestamp((int) $lastExecuteTimestamp);
+        Setting::load(true);
+
+        $defaultLastExecuteDateTimeString = '2017-01-01 00:00:00';
+        $lastExecuteDateTimeString = Setting::get($this->getLastExecuteTimestampSettingName(), $defaultLastExecuteDateTimeString);
+        $lastExecuteDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $lastExecuteDateTimeString);
 
         return $lastExecuteDateTime;
     }

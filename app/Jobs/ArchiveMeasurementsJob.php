@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 
 use App\Archive\ArchivedMeasurementsManager;
+use App\Archive\ArchivedMeasurementsManagerContract;
 use App\Archive\ArchiveMeasurementsProcessorContract;
 use Carbon\Carbon;
 use ClassMappingHelpers;
@@ -31,33 +32,21 @@ class ArchiveMeasurementsJob implements ShouldQueue
      * Create a new job instance.
      *
      * @param string $source
-     * @param int $startTimestamp
-     * @param int $endTimestamp
      */
-    public function __construct(string $source, int $startTimestamp, int $endTimestamp)
+    public function __construct(string $source)
     {
         $this->source = $source;
-        $this->startTimestamp = $startTimestamp;
-        $this->endTimestamp = $endTimestamp;
     }
 
     /**
      * Execute the job.
      *
-     * @param ArchiveMeasurementsProcessorContract $processor
+     * @param ArchivedMeasurementsManagerContract $manager
      * @return void
      */
-    public function handle(ArchiveMeasurementsProcessorContract $processor)
+    public function handle(ArchivedMeasurementsManagerContract $manager)
     {
-        $class = ClassMappingHelpers::getModelBySourceType($this->source);
-        $startDateTime = Carbon::createFromTimestamp($this->startTimestamp);
-        $endDateTime = Carbon::createFromTimestamp($this->endTimestamp);
-        $processor->setModelClass($class)->process($startDateTime, $endDateTime, 100);
-
-        $prefix = ArchivedMeasurementsManager::LAST_EXECUTE_TIMESTAMP_SETTING_PARENT_NAME;
-        $name = $prefix . $this->source;
-        $timestamp = Carbon::now()->getTimestamp();
-        Setting::set($name, $timestamp);
+        $manager->setSourceType($this->source)->archiveAll(300);
     }
 
     /**
@@ -70,7 +59,7 @@ class ArchiveMeasurementsJob implements ShouldQueue
     {
         $prefix = ArchivedMeasurementsManager::LAST_JOB_DISPATCH_DATETIME_SETTING_PARENT_NAME;
         $name = $prefix . $this->source;
-        $timestamp = 0;
+        $timestamp = '2017-01-01 00:00:00';
         Setting::set($name, $timestamp);
     }
 
@@ -80,21 +69,5 @@ class ArchiveMeasurementsJob implements ShouldQueue
     public function getSource(): string
     {
         return $this->source;
-    }
-
-    /**
-     * @return int
-     */
-    public function getStartTimestamp(): int
-    {
-        return $this->startTimestamp;
-    }
-
-    /**
-     * @return int
-     */
-    public function getEndTimestamp(): int
-    {
-        return $this->endTimestamp;
     }
 }

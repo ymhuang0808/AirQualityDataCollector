@@ -3,7 +3,8 @@
 namespace Test\Feature\Jobs;
 
 
-use App\Archive\ArchiveMeasurementsProcessorContract;
+use App\AggregationLog;
+use App\Archive\ArchivedMeasurementsManagerContract;
 use App\ArchivedMeasurements;
 use App\Jobs\ArchiveMeasurementsJob;
 use App\LassDataset;
@@ -22,12 +23,12 @@ class ArchiveMeasurementsJobTest extends TestCase
     use AggregationLogTableTestDataTrait;
     use AggregatableTestDataTrait;
 
-    protected $processor;
+    protected $manager;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->processor = resolve(ArchiveMeasurementsProcessorContract::class);
+        $this->manager = resolve(ArchivedMeasurementsManagerContract::class);
     }
 
     public function testHandleLassSource()
@@ -37,18 +38,39 @@ class ArchiveMeasurementsJobTest extends TestCase
         Carbon::setTestNow($knownDate);
 
         $this->setUpLassDatabase();
+        $this->setUpLassAggregationLog();
 
-        $end = Carbon::create(2017, 07, 23, 17, 21,31)->getTimestamp();
-        $archiveMeasurementsJob = new ArchiveMeasurementsJob('lass', 1500768000, $end);
-        $archiveMeasurementsJob->handle($this->processor);
+        $archiveMeasurementsJob = new ArchiveMeasurementsJob('lass');
+        $archiveMeasurementsJob->handle($this->manager);
 
         // Assert the ArchivedMeasurements
-        $this->assertEquals(12, ArchivedMeasurements::all()->count());
+        $this->assertEquals(16, ArchivedMeasurements::all()->count());
 
         // Assert LassDataset
-        $this->assertEquals(7, LassDataset::all()->count());
+        $this->assertEquals(3, LassDataset::all()->count());
 
-        // Assert the last execution timestamp had been set into archived_measurements.last_execute_timestamp.lass
-        $this->assertEquals($knownDate->getTimestamp(), Setting::get('archived_measurements.last_execute_timestamp.lass'));
+        // Assert the last execution timestamp had been set into archived_measurements.last_execute_datetime.lass
+        $this->assertEquals($knownDate->toDateTimeString(), Setting::get('archived_measurements.last_execute_datetime.lass'));
+    }
+
+    protected function setUpLassAggregationLog()
+    {
+        factory(AggregationLog::class)->create([
+            'aggregation_type' => 'daily',
+            'source_type' => 'lass',
+            'start_datetime' => '2017-07-22 00:00:00',
+            'end_datetime' => '2017-07-22 23:59:59',
+            'message' => 'Aggregation completed',
+            'level' => 200,
+        ]);
+
+        factory(AggregationLog::class)->create([
+            'aggregation_type' => 'daily',
+            'source_type' => 'lass',
+            'start_datetime' => '2017-07-23 00:00:00',
+            'end_datetime' => '2017-07-23 23:59:59',
+            'message' => 'Aggregation completed',
+            'level' => 200,
+        ]);
     }
 }

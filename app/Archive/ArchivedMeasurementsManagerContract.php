@@ -3,6 +3,8 @@
 namespace App\Archive;
 
 
+use Carbon\Carbon;
+
 interface ArchivedMeasurementsManagerContract
 {
     /**
@@ -33,4 +35,12 @@ interface ArchivedMeasurementsManagerContract
      * @return bool
      */
     public function dispatchJob(): bool;
+
+    /**
+     * Set archived date time
+     *
+     * @param Carbon|null $datetime
+     * @return mixed
+     */
+    public function setArchivedDateTime(Carbon $datetime = null);
 }

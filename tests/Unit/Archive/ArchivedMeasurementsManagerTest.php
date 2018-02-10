@@ -50,7 +50,7 @@ class ArchivedMeasurementsManagerTest extends TestCase
      *
      * Archives the LassDataset with the published_datetime from 2017-07-23 00:00:00 to 2017-07-23 17:21:31
      * The testing case checks that the the archive measurements process receives correct date time parameters and
-     * the archived_measurements.last_execute_timestamp.lass setting value should be set into current timestamp.
+     * the archived_measurements.last_execute_datetime.lass setting value should be set into current timestamp.
      */
     public function testArchiveAll()
     {
@@ -89,14 +89,18 @@ class ArchivedMeasurementsManagerTest extends TestCase
         $knownDate = Carbon::create(2017, 07, 25, 00, 31);
         Carbon::setTestNow($knownDate);
 
+        Setting::shouldReceive('load')
+            ->with(true)
+            ->once();
+
         Setting::shouldReceive('get')
             ->once()
-            ->with('archived_measurements.last_execute_timestamp.lass', 0)
-            ->andReturn(1500768000);
+            ->with('archived_measurements.last_execute_datetime.lass', '2017-01-01 00:00:00')
+            ->andReturn('2017-07-23 00:00:00');
 
         Setting::shouldReceive('set')
             ->once()
-            ->with('archived_measurements.last_execute_timestamp.lass', $knownDate->timestamp)
+            ->with('archived_measurements.last_execute_datetime.lass', $knownDate->toDateTimeString())
             ->andReturnUndefined();
 
         // Archives the LassDataset measurements
@@ -135,10 +139,14 @@ class ArchivedMeasurementsManagerTest extends TestCase
         $processor->expects($this->never())
             ->method('process');
 
+        Setting::shouldReceive('load')
+            ->with(true)
+            ->once();
+
         Setting::shouldReceive('get')
             ->once()
-            ->with('archived_measurements.last_execute_timestamp.lass', 0)
-            ->andReturn(1500768000);
+            ->with('archived_measurements.last_execute_datetime.lass', '2017-01-01 00:00:00')
+            ->andReturn('2017-07-23 00:00:00');
 
         Setting::shouldReceive('set')
             ->never();
@@ -157,7 +165,7 @@ class ArchivedMeasurementsManagerTest extends TestCase
      * Test for dispatchJob()
      *
      * The testing case checks that the \App\Jobs\ArchiveMeasurementsJob is dispatched with correct parameters and
-     * the archived_measurements.last_job_dispatch_timestamp.lass setting value should be set into current timestamp
+     * the archived_measurements.last_job_dispatch_datetime.lass setting value should be set into current timestamp
      */
     public function testDispatchJob()
     {
@@ -183,19 +191,23 @@ class ArchivedMeasurementsManagerTest extends TestCase
         $knownDate = Carbon::create(2017, 07, 25, 00, 31);
         Carbon::setTestNow($knownDate);
 
-        Setting::shouldReceive('get')
-            ->once()
-            ->with('archived_measurements.last_execute_timestamp.lass', 0)
-            ->andReturn(1500768000);
+        Setting::shouldReceive('load')
+            ->twice()
+            ->with(true);
 
         Setting::shouldReceive('get')
             ->once()
-            ->with('archived_measurements.last_job_dispatch_timestamp.lass', 0)
-            ->andReturn(0);
+            ->with('archived_measurements.last_execute_datetime.lass', '2017-01-01 00:00:00')
+            ->andReturn('2017-07-23 00:00:00');
+
+        Setting::shouldReceive('get')
+            ->once()
+            ->with('archived_measurements.last_job_dispatch_datetime.lass', '2017-01-01 00:00:00')
+            ->andReturn('2017-01-01 00:00:00');
 
         Setting::shouldReceive('set')
             ->once()
-            ->with('archived_measurements.last_job_dispatch_timestamp.lass', $knownDate->timestamp)
+            ->with('archived_measurements.last_job_dispatch_datetime.lass', $knownDate->timestamp)
             ->andReturnUndefined();
 
 
@@ -208,9 +220,7 @@ class ArchivedMeasurementsManagerTest extends TestCase
         $this->assertTrue($result);
 
         Bus::assertDispatched(ArchiveMeasurementsJob::class, function (ArchiveMeasurementsJob $job) use ($expectedEndDateTime) {
-            return $job->getSource() == 'lass' &&
-                $job->getStartTimestamp() == 1500768000 &&
-                $job->getEndTimestamp() == $expectedEndDateTime->getTimestamp();
+            return $job->getSource() == 'lass';
         });
     }
 
@@ -241,19 +251,23 @@ class ArchivedMeasurementsManagerTest extends TestCase
         $knownDate = Carbon::create(2017, 07, 25, 00, 31);
         Carbon::setTestNow($knownDate);
 
-        Setting::shouldReceive('get')
-            ->once()
-            ->with('archived_measurements.last_execute_timestamp.lass', 0)
-            ->andReturn(1500768000);
+        Setting::shouldReceive('load')
+            ->twice()
+            ->with(true);
 
         Setting::shouldReceive('get')
             ->once()
-            ->with('archived_measurements.last_job_dispatch_timestamp.lass', 0)
-            ->andReturn(1500768100);
+            ->with('archived_measurements.last_execute_datetime.lass', '2017-01-01 00:00:00')
+            ->andReturn('2017-07-23 00:00:00');
+
+        Setting::shouldReceive('get')
+            ->once()
+            ->with('archived_measurements.last_job_dispatch_datetime.lass', '2017-01-01 00:00:00')
+            ->andReturn('2017-07-23 00:01:40');
 
         Setting::shouldReceive('set')
             ->never()
-            ->with('archived_measurements.last_job_dispatch_timestamp.lass', $knownDate->timestamp);
+            ->with('archived_measurements.last_job_dispatch_datetime.lass', $knownDate->timestamp);
 
 
         // Fake the dispatching job

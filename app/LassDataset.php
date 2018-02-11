@@ -24,6 +24,13 @@ class LassDataset extends Model implements ModelMeasurementContract
         'published_datetime',
     ];
 
+    protected $casts = [
+        'pm25' => 'double',
+        'pm10' => 'double',
+        'temperature' => 'double',
+        'humidity' => 'double',
+    ];
+
     public function site()
     {
         return $this->belongsTo('App\Site');

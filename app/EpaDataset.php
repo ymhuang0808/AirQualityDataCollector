@@ -41,6 +41,23 @@ class EpaDataset extends Model implements ModelMeasurementContract
         'published_datetime',
     ];
 
+    protected $casts = [
+        'o2' => 'double',
+        'co' => 'double',
+        'o3' => 'integer',
+        'pm10' => 'integer',
+        'pm25' => 'integer',
+        'wind_speed' => 'double',
+        'wind_direction' => 'integer',
+        'nox' => 'double',
+        'no' => 'double',
+        'aqi' => 'integer',
+        'co_8hr' => 'double',
+        'o3_8hr' => 'integer',
+        'pm10_8hr' => 'integer',
+        'pm25_8hr' => 'integer',
+    ];
+
     public function site()
     {
         return $this->belongsTo('App\Site');

@@ -6,6 +6,7 @@ namespace App\Archive;
 use App\Jobs\ArchiveMeasurementsJob;
 use App\Repository\Contracts\AggregationLogRepositoryContract;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Setting;
 use ClassMappingHelpers;
 
@@ -44,12 +45,15 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
     public function archiveAll(int $chunkCount = 100)
     {
         $lastExecuteDateTime = $this->getLastExecuteDateTime();
+        /** @var Carbon $endDatetime */
         $endDatetime = $this
             ->aggregationLogRepository
             ->getEndDatetime($lastExecuteDateTime, $this->sourceType);
 
         // Check if the latest aggregation time is less than last execution time
         if (is_null($endDatetime) || $lastExecuteDateTime >= $endDatetime) {
+            Log::debug('$endDateTime = ' . (is_null($endDatetime)) ? 'NULL' : $endDatetime->toDateTimeString());
+            Log::debug('$lastExecuteDateTime = ' . $lastExecuteDateTime->toDateTimeString());
             return false;
         }
 
@@ -78,6 +82,8 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
 
         // Check if the latest aggregation time is less than last execution time
         if (is_null($endDatetime) || $lastExecuteDateTime >= $endDatetime) {
+            Log::debug('$endDateTime = ' . (is_null($endDatetime)) ? 'NULL' : $endDatetime->toDateTimeString());
+            Log::debug('$lastExecuteDateTime = ' . $lastExecuteDateTime->toDateTimeString());
             return false;
         }
 

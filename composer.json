@@ -5,13 +5,13 @@
     "license": "Apache 2.0",
     "type": "project",
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.1",
         "anlutro/l4-settings": "^0.5.0",
-        "barryvdh/laravel-cors": "^0.10.1",
+        "barryvdh/laravel-cors": "^0.11.0",
         "doctrine/dbal": "^2.5",
         "guzzlehttp/guzzle": "~6.0",
-        "laravel-notification-channels/pushbullet": "^0.3.0",
-        "laravel/framework": "5.5.*",
+        "laravel-notification-channels/pushbullet": "^1.0",
+        "laravel/framework": "5.6.*",
         "laravel/tinker": "~1.0",
         "league/fractal": "^0.15.0",
         "monolog/monolog": "^1.22"
@@ -19,7 +19,7 @@
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~6.0",
+        "phpunit/phpunit": "~7.0",
         "filp/whoops": "~2.0"
     },
     "autoload": {
@@ -43,12 +43,10 @@
             "php artisan key:generate"
         ],
         "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
+            "Illuminate\\Foundation\\ComposerScripts::postInstall"
         ],
         "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate"
         ]
     },
     "config": {

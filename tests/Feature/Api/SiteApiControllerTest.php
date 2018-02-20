@@ -167,6 +167,9 @@ class SiteApiControllerTest extends TestCase
         $epaDataset = factory(EpaDataset::class, 4)->create();
         $fakeSites = $this->getSitesByEpaDatasets($epaDataset);
 
+        $cacheInstance = app('cache.store');
+        Cache::shouldReceive('driver')->andReturn($cacheInstance);
+
         Cache::shouldReceive('remember')
             ->once()
             ->with('model-site:all', 5, \Mockery::type('Callable'))

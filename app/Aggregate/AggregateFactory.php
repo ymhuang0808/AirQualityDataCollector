@@ -17,7 +17,7 @@ class AggregateFactory implements AggregateFactoryContract
         return new AirQualityDatasetAggregator();
     }
 
-    public function getAggregateProcessor(string $source): AggregateProcessorContract
+    public function getAggregateProcessor(string $source): ?AggregateProcessorContract
     {
         switch ($source) {
             case 'lass':
@@ -36,7 +36,7 @@ class AggregateFactory implements AggregateFactoryContract
                 break;
 
             default:
-                return;
+                return null;
         }
 
         $processor = new AirQualityAggregateProcessor($repository);

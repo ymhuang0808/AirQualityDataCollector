@@ -6,6 +6,7 @@ namespace App\Archive;
 use App\ArchivedMeasurements;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Setting;
 
 /**
@@ -39,6 +40,9 @@ class ArchiveMeasurementsProcessor implements ArchiveMeasurementsProcessorContra
      */
     public function process(Carbon $start, Carbon $end, int $chunkCount = 100)
     {
+        Log::debug('=== ArchiveMeasurementsProcessor::process() ===');
+        Log::debug('$start = ' . $start->toDateTimeString() . ', $end = ' . $end->toDateTimeString());
+
         $measurements = $this->getArchivedMeasurementsBetween($start, $end, $chunkCount);
 
         while ($measurements->count() > 0) {

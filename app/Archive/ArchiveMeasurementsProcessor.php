@@ -43,25 +43,36 @@ class ArchiveMeasurementsProcessor implements ArchiveMeasurementsProcessorContra
         Log::debug('=== ArchiveMeasurementsProcessor::process() ===');
         Log::debug('$start = ' . $start->toDateTimeString() . ', $end = ' . $end->toDateTimeString());
 
+        // ONLY for debug
+        $i = 1;
+
         $measurements = $this->getArchivedMeasurementsBetween($start, $end, $chunkCount);
 
         while ($measurements->count() > 0) {
-            $measurements->each(function ($measurement) {
+            $measurements->each(function ($measurement) use ($i) {
                 $payload = $measurement->getMeasurementPayload();
                 $publishedDatetime = $measurement->getPublishedDateTime();
 
                 // Saved into the archived_measurements
-                ArchivedMeasurements::create([
-                    'values' => $payload,
-                    'published_datetime' => $publishedDatetime,
-                    'site_id' => $measurement->getSite()->id,
-                ]);
+                try {
+                    ArchivedMeasurements::create([
+                        'values' => $payload,
+                        'published_datetime' => $publishedDatetime,
+                        'site_id' => $measurement->getSite()->id,
+                    ]);
+                } catch (\Exception $exception) {
+                    Log::debug('Failed to create ArchivedMeasurement model: $i = ' . $i);
+                }
+
                 $measurement->delete();
+
+                $i++;
             });
 
             $measurements = $this->getArchivedMeasurementsBetween($start, $end, $chunkCount);
         }
 
+        Log::debug('The total number of ArchivedMeasurement models is ' . $i);
     }
 
     protected function getArchivedMeasurementsBetween(Carbon $start, Carbon $end, int $chunkCount = 100)

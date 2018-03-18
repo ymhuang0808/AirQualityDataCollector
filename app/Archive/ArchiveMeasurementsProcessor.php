@@ -62,6 +62,7 @@ class ArchiveMeasurementsProcessor implements ArchiveMeasurementsProcessorContra
                     ]);
                 } catch (\Exception $exception) {
                     Log::debug('Failed to create ArchivedMeasurement model: $i = ' . $i);
+                    Log::debug($exception->getTraceAsString());
                 }
 
                 $measurement->delete();

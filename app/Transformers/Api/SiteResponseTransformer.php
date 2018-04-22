@@ -11,6 +11,7 @@ use League\Fractal\TransformerAbstract;
 class SiteResponseTransformer extends TransformerAbstract
 {
     protected $availableIncludes = [
+        'latest_measurement',
         'county',
         'township',
     ];
@@ -25,6 +26,22 @@ class SiteResponseTransformer extends TransformerAbstract
         unset($data['aggregation_metric']);
 
         return $data;
+    }
+
+    public function includeLatestMeasurement(Site $site)
+    {
+        $source = $site->source_type;
+        $relation = $source . 'Dataset';
+        $measurement = $site->{$relation}()->latest()->get()->first();
+
+        // Get the transformer class by source type
+        $remoteSource = config('aqdc.remote_source');
+        $transformer = $remoteSource[$source]['api_transformer'];
+
+        // Omit the default included resource
+        $this->getCurrentScope()->getManager()->parseExcludes('latest_measurement.site');
+
+        return $this->item($measurement, new $transformer);
     }
 
     public function includeCounty(Site $site)

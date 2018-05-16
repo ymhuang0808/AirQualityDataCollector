@@ -45,8 +45,8 @@ class AggregationMeasurementsApiControllerTest extends TestCase
             ->assertJson([
                 'aggregation_measurements' => [
                     [
-                        'start_datetime' => '2018-01-05 00:00:00',
-                        'end_datetime' => '2018-01-05 00:59:59',
+                        'start_datetime' => '2018-01-05T00:00:00+00:00',
+                        'end_datetime' => '2018-01-05T00:59:59+00:00',
                         'values' => ['pm25' => 41, 'pm10' => 39],
                     ],
                 ],

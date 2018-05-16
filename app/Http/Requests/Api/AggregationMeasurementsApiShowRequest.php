@@ -28,6 +28,7 @@ class AggregationMeasurementsApiShowRequest extends FormRequest
             'end_datetime' => 'required|date_format:Y-m-d\TH:i:sO|after:start_datetime',
             'period_type' => 'required|in:0,1',
             'limit' => 'numeric|max:365',
+            'order' => 'in:asc,desc',
         ];
     }
 }

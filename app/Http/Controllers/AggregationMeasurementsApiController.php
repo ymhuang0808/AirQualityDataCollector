@@ -13,20 +13,28 @@ use League\Fractal\Serializer\ArraySerializer;
 
 class AggregationMeasurementsApiController extends Controller
 {
-    public function show(AggregationMeasurementRepositoryContract $repository,
-                         AggregationMeasurementsApiShowRequest $request,
-                         $siteId)
+    protected $aggregationMeasurementRepository;
+
+    public function __construct(AggregationMeasurementRepositoryContract $repository)
+    {
+        $this->aggregationMeasurementRepository = $repository;
+    }
+
+    public function show(AggregationMeasurementsApiShowRequest $request, $siteId)
     {
         $startDateTime = Carbon::parse($request->input('start_datetime'))->toDateTimeString();
         $endDatetime = Carbon::parse($request->input('end_datetime'))->toDateTimeString();
         $periodType = $request->input('period_type');
         $limit = $request->has('limit') ? $request->input('limit') : 30;
+        $order = $request->has('order') ? $request->input('order') : 'asc';
 
-        $site = $repository->setSiteIdCondition($siteId)
+        $site = $this->aggregationMeasurementRepository
+            ->setSiteIdCondition($siteId)
             ->setPeriodTypeCondition($periodType)
             ->setStartDateTimeCondition($startDateTime)
             ->setEndDateTimeCondition($endDatetime)
             ->setLimit($limit)
+            ->setOrderByDirection($order)
             ->get();
 
         $manager = new Manager();

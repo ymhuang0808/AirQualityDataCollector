@@ -17,6 +17,11 @@ class AggregationMetric extends Model
         'period_type',
     ];
 
+    protected $dates = [
+        'start_datetime',
+        'end_datetime',
+    ];
+
     public function setValuesAttribute($value)
     {
         $this->attributes['values'] = serialize($value);

@@ -37,5 +37,7 @@ interface AggregationMeasurementRepositoryContract
      */
     public function setLimit(int $limit);
 
+    public function setOrderByDirection(string $orderByDirection);
+
     public function get(): Site ;
 }

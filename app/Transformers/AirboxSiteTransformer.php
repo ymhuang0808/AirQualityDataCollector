@@ -12,7 +12,7 @@ class AirboxSiteTransformer extends AbstractAqdcTransformer
     {
         $fields = [
             'name' => $data->device_id,
-            'humanized_name' => $data->device,
+            'humanized_name' => $data->SiteName,
             'coordinates' => [
                 'latitude' => $data->gps_lat,
                 'longitude' => $data->gps_lon,

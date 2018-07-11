@@ -14,8 +14,8 @@ class AddIndexesToLassDatasetsTable extends Migration
     public function up()
     {
         Schema::table('lass_datasets', function (Blueprint $table) {
-           $table->index(['published_datetime']);
-           $table->unique(['site_id', 'published_datetime']);
+            $table->index(['published_datetime']);
+            $table->unique(['site_id', 'published_datetime']);
         });
     }
 
@@ -27,8 +27,8 @@ class AddIndexesToLassDatasetsTable extends Migration
     public function down()
     {
         Schema::table('lass_datasets', function (Blueprint $table) {
-           $table->dropIndex(['published_datetime']);
-           $table->dropUnique(['site_id', 'published_datetime']);
+            $table->dropIndex(['published_datetime']);
+            $table->dropUnique(['site_id', 'published_datetime']);
         });
     }
 }

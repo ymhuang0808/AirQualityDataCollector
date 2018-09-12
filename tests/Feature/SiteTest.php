@@ -26,7 +26,7 @@ class SiteTest extends TestCase
     public function testDatasetRelationship()
     {
         $site1 = Site::find(1);
-        $result1 = $site1->lassDataset()->latest()->first();
+        $result1 = $site1->lassDataset()->latestBySite()->first();
 
         $this->assertEquals(35.2, $result1->pm25);
         $this->assertEquals(21.6, $result1->pm10);

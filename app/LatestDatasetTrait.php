@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Schema;
 
 trait LatestDatasetTrait
 {
-    public function scopeLatest(Builder $query, string $before = '')
+    public function scopeLatestBySite(Builder $query, string $before = '')
     {
         $table = $this->table;
         // Get all columns name in the table

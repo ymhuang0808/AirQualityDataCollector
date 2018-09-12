@@ -24,7 +24,7 @@ class LassDatasetTest extends TestCase
 
     public function testScopeLatest()
     {
-        $result = LassDataset::latest()->get();
+        $result = LassDataset::latestBySite()->get();
 
         $this->assertCount(2, $result);
 

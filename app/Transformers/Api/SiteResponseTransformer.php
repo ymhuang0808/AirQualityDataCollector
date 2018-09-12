@@ -32,7 +32,7 @@ class SiteResponseTransformer extends TransformerAbstract
     {
         $source = $site->source_type;
         $relation = $source . 'Dataset';
-        $measurement = $site->{$relation}()->latest()->get()->first();
+        $measurement = $site->{$relation}()->latestBySite()->get()->first();
 
         // Get the transformer class by source type
         $remoteSource = config('aqdc.remote_source');

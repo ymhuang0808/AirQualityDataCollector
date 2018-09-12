@@ -11,7 +11,7 @@
         "doctrine/dbal": "^2.5",
         "guzzlehttp/guzzle": "~6.0",
         "laravel-notification-channels/pushbullet": "^1.0",
-        "laravel/framework": "5.6.*",
+        "laravel/framework": "5.7.*",
         "laravel/tinker": "~1.0",
         "league/fractal": "^0.15.0",
         "monolog/monolog": "^1.22"

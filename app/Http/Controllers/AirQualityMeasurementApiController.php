@@ -90,7 +90,7 @@ class AirQualityMeasurementApiController extends Controller
         foreach ($sources as $name) {
             $modelClass = $remoteSource[$name]['model'];
             $models = Cache::remember('model-' . $modelClass . ':latest', 5, function () use ($modelClass) {
-                return $modelClass::with('site')->latest()->get();
+                return $modelClass::with('site')->latestBySite()->get();
             });
 
             $measurements->put($name, $models);

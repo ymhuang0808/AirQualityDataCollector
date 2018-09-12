@@ -24,7 +24,7 @@ class EpaDatasetTest extends TestCase
 
     public function testScopeLatest()
     {
-        $result = EpaDataset::latest()->get();
+        $result = EpaDataset::latestBySite()->get();
 
         $this->assertCount(2, $result);
 

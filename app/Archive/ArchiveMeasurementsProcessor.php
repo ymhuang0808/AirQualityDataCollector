@@ -49,7 +49,9 @@ class ArchiveMeasurementsProcessor implements ArchiveMeasurementsProcessorContra
         $measurements = $this->getArchivedMeasurementsBetween($start, $end, $chunkCount);
 
         while ($measurements->count() > 0) {
-            $measurements->each(function ($measurement) use (&$i) {
+            $measurementIds = [];
+
+            $measurements->each(function ($measurement) use (&$i, &$measurementIds) {
                 $payload = $measurement->getMeasurementPayload();
                 $publishedDatetime = $measurement->getPublishedDateTime();
 
@@ -65,10 +67,12 @@ class ArchiveMeasurementsProcessor implements ArchiveMeasurementsProcessorContra
                     Log::debug($exception->getTraceAsString());
                 }
 
-                $measurement->delete();
+                $measurementIds[] = $measurement->id;
 
                 $i++;
             });
+
+            $this->modelClass::destroy($measurementIds);
 
             $measurements = $this->getArchivedMeasurementsBetween($start, $end, $chunkCount);
         }

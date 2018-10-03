@@ -42,7 +42,7 @@ class ArchiveMeasurementsProcessorTest extends TestCase
 
         $this->processor
             ->setModelClass(LassDataset::class)
-            ->process($startDateTime, $endDateTime);
+            ->process($startDateTime, $endDateTime, 2);
 
         // Assert the ArchivedMeasurements
         $this->assertEquals(12, ArchivedMeasurements::all()->count());

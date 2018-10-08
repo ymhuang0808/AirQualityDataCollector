@@ -27,7 +27,6 @@ class AggregateAirQualityDatasetJob implements ShouldQueue
      */
     public function __construct($source = 'all')
     {
-        Log::debug('AggregateAirQualityDatasetJob was dispatched. The source is ' . $source);
         $this->source = $source;
     }
 

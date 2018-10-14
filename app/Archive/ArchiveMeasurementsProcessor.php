@@ -42,6 +42,7 @@ class ArchiveMeasurementsProcessor implements ArchiveMeasurementsProcessorContra
     {
         Log::debug('=== ArchiveMeasurementsProcessor::process() ===');
         Log::debug('$start = ' . $start->toDateTimeString() . ', $end = ' . $end->toDateTimeString());
+        Log::debug('modelClass = ' . $this->modelClass);
 
         // ONLY for debug
         $i = 1;

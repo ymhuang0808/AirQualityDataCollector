@@ -6,6 +6,7 @@ namespace App\Repository;
 use App\AggregationLog;
 use App\Repository\Contracts\AggregationLogRepositoryContract;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class AggregationLogRepository implements AggregationLogRepositoryContract
 {
@@ -22,9 +23,10 @@ class AggregationLogRepository implements AggregationLogRepositoryContract
             ->max('end_datetime');
 
         if (!isset($beginDatetime)) {
+            Log::debug('AggregationLogRepository $beginDatetime = ' . $beginDatetime);
             return null;
         }
 
-        return Carbon::parse($beginDatetime);
+        return Carbon::createFromFormat('Y-m-d H:i:s', $beginDatetime);
     }
 }

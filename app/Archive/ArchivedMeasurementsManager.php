@@ -49,9 +49,10 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
         $endDatetime = $this
             ->aggregationLogRepository
             ->getEndDatetime($lastExecuteDateTime, $this->sourceType);
+        $endDatetimeString =  is_null($endDatetime) ? 'NULL' : $endDatetime->toDateTimeString();
 
         Log::debug('ArchivedMeasurementsManager - sourceType = ' . $this->getSourceType());
-        Log::debug('ArchivedMeasurementsManager - $endDateTime = ' . (is_null($endDatetime)) ? 'NULL' : $endDatetime->toDateTimeString());
+        Log::debug('ArchivedMeasurementsManager - $endDateTime = ' . $endDatetimeString);
         Log::debug('ArchivedMeasurementsManager - $lastExecuteDateTime = ' . $lastExecuteDateTime->toDateTimeString());
 
         // Check if the latest aggregation time is less than last execution time
@@ -81,9 +82,10 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
         $endDatetime = $this
             ->aggregationLogRepository
             ->getEndDatetime($lastExecuteDateTime, $this->sourceType);
+        $endDatetimeString =  is_null($endDatetime) ? 'NULL' : $endDatetime->toDateTimeString();
 
         Log::debug('ArchivedMeasurementsManager::dispatchJob() sourceType = ' . $this->getSourceType());
-        Log::debug('ArchivedMeasurementsManager $endDateTime = ' . (is_null($endDatetime)) ? 'NULL' : $endDatetime->toDateTimeString());
+        Log::debug('ArchivedMeasurementsManager $endDateTime = ' . $endDatetimeString);
         Log::debug('ArchivedMeasurementsManager $lastExecuteDateTime = ' . $lastExecuteDateTime->toDateTimeString());
 
         // Check if the latest aggregation time is less than last execution time

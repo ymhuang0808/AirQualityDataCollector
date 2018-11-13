@@ -6,6 +6,7 @@ namespace App\Repository;
 use App\Repository\Contracts\DatasetRepositoryContract;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\Log;
 
 class RemoteGenericDatasetRepository implements DatasetRepositoryContract
 {

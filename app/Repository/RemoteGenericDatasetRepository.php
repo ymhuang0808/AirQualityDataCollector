@@ -45,6 +45,7 @@ class RemoteGenericDatasetRepository implements DatasetRepositoryContract
         Log::debug('RemoteGenericDatasetRepository::getAll()');
         Log::debug($request->getHeaders());
         Log::debug($request->getRequestTarget());
+        Log::debug($response->getHeaders());
         Log::debug($body);
 
         return json_decode($body);

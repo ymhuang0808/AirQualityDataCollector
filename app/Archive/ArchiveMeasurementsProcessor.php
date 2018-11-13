@@ -74,6 +74,9 @@ class ArchiveMeasurementsProcessor implements ArchiveMeasurementsProcessorContra
                 $i++;
             });
 
+            Log::debug('$measurementIds in ArchiveMeasurementsProcessor::process()');
+            Log::debug($measurementIds);
+
             $this->modelClass::destroy($measurementIds);
 
             $measurements = $this->getArchivedMeasurementsBetween($start, $end, $chunkCount);

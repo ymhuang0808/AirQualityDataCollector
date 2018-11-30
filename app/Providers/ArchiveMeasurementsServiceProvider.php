@@ -6,7 +6,6 @@ use App\Archive\ArchivedMeasurementsManager;
 use App\Archive\ArchivedMeasurementsManagerContract;
 use App\Archive\ArchiveMeasurementsProcessor;
 use App\Archive\ArchiveMeasurementsProcessorContract;
-use App\Repository\Contracts\AggregationLogRepositoryContract;
 use Illuminate\Support\ServiceProvider;
 
 class ArchiveMeasurementsServiceProvider extends ServiceProvider
@@ -31,7 +30,7 @@ class ArchiveMeasurementsServiceProvider extends ServiceProvider
         $this->app->bind(ArchiveMeasurementsProcessorContract::class, ArchiveMeasurementsProcessor::class);
 
         $this->app->bind(ArchivedMeasurementsManagerContract::class, function ($app) {
-            return new ArchivedMeasurementsManager($app->make(AggregationLogRepositoryContract::class), $app->make(ArchiveMeasurementsProcessorContract::class));
+            return new ArchivedMeasurementsManager($app->make(ArchiveMeasurementsProcessorContract::class));
         });
     }
 }

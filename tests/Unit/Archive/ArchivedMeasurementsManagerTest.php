@@ -28,17 +28,13 @@ class ArchivedMeasurementsManagerTest extends TestCase
      */
     public function testSetSourceType()
     {
-        $repository = $this->createMockAggregationLogRepository();
-        $repository->expects($this->never())
-            ->method('getEndDatetime');
-
         $processor = $this->createMockArchiveMeasurementsProcessor();
         $processor->expects($this->never())
             ->method('setModelClass');
         $processor->expects($this->never())
             ->method('process');
 
-        $archivedMeasurementsManager = new ArchivedMeasurementsManager($repository, $processor);
+        $archivedMeasurementsManager = new ArchivedMeasurementsManager($processor);
         $result = $archivedMeasurementsManager->setSourceType('airbox');
 
         $this->assertInstanceOf(ArchivedMeasurementsManager::class, $result);
@@ -57,15 +53,6 @@ class ArchivedMeasurementsManagerTest extends TestCase
         $expectedEndDateTime = Carbon::create(2017, 07, 23, 17, 21,31);
 
         // Setup the dependencies
-        $repository = $this->createMockAggregationLogRepository();
-        $repository->expects($this->once())
-            ->method('getEndDatetime')
-            ->with($this->callback(function ($lastExecuteDateTime) {
-                /** @var Carbon $lastExecuteDateTime */
-                return $lastExecuteDateTime->timestamp == 1500768000;
-            }), 'lass')
-            ->will($this->returnValue($expectedEndDateTime));
-
         $processor = $this->createMockArchiveMeasurementsProcessor();
         $processor->expects($this->once())
             ->method('setModelClass')
@@ -91,15 +78,20 @@ class ArchivedMeasurementsManagerTest extends TestCase
 
         Setting::shouldReceive('load')
             ->with(true)
-            ->once();
+            ->twice();
 
         Setting::shouldReceive('get')
             ->once()
             ->with('archived_measurements.last_execute_datetime.lass', '2017-01-01 00:00:00')
             ->andReturn('2017-07-23 00:00:00');
 
-        Setting::shouldReceive('set')
+        Setting::shouldReceive('get')
             ->once()
+            ->with('aggregate.lass.daily.air_quality', '2017-01-01 00:00:00')
+            ->andReturn($expectedEndDateTime->toDateTimeString());
+
+        Setting::shouldReceive('set')
+            ->atLeast()
             ->with('archived_measurements.last_execute_datetime.lass', $knownDate->toDateTimeString())
             ->andReturnUndefined();
 
@@ -113,7 +105,7 @@ class ArchivedMeasurementsManagerTest extends TestCase
             ->with('lass')
             ->andReturn(LassDataset::class);
 
-        $archivedMeasurementsManager = new ArchivedMeasurementsManager($repository, $processor);
+        $archivedMeasurementsManager = new ArchivedMeasurementsManager($processor);
         $result = $archivedMeasurementsManager->setSourceType('lass')->archiveAll(5);
 
         $this->assertTrue($result);
@@ -128,15 +120,6 @@ class ArchivedMeasurementsManagerTest extends TestCase
     public function testArchiveAllWithLastExecuteDateTimeIsGreaterThanEndDateTime()
     {
         // Setup the dependencies
-        $repository = $this->createMockAggregationLogRepository();
-        $repository->expects($this->once())
-            ->method('getEndDatetime')
-            ->with($this->callback(function ($lastExecuteDateTime) {
-                /** @var Carbon $lastExecuteDateTime */
-                return $lastExecuteDateTime->timestamp == 1500768000;
-            }), 'lass')
-            ->will($this->returnValue(Carbon::create(2017, 07, 22, 10, 00,00)));
-
         $processor = $this->createMockArchiveMeasurementsProcessor();
         $processor->expects($this->never())
             ->method('setModelClass');
@@ -145,12 +128,17 @@ class ArchivedMeasurementsManagerTest extends TestCase
 
         Setting::shouldReceive('load')
             ->with(true)
-            ->once();
+            ->twice();
 
         Setting::shouldReceive('get')
             ->once()
             ->with('archived_measurements.last_execute_datetime.lass', '2017-01-01 00:00:00')
             ->andReturn('2017-07-23 00:00:00');
+
+        Setting::shouldReceive('get')
+            ->once()
+            ->with('aggregate.lass.daily.air_quality', '2017-01-01 00:00:00')
+            ->andReturn('2017-07-22 10:00:00');
 
         Setting::shouldReceive('set')
             ->never();
@@ -159,7 +147,7 @@ class ArchivedMeasurementsManagerTest extends TestCase
         ClassMappingHelpers::shouldReceive('getModelBySourceType')
             ->never();
 
-        $archivedMeasurementsManager = new ArchivedMeasurementsManager($repository, $processor);
+        $archivedMeasurementsManager = new ArchivedMeasurementsManager($processor);
         $result = $archivedMeasurementsManager->setSourceType('lass')->archiveAll(5);
 
         $this->assertFalse($result);
@@ -176,15 +164,6 @@ class ArchivedMeasurementsManagerTest extends TestCase
         $expectedEndDateTime = Carbon::create(2017, 07, 23, 17, 21,31);
 
         // Setup the dependencies
-        $repository = $this->createMockAggregationLogRepository();
-        $repository->expects($this->once())
-            ->method('getEndDatetime')
-            ->with($this->callback(function ($lastExecuteDateTime) {
-                /** @var Carbon $lastExecuteDateTime */
-                return $lastExecuteDateTime->timestamp == 1500768000;
-            }), 'lass')
-            ->will($this->returnValue($expectedEndDateTime));
-
         $processor = $this->createMockArchiveMeasurementsProcessor();
         $processor->expects($this->never())
             ->method('setModelClass');
@@ -196,7 +175,7 @@ class ArchivedMeasurementsManagerTest extends TestCase
         Carbon::setTestNow($knownDate);
 
         Setting::shouldReceive('load')
-            ->twice()
+            ->times(3)
             ->with(true);
 
         Setting::shouldReceive('get')
@@ -208,6 +187,11 @@ class ArchivedMeasurementsManagerTest extends TestCase
             ->once()
             ->with('archived_measurements.last_job_dispatch_datetime.lass', '2017-01-01 00:00:00')
             ->andReturn('2017-01-01 00:00:00');
+
+        Setting::shouldReceive('get')
+            ->once()
+            ->with('aggregate.lass.daily.air_quality', '2017-01-01 00:00:00')
+            ->andReturn('2017-07-23 17:21:31');
 
         Setting::shouldReceive('set')
             ->once()
@@ -222,7 +206,7 @@ class ArchivedMeasurementsManagerTest extends TestCase
         // Fake the dispatching job
         Bus::fake();
 
-        $archivedMeasurementsManager = new ArchivedMeasurementsManager($repository, $processor);
+        $archivedMeasurementsManager = new ArchivedMeasurementsManager($processor);
         $result = $archivedMeasurementsManager->setSourceType('lass')->dispatchJob();
 
         $this->assertTrue($result);
@@ -240,15 +224,6 @@ class ArchivedMeasurementsManagerTest extends TestCase
         $expectedEndDateTime = Carbon::create(2017, 07, 23, 17, 21,31);
 
         // Setup the dependencies
-        $repository = $this->createMockAggregationLogRepository();
-        $repository->expects($this->once())
-            ->method('getEndDatetime')
-            ->with($this->callback(function ($lastExecuteDateTime) {
-                /** @var Carbon $lastExecuteDateTime */
-                return $lastExecuteDateTime->timestamp == 1500768000;
-            }), 'lass')
-            ->will($this->returnValue($expectedEndDateTime));
-
         $processor = $this->createMockArchiveMeasurementsProcessor();
         $processor->expects($this->never())
             ->method('setModelClass');
@@ -260,7 +235,7 @@ class ArchivedMeasurementsManagerTest extends TestCase
         Carbon::setTestNow($knownDate);
 
         Setting::shouldReceive('load')
-            ->twice()
+            ->times(3)
             ->with(true);
 
         Setting::shouldReceive('get')
@@ -273,6 +248,12 @@ class ArchivedMeasurementsManagerTest extends TestCase
             ->with('archived_measurements.last_job_dispatch_datetime.lass', '2017-01-01 00:00:00')
             ->andReturn('2017-07-23 00:01:40');
 
+
+        Setting::shouldReceive('get')
+            ->once()
+            ->with('aggregate.lass.daily.air_quality', '2017-01-01 00:00:00')
+            ->andReturn($expectedEndDateTime->toDateTimeString());
+
         Setting::shouldReceive('set')
             ->never()
             ->with('archived_measurements.last_job_dispatch_datetime.lass', $knownDate->timestamp);
@@ -281,7 +262,7 @@ class ArchivedMeasurementsManagerTest extends TestCase
         // Fake the dispatching job
         Bus::fake();
 
-        $archivedMeasurementsManager = new ArchivedMeasurementsManager($repository, $processor);
+        $archivedMeasurementsManager = new ArchivedMeasurementsManager($processor);
         $result = $archivedMeasurementsManager->setSourceType('lass')->dispatchJob();
 
         $this->assertFalse($result);

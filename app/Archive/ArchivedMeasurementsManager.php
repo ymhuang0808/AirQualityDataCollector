@@ -4,7 +4,6 @@ namespace App\Archive;
 
 
 use App\Jobs\ArchiveMeasurementsJob;
-use App\Repository\Contracts\AggregationLogRepositoryContract;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Setting;
@@ -19,15 +18,12 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
 
     const LAST_JOB_DISPATCH_DATETIME_SETTING_PARENT_NAME = 'archived_measurements.last_job_dispatch_datetime.';
 
-    protected $aggregationLogRepository;
-
     protected $processor;
 
     protected $sourceType;
 
-    public function __construct(AggregationLogRepositoryContract $aggregationLogRepository, ArchiveMeasurementsProcessorContract $processor)
+    public function __construct(ArchiveMeasurementsProcessorContract $processor)
     {
-        $this->aggregationLogRepository = $aggregationLogRepository;
         $this->processor = $processor;
     }
 
@@ -45,25 +41,21 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
     public function archiveAll(int $chunkCount = 100)
     {
         $lastExecuteDateTime = $this->getLastExecuteDateTime();
-        /** @var Carbon $endDatetime */
-        $endDatetime = $this
-            ->aggregationLogRepository
-            ->getEndDatetime($lastExecuteDateTime, $this->sourceType);
-        $endDatetimeString =  is_null($endDatetime) ? 'NULL' : $endDatetime->toDateTimeString();
+        $endDateTime =  $this->getAggregateDailyDateTime();
 
         Log::debug('ArchivedMeasurementsManager - sourceType = ' . $this->getSourceType());
-        Log::debug('ArchivedMeasurementsManager - $endDateTime = ' . $endDatetimeString);
+        Log::debug('ArchivedMeasurementsManager - $endDateTime = ' . $endDateTime->toDayDateTimeString());
         Log::debug('ArchivedMeasurementsManager - $lastExecuteDateTime = ' . $lastExecuteDateTime->toDateTimeString());
 
         // Check if the latest aggregation time is less than last execution time
-        if (is_null($endDatetime) || $lastExecuteDateTime >= $endDatetime) {
+        if (is_null($endDateTime) || $lastExecuteDateTime >= $endDateTime) {
             return false;
         }
 
         $modelClass = ClassMappingHelpers::getModelBySourceType($this->sourceType);
         $this->processor
             ->setModelClass($modelClass)
-            ->process($lastExecuteDateTime, $endDatetime, $chunkCount);
+            ->process($lastExecuteDateTime, $endDateTime, $chunkCount);
 
         $this->setArchivedDateTime();
 
@@ -79,17 +71,15 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
     {
         $lastExecuteDateTime = $this->getLastExecuteDateTime();
         $lastJobDispatchDateTime = $this->getLastJobDispatchDateTime();
-        $endDatetime = $this
-            ->aggregationLogRepository
-            ->getEndDatetime($lastExecuteDateTime, $this->sourceType);
-        $endDatetimeString =  is_null($endDatetime) ? 'NULL' : $endDatetime->toDateTimeString();
+        $endDateTime =  $this->getAggregateDailyDateTime();
 
         Log::debug('ArchivedMeasurementsManager::dispatchJob() sourceType = ' . $this->getSourceType());
-        Log::debug('ArchivedMeasurementsManager $endDateTime = ' . $endDatetimeString);
+        Log::debug('ArchivedMeasurementsManager $lastJobDispatchDateTime = ' . $lastJobDispatchDateTime->toDayDateTimeString());
+        Log::debug('ArchivedMeasurementsManager $endDateTime = ' . $endDateTime->toDayDateTimeString());
         Log::debug('ArchivedMeasurementsManager $lastExecuteDateTime = ' . $lastExecuteDateTime->toDateTimeString());
 
         // Check if the latest aggregation time is less than last execution time
-        if (is_null($endDatetime) || $lastExecuteDateTime >= $endDatetime) {
+        if (is_null($endDateTime) || $lastExecuteDateTime >= $endDateTime) {
             return false;
         }
 
@@ -99,7 +89,7 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
             return false;
         }
 
-        ArchiveMeasurementsJob::dispatch($this->sourceType, $lastExecuteDateTime->getTimestamp(), $endDatetime->getTimestamp())
+        ArchiveMeasurementsJob::dispatch($this->sourceType, $lastExecuteDateTime->getTimestamp(), $endDateTime->getTimestamp())
             ->delay(now()->addMinutes(1));
 
         $this->setLastJobDispatchDateTime();
@@ -161,6 +151,18 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
         return $lastExecuteDateTime;
     }
 
+    protected function getAggregateDailyDateTime(): Carbon
+    {
+        Setting::load(true);
+
+        $defaultDateTimeString = '2017-01-01 00:00:00';
+        $settingName = "aggregate.$this->sourceType.daily.air_quality";
+        $aggregateDailyDateTimeString = Setting::get($settingName, $defaultDateTimeString);
+        $dateTime = Carbon::createFromFormat('Y-m-d H:i:s', $aggregateDailyDateTimeString);
+
+        return $dateTime;
+    }
+
     protected function getLastExecuteTimestampSettingName(): string
     {
         return self::LAST_EXECUTE_TIMESTAMP_SETTING_PARENT_NAME . $this->sourceType;
@@ -170,4 +172,5 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
     {
         return self::LAST_JOB_DISPATCH_DATETIME_SETTING_PARENT_NAME . $this->sourceType;
     }
+
 }

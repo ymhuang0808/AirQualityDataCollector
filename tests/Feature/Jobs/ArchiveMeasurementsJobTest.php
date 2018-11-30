@@ -23,14 +23,6 @@ class ArchiveMeasurementsJobTest extends TestCase
     use AggregationLogTableTestDataTrait;
     use AggregatableTestDataTrait;
 
-    protected $manager;
-
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->manager = resolve(ArchivedMeasurementsManagerContract::class);
-    }
-
     public function testHandleLassSource()
     {
         // Set the Carbon current date time
@@ -40,8 +32,12 @@ class ArchiveMeasurementsJobTest extends TestCase
         $this->setUpLassDatabase();
         $this->setUpLassAggregationLog();
 
+        Setting::set('aggregate.lass.daily.air_quality', '2017-07-23 23:59:59');
+        Setting::save();
+
+        $manager = resolve(ArchivedMeasurementsManagerContract::class);
         $archiveMeasurementsJob = new ArchiveMeasurementsJob('lass');
-        $archiveMeasurementsJob->handle($this->manager);
+        $archiveMeasurementsJob->handle($manager);
 
         // Assert the ArchivedMeasurements
         $this->assertEquals(16, ArchivedMeasurements::all()->count());

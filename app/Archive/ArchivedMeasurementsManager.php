@@ -44,7 +44,7 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
         $endDateTime =  $this->getAggregateDailyDateTime();
 
         Log::debug('ArchivedMeasurementsManager - sourceType = ' . $this->getSourceType());
-        Log::debug('ArchivedMeasurementsManager - $endDateTime = ' . $endDateTime->toDayDateTimeString());
+        Log::debug('ArchivedMeasurementsManager - $endDateTime = ' . $endDateTime->toDateTimeString());
         Log::debug('ArchivedMeasurementsManager - $lastExecuteDateTime = ' . $lastExecuteDateTime->toDateTimeString());
 
         // Check if the latest aggregation time is less than last execution time
@@ -74,18 +74,20 @@ class ArchivedMeasurementsManager implements ArchivedMeasurementsManagerContract
         $endDateTime =  $this->getAggregateDailyDateTime();
 
         Log::debug('ArchivedMeasurementsManager::dispatchJob() sourceType = ' . $this->getSourceType());
-        Log::debug('ArchivedMeasurementsManager $lastJobDispatchDateTime = ' . $lastJobDispatchDateTime->toDayDateTimeString());
-        Log::debug('ArchivedMeasurementsManager $endDateTime = ' . $endDateTime->toDayDateTimeString());
+        Log::debug('ArchivedMeasurementsManager $lastJobDispatchDateTime = ' . $lastJobDispatchDateTime->toDateTimeString());
+        Log::debug('ArchivedMeasurementsManager $endDateTime = ' . $endDateTime->toDateTimeString());
         Log::debug('ArchivedMeasurementsManager $lastExecuteDateTime = ' . $lastExecuteDateTime->toDateTimeString());
 
         // Check if the latest aggregation time is less than last execution time
         if (is_null($endDateTime) || $lastExecuteDateTime >= $endDateTime) {
+            Log::debug('ArchivedMeasurementsManager is_null($endDateTime) || $lastExecuteDateTime >= $endDateTime');
             return false;
         }
 
         // To avoid dispatching duplicated jobs, checks if the last execution time is less than
         // or equals to the last job dispatch time
         if ($lastExecuteDateTime->lessThanOrEqualTo($lastJobDispatchDateTime)) {
+            Log::debug('ArchivedMeasurementsManager $lastExecuteDateTime->lessThanOrEqualTo($lastJobDispatchDateTime');
             return false;
         }
 
